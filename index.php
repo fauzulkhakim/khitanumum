@@ -13,7 +13,7 @@ $ditutup = "2024-07-24 23:59:59";
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Khitan Umum YM3SK</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <link rel="icon" href="assets/icon_khitan_umum.png" type="image/x-icon">
+  <link rel="icon" href="admin/assets/icon_khitan_umum.png" type="image/x-icon">
 
   <style>
     /* Menghilangkan kursor teks untuk input date */
@@ -32,7 +32,7 @@ $ditutup = "2024-07-24 23:59:59";
     <div class="row mt-5">
       <div class="col-ml-4"></div>
       <div class="col-ml-1 text-center">
-        <img src="assets/icon_khitan_umum.png" height="100">
+        <img src="admin/assets/icon_khitan_umum.png" height="100">
       </div>
       <div class="col-ml-5 text-center">
         <h3>Pendaftaran Khitan Umum</h3>
