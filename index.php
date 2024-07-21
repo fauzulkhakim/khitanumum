@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set('Asia/Jakarta');
 $dibuka = "2024-07-18 00:00:00";
-$ditutup = "2024-07-23 23:59:59";
+$ditutup = "2024-07-24 23:59:59";
 
 ?>
 
