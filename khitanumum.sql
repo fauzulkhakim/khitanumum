@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Waktu pembuatan: 26 Jul 2024 pada 13.03
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 27 Jul 2024 pada 10.57
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -7337,7 +7337,7 @@ CREATE TABLE `pendaftar` (
 INSERT INTO `pendaftar` (`id`, `is_admin`, `nama_depan`, `nama_belakang`, `nik`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `name_created`, `date_created`, `name_updated`, `date_updated`) VALUES
 (1, 0, 'Fauzul', 'Khakim', '3319021904970001', 0, 1, 0, NULL, 'Achmad', '085865068194', 3319, '2016-10-01', 'Jl Pasar Baru Gg Mangga III No 273', 33, 3319, 3319020, 3319020007, 5, 4, 1, '98', '158', 1, 'MA Qudsiyyah', 3, 'Kerjasan Kota Kudus', '469_3319021904970001.jpeg', '571_3319021904970001.jpeg', '', '', 'Umum', '2024-07-24 12:33:19', NULL, '2024-07-24 12:33:19'),
 (2, 0, 'Arik', 'Ashfa', '3319021904970002', 0, 1, 0, NULL, 'Bachin', '085865068195', 3318, '2016-09-30', 'Kauman', 33, 3318, 3318050, 3318050009, 2, 3, 1, '60', '170', 3, 'Qudsiyyah', 9, 'Kota Kudus', '562_3319021904970002.jpeg', '70_3319021904970002.jpeg', '998_3319021904970002.jpg', '678_3319021904970002.jpeg', 'Umum', '2024-07-25 04:31:27', NULL, '2024-07-25 04:31:27'),
-(3, 0, 'Alham', 'Manazil', '3535353535353537', 0, 1, 0, NULL, 'Achmad', '085865068194', 3319, '2008-11-06', 'pasuruhan lor kudus', 33, 3319, 3319030, 3319030006, 1, 3, 1, '65', '170', 3, 'sd2', 8, 'Kota Kudus', '796_3535353535353537.jpeg', '798_3535353535353537.jpeg', '504_3535353535353537.jpg', '18_3535353535353537.jpeg', 'Umum', '2024-07-26 07:23:10', NULL, '2024-07-26 07:23:10');
+(3, 0, 'Alham', 'Manazil', '3535353535353537', 0, 1, 0, NULL, 'Achmad', '085865068194', 3319, '2002-12-09', 'pasuruhan lor kudus', 33, 3319, 3319030, 3319030006, 1, 3, 1, '65', '170', 3, 'sd2', 8, 'Kota Kudus', '796_3535353535353537.jpeg', '798_3535353535353537.jpeg', '504_3535353535353537.jpg', '18_3535353535353537.jpeg', 'Umum', '2024-07-26 07:23:10', NULL, '2024-07-27 08:50:47');
 
 -- --------------------------------------------------------
 
@@ -8010,6 +8010,33 @@ INSERT INTO `ukuran_baju` (`id_ukuran_baju`, `nama_ukuran_baju`) VALUES
 (2, 'M'),
 (3, 'L'),
 (4, 'XL');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `nama_lengkap` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `no_hp` varchar(20) DEFAULT NULL,
+  `alamat` text DEFAULT NULL,
+  `akses` tinyint(1) DEFAULT 0,
+  `role` enum('admin','user') DEFAULT 'user',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `users`
+--
+
+INSERT INTO `users` (`id`, `nama_lengkap`, `username`, `password`, `no_hp`, `alamat`, `akses`, `role`, `created_at`, `updated_at`) VALUES
+(5, 'Test', 'Test', '$2y$10$4f3yUwZk9RjjjaKKB1Nn1e6OlY9sQgrVrGaGAbrdYbc.Pn/OWtSIC', '089316489464', 'Pasuruhan Lor, Kudus', 1, 'admin', '2024-07-27 04:17:51', '2024-07-27 06:39:55'),
+(7, 'Alham Manazil', 'alham', '$2y$10$646oD1R.Xrgc5WsnBDiATeBJFy0BIwLfiTwTVipPkILjFkVgPTXnG', '08924924789248', 'Pasuruhan Lor, Jati, Kabupaten Kudus, Jawa Tengah, Indonesia', 0, 'user', '2024-07-27 05:35:59', '2024-07-27 05:35:59');
 
 -- --------------------------------------------------------
 
@@ -88682,6 +88709,13 @@ ALTER TABLE `ukuran_baju`
   ADD PRIMARY KEY (`id_ukuran_baju`);
 
 --
+-- Indeks untuk tabel `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`username`);
+
+--
 -- Indeks untuk tabel `villages`
 --
 ALTER TABLE `villages`
@@ -88720,6 +88754,12 @@ ALTER TABLE `status_pendaftaran`
 --
 ALTER TABLE `ukuran_baju`
   MODIFY `id_ukuran_baju` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT untuk tabel `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)

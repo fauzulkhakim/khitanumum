@@ -17,6 +17,33 @@ $ditutup = "2024-07-27 23:59:59";
   <link rel="icon" href="panitia/assets/icon_khitan_umum.png" type="image/x-icon">
 
   <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #4070f4;
+    }
+
+    /* buat h3 - h5 menjadi warna white */
+    h3 {
+      color: white;
+      font-weight:bolder;
+    }
+
+    h6 {
+      color: #FFE3CA;
+    }
+
     /* Menghilangkan kursor teks untuk input date */
     input[type="date"] {
       caret-color: transparent;
@@ -35,10 +62,10 @@ $ditutup = "2024-07-27 23:59:59";
       <div class="col-ml-1 text-center">
         <img src="panitia/assets/icon_khitan_umum.png" height="100">
       </div>
-      <div class="col-ml-5 text-center">
+      <div class="col-ml-5 mt-4 text-center">
         <h3>Pendaftaran Khitan Umum</h3>
-        <h5>Pengajian Pitulasan Masjid Al-Aqsha Menara Kudus</h5>
-        <h5>1446 H / 2024 TU</h5>
+        <h6>Pengajian Pitulasan Masjid Al-Aqsha Menara Kudus</h6>
+        <h6>1446 H / 2024 TU</h6>
       </div>
       <div class="col-ml-2"></div>
     </div>
@@ -56,11 +83,11 @@ $ditutup = "2024-07-27 23:59:59";
           <form action="panitia/config/pendaftaran-tambah.php" method="POST" enctype="multipart/form-data" id="form-pendaftaran" class="needs-validation" novalidate>
 
             <!-- Awal Card Konten -->
-            <div class="card">
+            <div class="card mb-5">
               <div class="card-body">
 
                 <!-- Awal Card Data -->
-                <div class="row">
+                <div class="row mb">
                   <div class="col">
 
                     <!-- Awal Card Identitas -->

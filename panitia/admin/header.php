@@ -13,28 +13,47 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/2.1.0/css/dataTables.bootstrap5.css">
 
-  <!-- gpt -->
-  <!-- DataTables CSS -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/4.3.1/css/fixedColumns.dataTables.min.css"> -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
-
   <link rel="icon" href="../assets/icon_khitan_umum.png" type="image/x-icon">
   <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container-fluid {
+      flex: 1;
+    }
+
     .navbar-bottom {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
       background-color: #f8f9fa;
-      /* Warna latar belakang */
       border-top: 1px solid #ddd;
-      /* Garis pemisah */
     }
 
     .navbar-bottom .nav-item .nav-link {
       color: #000;
-      /* Warna teks */
+    }
+
+    .navbar-bottom .nav-item .nav-link:hover {
+      color: #007bff;
+    }
+
+    .navbar-bottom .nav-item .nav-link i {
+      display: block;
+      font-size: 18px;
     }
   </style>
 </head>
