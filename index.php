@@ -1,9 +1,6 @@
 <?php
 date_default_timezone_set('Asia/Jakarta');
 require 'panitia/config/config.php';
-$dibuka = "2024-07-18 00:00:00";
-$ditutup = "2024-07-27 23:59:59";
-
 ?>
 
 <!doctype html>
@@ -31,17 +28,17 @@ $ditutup = "2024-07-27 23:59:59";
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #4070f4;
+      background: #6F4E37;
     }
 
     /* buat h3 - h5 menjadi warna white */
     h3 {
       color: white;
-      font-weight:bolder;
+      font-weight: bolder;
     }
 
     h6 {
-      color: #FFE3CA;
+      color: #F8F4E1;
     }
 
     /* Menghilangkan kursor teks untuk input date */
@@ -426,7 +423,9 @@ $ditutup = "2024-07-27 23:59:59";
 
       <!-- Awal Pendaftaran ditutup -->
     <?php } else { ?>
-      <h5 class="text-danger">Pendaftaran ditutup</h5>
+      <div class="rounded bg-danger text-white d-flex align-items-center justify-content-center" style="max-width: 300px; margin: 0 auto; height: 45px;">
+        <h5 class="fw-bold mb-0">Pendaftaran ditutup</h5>
+      </div>
     <?php } ?>
     <!-- Akhir Pendaftaran ditutup -->
     </div>

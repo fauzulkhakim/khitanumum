@@ -19,6 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     } else {
         $_SESSION['error'] = "Username atau password salah!";
+        header("Location: ../admin/index.php"); // Redirect back to the login page
+        exit();
     }
     $stmt->close();
 }

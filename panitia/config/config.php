@@ -12,3 +12,6 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
   die(mysqli_connect_error());
 }
+
+// Include dates configuration
+include 'dates_config.php';

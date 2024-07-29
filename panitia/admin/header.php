@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- DataTables -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.0/css/dataTables.bootstrap5.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.2/css/dataTables.bootstrap5.css">
 
   <link rel="icon" href="../assets/icon_khitan_umum.png" type="image/x-icon">
   <style>
@@ -28,6 +28,7 @@
       min-height: 100vh;
       display: flex;
       justify-content: center;
+      flex-direction: column;
     }
 
     .container-fluid {
@@ -41,6 +42,8 @@
       right: 0;
       background-color: #f8f9fa;
       border-top: 1px solid #ddd;
+      padding: 10px;
+      margin-top: 100px;
     }
 
     .navbar-bottom .nav-item .nav-link {
@@ -55,11 +58,27 @@
       display: block;
       font-size: 18px;
     }
+
+    .navbar-bottom .nav-link.active i {
+      color: #007bff;
+    }
+
+    .action-icon {
+      padding: 9px;
+      /* Sesuaikan padding sesuai kebutuhan */
+      margin: 2px;
+      /* Menambahkan jarak antar ikon */
+    }
+
+    .action-icon i {
+      font-size: 13px;
+      /* Mengatur ukuran ikon */
+    }
   </style>
 </head>
 
 <body>
 
   <div class="container-fluid">
-    <div class="row mt-3">
-      <div class="col-12 mx-3">
+    <div class="row">
+      <div class="col-12 mb-5">

@@ -1,26 +1,97 @@
 <?php
+require '../config/config.php';
 session_start();
+
+if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
+  // User is logged in
+} else {
+  // User is not logged in, redirect to login page
 if (!isset($_SESSION['user'])) {
   header("Location: index.php");
   exit();
 }
-require '../config/config.php';
+}
+
+// Read the current values for dibuka and ditutup
+include '../config/dates_config.php';
+
+// Handle form submission to update dates
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $dibuka = $_POST['dibuka'];
+  $ditutup = $_POST['ditutup'];
+
+  // Write the new dates to the dates_config.php file
+  $config_content = "<?php\n";
+  $config_content .= "\$dibuka = \"$dibuka\";\n";
+  $config_content .= "\$ditutup = \"$ditutup\";\n";
+  $config_content .= "?>";
+
+  file_put_contents('../config/dates_config.php', $config_content);
+  echo "<script>alert('Tanggal pendaftaran telah diperbarui');</script>";
+  // Refresh to load the new dates
+  header("Refresh:0");
+}
 
 // Fetch all users
 $sql = "SELECT * FROM users";
-$result = $conn->query($sql);
+$hasil = $conn->query($sql);
 
 require_once 'header.php';
 ?>
 
-<div class="row justify-content-center">
-  <div class="col-ml text-center ml-3">
-    <h5>Pengaturan Khitan Umum 1446 H / 2024 TU</h5>
+<!-- Header -->
+<div class="row justify-content-center bg-dark">
+  <div class="col-ml text-center text-white my-3">
+    <h3>Pengaturan Khitan Umum</h3>
+    <h5>1446 H / 2024 TU</h5>
   </div>
 </div>
+<!-- Akhir Header -->
 
-<div class="container my-5">
-  <div class="table-responsive mt-5">
+<!-- Isi Halaman -->
+<div class="container mt-5">
+  <div class="row justify-content-center mb-5">
+    <div class="col-12 col-md-4 mb-4 mb-md-0">
+      <div class="card" style="width: 75%;">
+        <img src="../assets/avatar-3.jpg" class="card-img-top" alt="user image">
+        <div class="card-body text-center">
+          <h5 class="card-title">
+            <?php
+            if (isset($_SESSION['user'])) {
+              echo $_SESSION['user']['nama_lengkap'];
+            }
+            ?>
+          </h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6">
+      <div class="card" style="width: 100%;">
+        <div class="card-body">
+          <h5 class="card-title">Tanggal Pendaftaran</h5>
+          <form method="POST">
+            <div class="row">
+              <div class="col-12 mb-3">
+                <label for="dibuka" class="form-label">Dibuka</label>
+                <input type="datetime-local" class="form-control" id="dibuka" name="dibuka" value="<?= date('Y-m-d\TH:i', strtotime($dibuka)); ?>">
+              </div>
+              <div class="col-12 mb-3">
+                <label for="ditutup" class="form-label">Ditutup</label>
+                <input type="datetime-local" class="form-control" id="ditutup" name="ditutup" value="<?= date('Y-m-d\TH:i', strtotime($ditutup)); ?>">
+              </div>
+            </div>
+            <div class="mt-3 text-center">
+              <button type="submit" class="btn btn-primary">Simpan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-responsive mb-5">
+    <h3 class="text-center">Data Admin</h3>
     <table id="usersTable" class="table table-bordered table-hover table-striped">
       <thead class="table-dark">
         <tr>
@@ -34,7 +105,7 @@ require_once 'header.php';
       <tbody>
         <?php
         $no = 1;
-        while ($user = $result->fetch_assoc()) : ?>
+        while ($user = $hasil->fetch_assoc()) : ?>
           <tr>
             <td><?= $no; ?></td>
             <td><?= $user['nama_lengkap']; ?></td>
@@ -56,61 +127,6 @@ require_once 'header.php';
     </table>
   </div>
 </div>
-</div>
-
-<script>
-  $(document).ready(function() {
-    $('#usersTable').DataTable();
-
-    $('.admin-toggle').on('change', function() {
-      var userId = $(this).data('id');
-      var role = $(this).is(':checked') ? 'admin' : 'user';
-      updateRole(userId, role);
-    });
-
-    $('.akses-toggle').on('change', function() {
-      var userId = $(this).data('id');
-      var akses = $(this).is(':checked') ? 1 : 0;
-      updateAkses(userId, akses);
-    });
-  });
-
-  function updateRole(id, role) {
-    $.ajax({
-      type: 'POST',
-      url: '../config/update_user.php',
-      data: {
-        user_id: id,
-        role: role
-      },
-      success: function(response) {
-        if (response == 1) {
-          alert('Role telah diupdate');
-        } else {
-          alert('Terjadi kesalahan saat mengupdate role');
-        }
-      }
-    });
-  }
-
-  function updateAkses(id, akses) {
-    $.ajax({
-      type: 'POST',
-      url: '../config/update_user.php',
-      data: {
-        user_id: id,
-        akses: akses
-      },
-      success: function(response) {
-        if (response == 1) {
-          alert('Akses telah diupdate');
-        } else {
-          alert('Terjadi kesalahan saat mengupdate akses');
-        }
-      }
-    });
-  }
-</script>
 
 <?php
 require_once 'footer.php';
