@@ -9,67 +9,63 @@ require_once 'header.php';
 ?>
 
 <div class="row justify-content-center bg-dark">
-  <div class="col-ml text-center text-white my-3">
+  <div class="col-ml text-center text-white my-2">
     <h3>Pendaftar Khitan Umum</h3>
     <h5>1446 H / 2024 TU</h5>
   </div>
 </div>
 
-<div class="container my-3 mb-5">
-  <div class="row mt-3 justify-content-center align-middle">
+<div class="container">
+  <div class="row justify-content-center align-middle">
     <div class="col">
       <a href="pendaftar-tambah.php" class="btn btn-success my-4">+ Daftarkan</a>
-      <h3>Data Pendaftar</h3>
       <div class="table-responsive">
         <table id="pendaftar" class="table table-striped table-bordered table-hover" style="width:100%">
           <thead class="table-dark">
             <tr>
               <th class="text-center align-middle">No</th>
-              <th class="text-center align-middle">ID</th>
               <th class="text-center align-middle">Daftar</th>
-              <th class="text-center align-middle">No Peserta</th>
-              <th class="text-center align-middle">Nama Lengkap</th>
+              <th class="text-center align-middle">Peserta</th>
+              <th class="text-center align-middle">Nama</th>
               <th class="text-center align-middle">Status</th>
               <th class="text-center align-middle">NIK</th>
               <th class="text-center align-middle">Mustahiq</th>
               <th class="text-center align-middle">Relasi</th>
-              <th class="text-center align-middle">Orang Tua/Wali</th>
+              <th class="text-center align-middle">Ortu/Wali</th>
               <th class="text-center align-middle">Usia</th>
-              <th class="text-center align-middle">Kabupaten/Kota</th>
+              <th class="text-center align-middle">Kab/Kota</th>
               <th class="text-center align-middle">Aksi</th>
-              <th class="text-center align-middle">WA</th>
             </tr>
           </thead>
           <tbody>
             <?php
-            $sql = "SELECT p.*, r.name_regencies
-                                FROM pendaftar p
-                                LEFT JOIN regencies r ON p.domisili_regencies_id = r.id_regencies";
+            $sql = "SELECT p.*, r.name_regencies, s.nama_status_pendaftaran
+            FROM pendaftar p
+            LEFT JOIN regencies r ON p.domisili_regencies_id = r.id_regencies
+            LEFT JOIN status_pendaftaran s ON p.status_pendaftaran_id = s.id_status_pendaftaran";
+
             $result = $conn->query($sql);
             $no = 1;
             while ($pendaftaran = $result->fetch_assoc()) :
             ?>
               <tr>
                 <td class="text-center align-middle"><?= $no; ?></td>
-                <td class="text-center align-middle"><?= $pendaftaran['id']; ?></td>
-                <td class="text-center align-middle"><?= $pendaftaran['is_admin']; ?></td>
-                <td class="text-center align-middle"><?= $pendaftaran['id']; ?></td>
-                <td class="text-center align-middle"><?= $pendaftaran['nama_depan'] . ' ' . $pendaftaran['nama_belakang']; ?></td>
-                <td class="text-center align-middle"><?= $pendaftaran['status_pendaftaran_id']; ?></td>
+                <td class="text-center align-middle"><?= $pendaftaran['is_admin'] == 1 ? 'Admin' : 'Umum'; ?></td>
+                <td class="text-center align-middle"><?= $pendaftaran['status_pendaftaran_id'] == 2 ? 46 . sprintf('%04d', $pendaftaran['id']) : '' ?></td>
+                <td class="align-middle"><?= $pendaftaran['nama_depan'] . ' ' . $pendaftaran['nama_belakang']; ?></td>
+                <td class="text-center align-middle">
+                  <?= $pendaftaran['nama_status_pendaftaran']; ?>
+                </td>
                 <td class="text-center align-middle"><?= $pendaftaran['nik']; ?></td>
-                <td class="text-center align-middle"><?= $pendaftaran['mustahiq']; ?></td>
-                <td class="text-center align-middle"><?= $pendaftaran['relasi']; ?></td>
-                <td class="text-center align-middle"><?= $pendaftaran['orang_tua_wali']; ?></td>
+                <td class="text-center align-middle"><?= $pendaftaran['mustahiq'] === 1 ? 'Ya' : 'Tidak'; ?></td>
+                <td class="align-middle"><?= $pendaftaran['relasi']; ?></td>
+                <td class="align-middle"><?= $pendaftaran['orang_tua_wali']; ?></td>
                 <?php
                 $usia = date_diff(date_create($pendaftaran['tanggal_lahir']), date_create('now'))->format('%y');
                 ?>
                 <td class="text-center align-middle"><?= $usia; ?></td>
-                <td class="text-center align-middle"><?= $pendaftaran['name_regencies']; ?></td>
-                <td class="text-center align-middle">
-                  <a href="pendaftar-edit.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-warning action-icon"><i class="fas fa-edit"></i></a>
-                  <a href="../config/pendaftar-delete.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-danger action-icon" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i class="fas fa-trash"></i></a>
-                </td>
-                <td class="text-center align-middle">
+                <td class="align-middle"><?= trim(str_ireplace('Kabupaten', '', $pendaftaran['name_regencies'])) ?></td>
+                <td class="text-center align-middle d-flex">
                   <?php
                   // Mengubah nomor HP yang diawali dengan '0' menjadi '+62'
                   $no_hp = $pendaftaran['no_hp'];
@@ -77,7 +73,26 @@ require_once 'header.php';
                     $no_hp = '+62' . substr($no_hp, 1);
                   }
                   ?>
-                  <a href="https://wa.me/<?= $no_hp; ?>" class="btn btn-success" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                  <!-- Dokumen -->
+                  <button class='btn btn-sm btn-secondary m-1' data-toggle='modal' data-target='#imageModal' data-images='" . json_encode($pendaftaran["dokumen_kia_kk"]) . "'>
+                    <i class="fa-solid fa-file"></i>
+                  </button>
+                  <!-- Whatsapp -->
+                  <a href="https://wa.me/<?= $no_hp; ?>" class="btn btn-sm btn-success m-1" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                  </a>
+                  <!-- Detail -->
+                  <a href="pendaftar-detail.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-primary m-1">
+                    <i class="fas fa-info"></i>
+                  </a>
+                  <!-- Edit -->
+                  <a href="pendaftar-edit.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-warning m-1">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <!-- Hapus -->
+                  <a href="../config/pendaftar-delete.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-danger m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                    <i class="fas fa-trash"></i>
+                  </a>
                 </td>
               </tr>
             <?php
@@ -90,6 +105,27 @@ require_once 'header.php';
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="imageModalLabel">Gambar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row" id="modalImages">
+          <!-- Gambar akan dimuat di sini oleh JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 
 <?php
 require_once 'footer.php';

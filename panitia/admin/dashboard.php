@@ -80,7 +80,7 @@ ksort($age_data); // Sort age data by age
 ?>
 
 <div class="row justify-content-center bg-dark">
-  <div class="col-ml text-center text-white my-3">
+  <div class="col-ml text-center text-white my-2">
     <h3>Dashboard Khitan Umum</h3>
     <h6>Pengajian Pitulasan Masjid Al-Aqsha Menara Kudus</h6>
     <h6>1446 H / 2024 TU</h6>
@@ -91,7 +91,7 @@ ksort($age_data); // Sort age data by age
   <div class="row justify-content-center align-middle">
     <div class="col-md-10">
 
-    <!-- Kalkulasi Pendaftar -->
+      <!-- Kalkulasi Pendaftar -->
       <div class="table-responsive mb-5">
         <h3>Kalkulasi Pendaftar</h3>
         <table class="table table-bordered table-responsive table-hover">

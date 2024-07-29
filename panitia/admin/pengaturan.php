@@ -6,10 +6,10 @@ if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
   // User is logged in
 } else {
   // User is not logged in, redirect to login page
-if (!isset($_SESSION['user'])) {
-  header("Location: index.php");
-  exit();
-}
+  if (!isset($_SESSION['user'])) {
+    header("Location: index.php");
+    exit();
+  }
 }
 
 // Read the current values for dibuka and ditutup
@@ -41,7 +41,7 @@ require_once 'header.php';
 
 <!-- Header -->
 <div class="row justify-content-center bg-dark">
-  <div class="col-ml text-center text-white my-3">
+  <div class="col-ml text-center text-white my-2">
     <h3>Pengaturan Khitan Umum</h3>
     <h5>1446 H / 2024 TU</h5>
   </div>
