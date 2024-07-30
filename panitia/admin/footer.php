@@ -46,14 +46,17 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Tambahan untuk modal -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 <!-- DataTables JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/2.1.2/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.1.2/js/dataTables.bootstrap5.js"></script>
+
+<!-- Tambahan untuk modal -->
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 <!-- Font Awesome JS -->
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
@@ -77,11 +80,49 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 <!-- Halaman Pendaftar -->
 <script>
-  new DataTable('#pendaftar');
+  $(document).ready(function() {
+    $('#pendaftar').DataTable();
+
+    $('#imageModal').on('show.bs.modal', function(event) {
+      var button = $(event.relatedTarget);
+      var images = button.data('images');
+      var modal = $(this);
+      var modalImages = modal.find('#modalImages');
+      modalImages.empty();
+      if (images.length > 0) {
+        images.forEach(function(image) {
+          if (image.file) {
+            modalImages.append('<div class="col-md-6 mb-3"><label>' + image.label + '</label><img src="../dokumen/' + image.file + '" class="img-fluid rounded" onerror="this.onerror=null;this.src=\'../assets/image-not-found.png\';"></div>');
+          }
+        });
+      } else {
+        modalImages.append('<p>Tidak ada gambar tersedia.</p>');
+      }
+    });
+
+    $('#infoModal').on('show.bs.modal', function(event) {
+      var button = $(event.relatedTarget);
+      var info = button.data('info');
+      var modal = $(this);
+      var modalInfoContent = modal.find('#modalInfoContent');
+      modalInfoContent.empty();
+      for (var key in info) {
+        if (info.hasOwnProperty(key)) {
+          modalInfoContent.append('<p><strong>' + key + ':</strong> ' + info[key] + '</p>');
+        }
+      }
+    });
+  });
 </script>
 <!-- Akhir Halaman Pendaftar -->
 
 <!-- Halaman Pengaturan -->
+<script>
+  function showButton(formId) {
+    document.getElementById('button' + formId.charAt(4).toUpperCase() + formId.slice(5)).classList.remove('d-none');
+  }
+</script>
+
 <script>
   $(document).ready(function() {
     $('#usersTable').DataTable({
@@ -89,7 +130,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
       ordering: false,
       paging: false
     });
-    $('#usersTable').DataTable();
 
     $('.admin-toggle').on('change', function() {
       var userId = $(this).data('id');

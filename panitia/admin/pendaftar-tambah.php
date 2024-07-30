@@ -28,7 +28,7 @@ require '../config/config.php';
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #6F4E37;
+      background: #3C5B6F;
     }
 
     /* buat h3 - h5 menjadi warna white */

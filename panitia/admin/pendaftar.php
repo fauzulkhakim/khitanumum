@@ -19,7 +19,7 @@ require_once 'header.php';
   <div class="row justify-content-center align-middle">
     <div class="col">
       <a href="pendaftar-tambah.php" class="btn btn-success my-4">+ Daftarkan</a>
-      <div class="table-responsive">
+      <div class="table-responsive mb-5">
         <table id="pendaftar" class="table table-striped table-bordered table-hover" style="width:100%">
           <thead class="table-dark">
             <tr>
@@ -40,29 +40,25 @@ require_once 'header.php';
           <tbody>
             <?php
             $sql = "SELECT p.*, r.name_regencies, s.nama_status_pendaftaran
-            FROM pendaftar p
-            LEFT JOIN regencies r ON p.domisili_regencies_id = r.id_regencies
-            LEFT JOIN status_pendaftaran s ON p.status_pendaftaran_id = s.id_status_pendaftaran";
+                                FROM pendaftar p
+                                LEFT JOIN regencies r ON p.domisili_regencies_id = r.id_regencies
+                                LEFT JOIN status_pendaftaran s ON p.status_pendaftaran_id = s.id_status_pendaftaran";
 
             $result = $conn->query($sql);
             $no = 1;
             while ($pendaftaran = $result->fetch_assoc()) :
+              $usia = date_diff(date_create($pendaftaran['tanggal_lahir']), date_create('now'))->format('%y');
             ?>
               <tr>
                 <td class="text-center align-middle"><?= $no; ?></td>
                 <td class="text-center align-middle"><?= $pendaftaran['is_admin'] == 1 ? 'Admin' : 'Umum'; ?></td>
                 <td class="text-center align-middle"><?= $pendaftaran['status_pendaftaran_id'] == 2 ? 46 . sprintf('%04d', $pendaftaran['id']) : '' ?></td>
                 <td class="align-middle"><?= $pendaftaran['nama_depan'] . ' ' . $pendaftaran['nama_belakang']; ?></td>
-                <td class="text-center align-middle">
-                  <?= $pendaftaran['nama_status_pendaftaran']; ?>
-                </td>
+                <td class="text-center align-middle"><?= $pendaftaran['nama_status_pendaftaran']; ?></td>
                 <td class="text-center align-middle"><?= $pendaftaran['nik']; ?></td>
                 <td class="text-center align-middle"><?= $pendaftaran['mustahiq'] === 1 ? 'Ya' : 'Tidak'; ?></td>
                 <td class="align-middle"><?= $pendaftaran['relasi']; ?></td>
                 <td class="align-middle"><?= $pendaftaran['orang_tua_wali']; ?></td>
-                <?php
-                $usia = date_diff(date_create($pendaftaran['tanggal_lahir']), date_create('now'))->format('%y');
-                ?>
                 <td class="text-center align-middle"><?= $usia; ?></td>
                 <td class="align-middle"><?= trim(str_ireplace('Kabupaten', '', $pendaftaran['name_regencies'])) ?></td>
                 <td class="text-center align-middle d-flex">
@@ -74,7 +70,12 @@ require_once 'header.php';
                   }
                   ?>
                   <!-- Dokumen -->
-                  <button class='btn btn-sm btn-secondary m-1' data-toggle='modal' data-target='#imageModal' data-images='" . json_encode($pendaftaran["dokumen_kia_kk"]) . "'>
+                  <button class="btn btn-sm btn-secondary m-1" data-toggle="modal" data-target="#imageModal" data-images='<?= json_encode([
+                                                                                                                            ["label" => "Dokumen KIA/KK", "file" => "kia_kk/" . $pendaftaran["dokumen_kia_kk"]],
+                                                                                                                            ["label" => "Dokumen Sekolah", "file" => "sekolah/" . $pendaftaran["dokumen_sekolah"]],
+                                                                                                                            ["label" => "Dokumen Domisili", "file" => "domisili/" . $pendaftaran["dokumen_domisili"]],
+                                                                                                                            ["label" => "Dokumen Pendukung", "file" => "pendukung/" . $pendaftaran["dokumen_pendukung"]]
+                                                                                                                          ]); ?>'>
                     <i class="fa-solid fa-file"></i>
                   </button>
                   <!-- Whatsapp -->
@@ -82,9 +83,21 @@ require_once 'header.php';
                     <i class="fab fa-whatsapp"></i>
                   </a>
                   <!-- Detail -->
-                  <a href="pendaftar-detail.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-primary m-1">
+                  <button class="btn btn-sm btn-primary m-1" data-toggle="modal" data-target="#infoModal" data-info='<?= json_encode([
+                                                                                                                        "No" => $no,
+                                                                                                                        "Daftar" => $pendaftaran['is_admin'] == 1 ? 'Admin' : 'Umum',
+                                                                                                                        "Peserta" => $pendaftaran['status_pendaftaran_id'] == 2 ? 46 . sprintf('%04d', $pendaftaran['id']) : '',
+                                                                                                                        "Nama" => $pendaftaran['nama_depan'] . ' ' . $pendaftaran['nama_belakang'],
+                                                                                                                        "Status" => $pendaftaran['nama_status_pendaftaran'],
+                                                                                                                        "NIK" => $pendaftaran['nik'],
+                                                                                                                        "Mustahiq" => $pendaftaran['mustahiq'] === 1 ? 'Ya' : 'Tidak',
+                                                                                                                        "Relasi" => $pendaftaran['relasi'],
+                                                                                                                        "Ortu/Wali" => $pendaftaran['orang_tua_wali'],
+                                                                                                                        "Usia" => $usia,
+                                                                                                                        "Kab/Kota" => trim(str_ireplace('Kabupaten', '', $pendaftaran['name_regencies']))
+                                                                                                                      ]); ?>'>
                     <i class="fas fa-info"></i>
-                  </a>
+                  </button>
                   <!-- Edit -->
                   <a href="pendaftar-edit.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-warning m-1">
                     <i class="fas fa-edit"></i>
@@ -106,12 +119,12 @@ require_once 'header.php';
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal Gambar -->
 <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="imageModalLabel">Gambar</h5>
+        <h5 class="modal-title" id="imageModalLabel">Gambar Dokumen</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -125,8 +138,26 @@ require_once 'header.php';
   </div>
 </div>
 
-
+<!-- Modal Informasi -->
+<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoModalLabel">Informasi Pendaftar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="modalInfoContent">
+          <!-- Informasi akan dimuat di sini oleh JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <?php
 require_once 'footer.php';
 ?>
+
