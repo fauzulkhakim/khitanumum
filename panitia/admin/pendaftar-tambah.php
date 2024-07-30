@@ -77,7 +77,7 @@ require '../config/config.php';
 
           <!-- Awal Pendaftaran dibuka -->
 
-          <form action="../config/pendaftaran-tambah.php" method="POST" enctype="multipart/form-data" id="form-pendaftaran" class="needs-validation" novalidate>
+          <form action="../config//pendaftar-tambah.php" method="POST" enctype="multipart/form-data" id="form-pendaftaran" class="needs-validation" novalidate>
 
             <!-- Awal Card Konten -->
             <div class="card mb-5">
@@ -136,7 +136,7 @@ require '../config/config.php';
                             <div class="form-floating">
                               <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
                               <label for="tanggal_lahir">Tanggal Lahir</label>
-                              <div id="tanggal_lahir" class="form-text">Rentang usia 7 - 15 tahun</div>
+                              <div id="tanggal_lahir" class="form-text">Tidak ada rentang usia</div>
                               <div class="invalid-feedback"><small>Tanggal lahir harus diisi dengan rentang tanggal yang tersedia</small></div>
                             </div>
                           </div>
@@ -480,7 +480,7 @@ require '../config/config.php';
     // ---------------------------------------------------------------------------------------------------------------------------------
     // Tempat Lahir => Kabupaten fetch API
     function fetchTempatLahir() {
-      fetch('../config/tempat_lahir.php')
+      fetch('../config//tempat_lahir.php')
         .then(response => response.json())
         .then(data => {
 
@@ -496,10 +496,36 @@ require '../config/config.php';
         })
     }
 
+
+    // --------------------------------------------------------------------------------------------------------------------------------
+    // Tanggal lahir => Rentang usia 1 - 40 tahun (khusus halaman admin)
+    function tanggalLahir() {
+      const dateInput = document.getElementById('tanggal_lahir');
+      const today = new Date('2024-10-07');
+
+      // Rentang umur yang diizinkan (misalnya, 18 hingga 60 tahun)
+      const minAge = 1;
+      const maxAge = 40;
+
+      // Menghitung tanggal minimum dan maksimum
+      const minDate = new Date(today.getFullYear() - maxAge, today.getMonth(), today.getDate());
+      const maxDate = new Date(today.getFullYear() - minAge, today.getMonth(), today.getDate());
+
+      // Mengatur atribut min dan max pada input date
+      dateInput.setAttribute('min', minDate.toISOString().split('T')[0]);
+      dateInput.setAttribute('max', maxDate.toISOString().split('T')[0]);
+
+      // Mencegah pengetikan manual pada input date
+      dateInput.addEventListener('keydown', function(event) {
+        event.preventDefault();
+      });
+
+    }
+
     // --------------------------------------------------------------------------------------------------------------------------------
     // Alamat => Provinsi, Kabupaten, Kecamatan dan Desa fetch API
     function fetchProvinces() {
-      fetch('../config/provinces.php')
+      fetch('../config//provinces.php')
         .then(response => response.json())
         .then(data => {
           const provinsiSelect = document.getElementById('provinsi');
@@ -520,7 +546,7 @@ require '../config/config.php';
       const provinsiId = document.getElementById('provinsi').value;
       if (!provinsiId) return;
 
-      fetch('../config/regencies.php?id=' + provinsiId)
+      fetch('../config//regencies.php?id=' + provinsiId)
         .then(response => response.json())
         .then(data => {
 
@@ -540,7 +566,7 @@ require '../config/config.php';
       const kabupatenId = document.getElementById('kabupaten_kota').value;
       if (!kabupatenId) return;
 
-      fetch('../config/districts.php?id=' + kabupatenId)
+      fetch('../config//districts.php?id=' + kabupatenId)
         .then(response => response.json())
         .then(data => {
 
@@ -560,7 +586,7 @@ require '../config/config.php';
       const kecamatanId = document.getElementById('kecamatan').value;
       if (!kecamatanId) return;
 
-      fetch('../config/villages.php?id=' + kecamatanId)
+      fetch('../config//villages.php?id=' + kecamatanId)
         .then(response => response.json())
         .then(data => {
 
