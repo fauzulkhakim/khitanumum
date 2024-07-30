@@ -77,7 +77,7 @@ require '../config/config.php';
 
           <!-- Awal Pendaftaran dibuka -->
 
-          <form action="../config//pendaftar-tambah.php" method="POST" enctype="multipart/form-data" id="form-pendaftaran" class="needs-validation" novalidate>
+          <form action="../config/pendaftar-tambah.php" method="POST" enctype="multipart/form-data" id="form-pendaftaran" class="needs-validation" novalidate>
 
             <!-- Awal Card Konten -->
             <div class="card mb-5">
@@ -315,7 +315,7 @@ require '../config/config.php';
                       </div>
                       <div class="card-body">
                         <div class="row">
-                          <div class="col-md-8 pb-4">
+                          <div class="col-md-4 pb-4">
                             <div class="form-floating">
                               <input type="text" class="form-control" id="orang_tua_wali" name="orang_tua_wali" required>
                               <label for="orang_tua_wali">Nama Orang Tua/Wali</label>
@@ -330,6 +330,29 @@ require '../config/config.php';
                               <div class="invalid-feedback"><small>Nomor handphone harus diisi</small></div>
                             </div>
                           </div>
+                          <!-- Field Relasi -->
+                          <div class="col-md-4 pb-4">
+                            <div class="form-floating">
+                              <input type="text" class="form-control" id="relasi" name="relasi">
+                              <label for="relasi">Relasi</label>
+                              <div id="relasi" class="form-text">Masukkan nama orang terkait</div>
+                              <div class="invalid-feedback"></div>
+                            </div>
+                          </div>
+                          <!-- Field Mustahiq (Yes or No Radio Button) -->
+                          <div class="col-md-8 pb-4">
+                            <div id="mustahiq" class="form-text">Apakah peserta yang didaftarkan mustahiq?</div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="mustahiq" id="mustahiq_ya" value="1" updateMustahiqRequired() required>
+                              <label class="form-check-label" for="mustahiq_ya">Ya</label>
+                            </div>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="mustahiq" id="mustahiq_tidak" value="0" updateMustahiqRequired required>
+                              <label class="form-check-label" for="mustahiq_tidak">Tidak</label>
+                              <div class="invalid-feedback"><small>data ini harus diisi</small></div>
+                            </div>
+                          </div>
+
                         </div>
                       </div>
                     </div>
@@ -525,7 +548,7 @@ require '../config/config.php';
     // --------------------------------------------------------------------------------------------------------------------------------
     // Alamat => Provinsi, Kabupaten, Kecamatan dan Desa fetch API
     function fetchProvinces() {
-      fetch('../config//provinces.php')
+      fetch('../config/provinces.php')
         .then(response => response.json())
         .then(data => {
           const provinsiSelect = document.getElementById('provinsi');
@@ -546,7 +569,7 @@ require '../config/config.php';
       const provinsiId = document.getElementById('provinsi').value;
       if (!provinsiId) return;
 
-      fetch('../config//regencies.php?id=' + provinsiId)
+      fetch('../config/regencies.php?id=' + provinsiId)
         .then(response => response.json())
         .then(data => {
 
@@ -566,7 +589,7 @@ require '../config/config.php';
       const kabupatenId = document.getElementById('kabupaten_kota').value;
       if (!kabupatenId) return;
 
-      fetch('../config//districts.php?id=' + kabupatenId)
+      fetch('../config/districts.php?id=' + kabupatenId)
         .then(response => response.json())
         .then(data => {
 
@@ -586,7 +609,7 @@ require '../config/config.php';
       const kecamatanId = document.getElementById('kecamatan').value;
       if (!kecamatanId) return;
 
-      fetch('../config//villages.php?id=' + kecamatanId)
+      fetch('../config/villages.php?id=' + kecamatanId)
         .then(response => response.json())
         .then(data => {
 

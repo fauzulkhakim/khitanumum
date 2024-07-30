@@ -114,6 +114,35 @@ $current_page = basename($_SERVER['PHP_SELF']);
     });
   });
 </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
+      dropdown.addEventListener('change', function() {
+        const pendaftarId = this.getAttribute('data-id');
+        const statusId = this.value;
+
+        fetch('../config/update_status.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `id=${pendaftarId}&status=${statusId}`
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('Status berhasil diubah');
+            } else {
+              alert('Gagal mengubah status: ' + data.error);
+            }
+          })
+          .catch(error => console.error('Error:', error));
+      });
+    });
+  });
+</script>
+
 <!-- Akhir Halaman Pendaftar -->
 
 <!-- Halaman Pengaturan -->

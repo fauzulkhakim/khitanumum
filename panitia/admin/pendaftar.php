@@ -20,7 +20,7 @@ require_once 'header.php';
     <div class="col">
       <a href="pendaftar-tambah.php" class="btn btn-success my-4">+ Daftarkan</a>
       <div class="table-responsive mb-5">
-        <table id="pendaftar" class="table table-striped table-bordered table-hover" style="width:100%">
+        <table id="pendaftar" class="table table-striped table-bordered table-hover table-responsive" style="width:100%">
           <thead class="table-dark">
             <tr>
               <th class="text-center align-middle">No</th>
@@ -54,7 +54,18 @@ require_once 'header.php';
                 <td class="text-center align-middle"><?= $pendaftaran['is_admin'] == 1 ? 'Admin' : 'Umum'; ?></td>
                 <td class="text-center align-middle"><?= $pendaftaran['status_pendaftaran_id'] == 2 ? 46 . sprintf('%04d', $pendaftaran['id']) : '' ?></td>
                 <td class="align-middle"><?= $pendaftaran['nama_depan'] . ' ' . $pendaftaran['nama_belakang']; ?></td>
-                <td class="text-center align-middle"><?= $pendaftaran['nama_status_pendaftaran']; ?></td>
+                <td class="text-center align-middle">
+                  <select class="form-select status-dropdown" data-id="<?= $pendaftaran['id']; ?>">
+                    <?php
+                    $statusQuery = "SELECT * FROM status_pendaftaran";
+                    $statusResult = $conn->query($statusQuery);
+                    while ($status = $statusResult->fetch_assoc()) {
+                      $selected = $status['id_status_pendaftaran'] == $pendaftaran['status_pendaftaran_id'] ? 'selected' : '';
+                      echo "<option value='{$status['id_status_pendaftaran']}' {$selected}>{$status['nama_status_pendaftaran']}</option>";
+                    }
+                    ?>
+                  </select>
+                </td>
                 <td class="text-center align-middle"><?= $pendaftaran['nik']; ?></td>
                 <td class="text-center align-middle"><?= $pendaftaran['mustahiq'] === 1 ? 'Ya' : 'Tidak'; ?></td>
                 <td class="align-middle"><?= $pendaftaran['relasi']; ?></td>
@@ -160,4 +171,3 @@ require_once 'header.php';
 <?php
 require_once 'footer.php';
 ?>
-
