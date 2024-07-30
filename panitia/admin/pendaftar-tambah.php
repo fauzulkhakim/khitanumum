@@ -480,7 +480,7 @@ require '../config/config.php';
     // ---------------------------------------------------------------------------------------------------------------------------------
     // Tempat Lahir => Kabupaten fetch API
     function fetchTempatLahir() {
-      fetch('../config//tempat_lahir.php')
+      fetch('../config/tempat_lahir.php')
         .then(response => response.json())
         .then(data => {
 
