@@ -94,29 +94,17 @@ require_once 'header.php';
                     <i class="fab fa-whatsapp"></i>
                   </a>
                   <!-- Detail -->
-                  <button class="btn btn-sm btn-primary m-1" data-toggle="modal" data-target="#infoModal" data-info='<?= json_encode([
-                                                                                                                        "No" => $no,
-                                                                                                                        "Daftar" => $pendaftaran['is_admin'] == 1 ? 'Admin' : 'Umum',
-                                                                                                                        "Peserta" => $pendaftaran['status_pendaftaran_id'] == 2 ? 46 . sprintf('%04d', $pendaftaran['id']) : '',
-                                                                                                                        "Nama" => $pendaftaran['nama_depan'] . ' ' . $pendaftaran['nama_belakang'],
-                                                                                                                        "Status" => $pendaftaran['nama_status_pendaftaran'],
-                                                                                                                        "NIK" => $pendaftaran['nik'],
-                                                                                                                        "Mustahiq" => $pendaftaran['mustahiq'] === 1 ? 'Ya' : 'Tidak',
-                                                                                                                        "Relasi" => $pendaftaran['relasi'],
-                                                                                                                        "Ortu/Wali" => $pendaftaran['orang_tua_wali'],
-                                                                                                                        "Usia" => $usia,
-                                                                                                                        "Kab/Kota" => trim(str_ireplace('Kabupaten', '', $pendaftaran['name_regencies']))
-                                                                                                                      ]); ?>'>
+                  <a href="pendaftar-info.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-primary m-1">
                     <i class="fas fa-info"></i>
-                  </button>
-                  <!-- Edit -->
-                  <a href="pendaftar-edit.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-warning m-1">
-                    <i class="fas fa-edit"></i>
-                  </a>
-                  <!-- Hapus -->
-                  <a href="../config/pendaftar-delete.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-danger m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                    <i class="fas fa-trash"></i>
-                  </a>
+                    </button>
+                    <!-- Edit -->
+                    <a href="pendaftar-edit.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-warning m-1">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                    <!-- Hapus -->
+                    <a href="../config/pendaftar-delete.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-danger m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                      <i class="fas fa-trash"></i>
+                    </a>
                 </td>
               </tr>
             <?php
@@ -150,7 +138,7 @@ require_once 'header.php';
 </div>
 
 <!-- Modal Informasi -->
-<div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -166,7 +154,7 @@ require_once 'header.php';
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <?php
 require_once 'footer.php';

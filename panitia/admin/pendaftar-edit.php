@@ -483,7 +483,7 @@ require_once 'header.php';
                                             <div class="col-md-8 pb-4 text-center">
                                                 <div id="preview_kia_kk">
                                                     <?php if (!empty($pendaftaran['dokumen_kia_kk'])) : ?>
-                                                        <img src="<?= $pendaftaran['dokumen_kia_kk']; ?>" alt="Dokumen KIA/KK" class="rounded img-fluid" style="width: 30%;">
+                                                        <img src="../dokumen/kia_kk/<?= htmlspecialchars($pendaftaran['dokumen_kia_kk']); ?>" alt="Dokumen KIA/KK" class="rounded img-fluid" style="width: 30%;">
                                                     <?php endif; ?>
                                                 </div>
                                             </div>
@@ -497,7 +497,7 @@ require_once 'header.php';
                                             <div class="col-md-8 pb-4 text-center">
                                                 <div id="preview_sekolah">
                                                     <?php if (!empty($pendaftaran['dokumen_sekolah'])) : ?>
-                                                        <img src="<?= $pendaftaran['dokumen_sekolah']; ?>" alt="Dokumen Sekolah" class="rounded img-fluid" style="width: 30%;">
+                                                        <img src="../dokumen/sekolah/<?= htmlspecialchars($pendaftaran['dokumen_sekolah']); ?>" alt="Dokumen Sekolah" class="rounded img-fluid" style="width: 30%;">
                                                     <?php endif; ?>
                                                 </div>
                                             </div>
@@ -511,7 +511,7 @@ require_once 'header.php';
                                             <div class="col-md-8 pb-4 text-center">
                                                 <div id="preview_domisili">
                                                     <?php if (!empty($pendaftaran['dokumen_domisili'])) : ?>
-                                                        <img src="<?= $pendaftaran['dokumen_domisili']; ?>" alt="Dokumen Domisili" class="rounded img-fluid" style="width: 30%;">
+                                                        <img src="../dokumen/domisili/<?= htmlspecialchars($pendaftaran['dokumen_domisili']); ?>" alt="Dokumen Domisili" class="rounded img-fluid" style="width: 30%;">
                                                     <?php endif; ?>
                                                 </div>
                                             </div>
@@ -525,7 +525,7 @@ require_once 'header.php';
                                             <div class="col-md-8 pb-4 text-center">
                                                 <div id="preview_pendukung">
                                                     <?php if (!empty($pendaftaran['dokumen_pendukung'])) : ?>
-                                                        <img src="<?= $pendaftaran['dokumen_pendukung']; ?>" alt="Dokumen Pendukung" class="rounded img-fluid" style="width: 30%;">
+                                                        <img src="../dokumen/pendukung/<?= htmlspecialchars($pendaftaran['dokumen_pendukung']); ?>" alt="Dokumen Pendukung" class="rounded img-fluid" style="width: 30%;">
                                                     <?php endif; ?>
                                                 </div>
                                             </div>
@@ -533,6 +533,7 @@ require_once 'header.php';
                                     </div>
                                 </div>
                                 <!-- Akhir Card Dokumen -->
+
 
                                 <!-- Submit -->
                                 <div class="row">

@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (mysqli_query($conn, $sql)) {
     echo "<script>
     alert('Data berhasil ditambahkan');
-    window.location.href = '../admin/pendaftar-tambah.php';
+    window.location.href = '../admin/pendaftar.php';
   </script>";
   } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
