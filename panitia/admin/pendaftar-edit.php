@@ -1,9 +1,9 @@
 <?php
-session_start();
-if (!isset($_SESSION['user'])) {
-    header("Location: index.php");
-    exit();
-}
+// session_start();
+// if (!isset($_SESSION['user'])) {
+//     header("Location: index.php");
+//     exit();
+// }
 require '../config/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -589,7 +589,7 @@ require_once 'header.php';
     // ---------------------------------------------------------------------------------------------------------------------------------
     // Tempat Lahir => Kabupaten fetch API
     function fetchTempatLahir() {
-        fetch('panitia/config/tempat_lahir.php')
+        fetch('../config/tempat_lahir.php')
             .then(response => response.json())
             .then(data => {
 
@@ -633,83 +633,83 @@ require_once 'header.php';
 
     // --------------------------------------------------------------------------------------------------------------------------------
     // Alamat => Provinsi, Kabupaten, Kecamatan dan Desa fetch API
-    // function fetchProvinces() {
-    //     fetch('panitia/config/provinces.php')
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             const provinsiSelect = document.getElementById('provinsi');
-    //             provinsiSelect.innerHTML = '<option value="" disabled selected>Pilih</option>'; // Reset options
+    function fetchProvinces() {
+        fetch('../config/provinces.php')
+            .then(response => response.json())
+            .then(data => {
+                const provinsiSelect = document.getElementById('provinsi');
+                provinsiSelect.innerHTML = '<option value="" disabled selected>Pilih</option>'; // Reset options
 
-    //             // Mengakses elemen 'data' dari JSON response
-    //             data.data.forEach(provinsi => {
-    //                 const option = document.createElement('option');
-    //                 option.value = provinsi.id_provinces;
-    //                 option.textContent = provinsi.name_provinces;
-    //                 provinsiSelect.appendChild(option);
-    //             });
-    //         })
-    // }
+                // Mengakses elemen 'data' dari JSON response
+                data.data.forEach(provinsi => {
+                    const option = document.createElement('option');
+                    option.value = provinsi.id_provinces;
+                    option.textContent = provinsi.name_provinces;
+                    provinsiSelect.appendChild(option);
+                });
+            })
+    }
 
 
-    // function fetchKabupaten() {
-    //     const provinsiId = document.getElementById('provinsi').value;
-    //     if (!provinsiId) return;
+    function fetchKabupaten() {
+        const provinsiId = document.getElementById('provinsi').value;
+        if (!provinsiId) return;
 
-    //     fetch('panitia/config/regencies.php?id=' + provinsiId)
-    //         .then(response => response.json())
-    //         .then(data => {
+        fetch('../config/regencies.php?id=' + provinsiId)
+            .then(response => response.json())
+            .then(data => {
 
-    //             const kabupatenSelect = document.getElementById('kabupaten_kota');
-    //             kabupatenSelect.innerHTML = '<option value="" disabled selected>Pilih</option>'; // Reset options
+                const kabupatenSelect = document.getElementById('kabupaten_kota');
+                kabupatenSelect.innerHTML = '<option value="" disabled selected>Pilih</option>'; // Reset options
 
-    //             data.data.forEach(kabupaten => {
-    //                 const option = document.createElement('option');
-    //                 option.value = kabupaten.id_regencies;
-    //                 option.textContent = kabupaten.name_regencies;
-    //                 kabupatenSelect.appendChild(option);
-    //             });
-    //         })
-    // }
+                data.data.forEach(kabupaten => {
+                    const option = document.createElement('option');
+                    option.value = kabupaten.id_regencies;
+                    option.textContent = kabupaten.name_regencies;
+                    kabupatenSelect.appendChild(option);
+                });
+            })
+    }
 
-    // function fetchKecamatan() {
-    //     const kabupatenId = document.getElementById('kabupaten_kota').value;
-    //     if (!kabupatenId) return;
+    function fetchKecamatan() {
+        const kabupatenId = document.getElementById('kabupaten_kota').value;
+        if (!kabupatenId) return;
 
-    //     fetch('panitia/config/districts.php?id=' + kabupatenId)
-    //         .then(response => response.json())
-    //         .then(data => {
+        fetch('../config/districts.php?id=' + kabupatenId)
+            .then(response => response.json())
+            .then(data => {
 
-    //             const kecamatanSelect = document.getElementById('kecamatan');
-    //             kecamatanSelect.innerHTML = '<option value="" disabled selected>Pilih</option>'; // Reset options
+                const kecamatanSelect = document.getElementById('kecamatan');
+                kecamatanSelect.innerHTML = '<option value="" disabled selected>Pilih</option>'; // Reset options
 
-    //             data.data.forEach(kecamatan => {
-    //                 const option = document.createElement('option');
-    //                 option.value = kecamatan.id_districts;
-    //                 option.textContent = kecamatan.name_districts;
-    //                 kecamatanSelect.appendChild(option);
-    //             });
-    //         })
-    // }
+                data.data.forEach(kecamatan => {
+                    const option = document.createElement('option');
+                    option.value = kecamatan.id_districts;
+                    option.textContent = kecamatan.name_districts;
+                    kecamatanSelect.appendChild(option);
+                });
+            })
+    }
 
-    // function fetchDesa() {
-    //     const kecamatanId = document.getElementById('kecamatan').value;
-    //     if (!kecamatanId) return;
+    function fetchDesa() {
+        const kecamatanId = document.getElementById('kecamatan').value;
+        if (!kecamatanId) return;
 
-    //     fetch('panitia/config/villages.php?id=' + kecamatanId)
-    //         .then(response => response.json())
-    //         .then(data => {
+        fetch('../config/villages.php?id=' + kecamatanId)
+            .then(response => response.json())
+            .then(data => {
 
-    //             const desaSelect = document.getElementById('desa_kelurahan');
-    //             desaSelect.innerHTML = '<option value="" disabled selected>Pilih</option>'; // Reset options
+                const desaSelect = document.getElementById('desa_kelurahan');
+                desaSelect.innerHTML = '<option value="" disabled selected>Pilih</option>'; // Reset options
 
-    //             data.data.forEach(desa => {
-    //                 const option = document.createElement('option');
-    //                 option.value = desa.id_villages;
-    //                 option.textContent = desa.name_villages;
-    //                 desaSelect.appendChild(option);
-    //             });
-    //         })
-    // }
+                data.data.forEach(desa => {
+                    const option = document.createElement('option');
+                    option.value = desa.id_villages;
+                    option.textContent = desa.name_villages;
+                    desaSelect.appendChild(option);
+                });
+            })
+    }
 
     // --------------------------------------------------------------------------------------------------------------------------------
     // Radio button domisili

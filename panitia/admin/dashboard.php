@@ -1,14 +1,14 @@
 <?php
-session_start();
-if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
-  // User is logged in
-} else {
-  // User is not logged in, redirect to login page
-  if (!isset($_SESSION['user'])) {
-    header("Location: index.php");
-    exit();
-  }
-}
+// session_start();
+// if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
+//   // User is logged in
+// } else {
+//   // User is not logged in, redirect to login page
+//   if (!isset($_SESSION['user'])) {
+//     header("Location: index.php");
+//     exit();
+//   }
+// }
 require '../config/config.php';
 require_once 'header.php';
 

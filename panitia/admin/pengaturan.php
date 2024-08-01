@@ -1,16 +1,16 @@
 <?php
 require '../config/config.php';
-session_start();
+// session_start();
 
-if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
-  // Pengguna sudah login
-} else {
-  // Pengguna belum login, alihkan ke halaman login
-  if (!isset($_SESSION['user'])) {
-    header("Location: index.php");
-    exit();
-  }
-}
+// if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
+//   // Pengguna sudah login
+// } else {
+//   // Pengguna belum login, alihkan ke halaman login
+//   if (!isset($_SESSION['user'])) {
+//     header("Location: index.php");
+//     exit();
+//   }
+// }
 
 // Membaca nilai saat ini untuk dibuka, ditutup, dan pelaksanaan
 include '../config/dates_config.php';
