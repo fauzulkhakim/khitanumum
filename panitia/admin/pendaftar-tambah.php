@@ -6,6 +6,7 @@
 // }
 date_default_timezone_set('Asia/Jakarta');
 require '../config/config.php';
+require_once 'header.php';
 ?>
 
 <!doctype html>
@@ -59,16 +60,14 @@ require '../config/config.php';
   <!-- Awal Kontainer -->
   <div class="container-fluid">
     <!-- Awal Logo dan kop -->
-    <div class="row mt-5">
+    <div class="row mt-3">
       <div class="col-ml-4"></div>
       <div class="col-ml-1 text-center">
         <img src="../assets/icon_khitan_umum.png" height="100">
       </div>
-      <div class="col-ml-5 mt-4 text-center">
-        <h3>Pendaftaran Khitan Umum</h3>
-        <h6>Pengajian Pitulasan Masjid Al-Aqsha Menara Kudus</h6>
-        <h6>1446 H / 2024 TU</h6>
-      </div>
+      <div class="col-ml text-center text-white my-2">
+        <h3>Halaman Admin Tambah Pendaftar Khitan Umum</h3>
+    </div>
       <div class="col-ml-2"></div>
     </div>
     <!-- Akhir Logo dan kop -->
@@ -85,12 +84,16 @@ require '../config/config.php';
           <form action="../config/pendaftar-tambah.php" method="POST" enctype="multipart/form-data" id="form-pendaftaran" class="needs-validation" novalidate>
 
             <!-- Awal Card Konten -->
-            <div class="card mb-5">
+            <div class="card">
               <div class="card-body">
 
                 <!-- Awal Card Data -->
                 <div class="row mb">
                   <div class="col">
+
+                    <!-- Button kembali -->
+                    <a href="pendaftar.php" class="back-button my-2"><i class="fa-solid fa-left-long"></i> Kembali</a>
+                    <!-- Akhir Button kembali -->
 
                     <!-- Awal Card Identitas -->
                     <div class="card my-2">
@@ -422,14 +425,6 @@ require '../config/config.php';
                     <!-- Submit -->
                     <div class="row">
                       <div class="col-md-10 py-2">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="setuju" required>
-                          <label class="form-check-label" for="setuju">
-                            <p class="justify-content-start">
-                              Dengan mendaftar, pengguna menyetujui dan memahami bahwa data yang diterima akan digunakan untuk keperluan administrasi dan dibagikan dengan pihak ketiga yang terlibat dalam acara, sesuai dengan kebijakan privasi dan ketentuan yang telah ditetapkan.
-                            </p>
-                          </label>
-                        </div>
                       </div>
                       <div class="col-md-2 text-center pt-2 pe-2">
                         <input type="submit" class="btn btn-success" value="Daftar" id="btnSubmit">
@@ -780,5 +775,9 @@ require '../config/config.php';
   </script>
 
 </body>
+
+<?php
+require_once 'footer.php';
+?>
 
 </html>

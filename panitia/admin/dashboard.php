@@ -1,44 +1,48 @@
 <?php
 // session_start();
 // if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
-//   // User is logged in
+// // User is logged in
 // } else {
-//   // User is not logged in, redirect to login page
-//   if (!isset($_SESSION['user'])) {
-//     header("Location: index.php");
-//     exit();
-//   }
+// // User is not logged in, redirect to login page
+// if (!isset($_SESSION['user'])) {
+// header("Location: index.php");
+// exit();
+// }
 // }
 require '../config/config.php';
 require_once 'header.php';
 
 // Query untuk mendapatkan data pendaftar berdasarkan status dan lokasi
 $query = "
-SELECT 
+SELECT
     p.is_admin,
+    CASE
+        WHEN r.name_regencies = 'KUDUS' THEN 'KUDUS'
+        ELSE 'LUAR KUDUS'
+    END AS lokasi,
+    s.nama_status_pendaftaran AS status,
+    p.tanggal_lahir,
+    COUNT(p.id) AS jumlah,
     prov.name_provinces AS provinsi,
     r.name_regencies AS kabupaten,
     d.name_districts AS kecamatan,
-    v.name_villages AS desa,
-    s.nama_status_pendaftaran AS status,
-    p.tanggal_lahir,
-    COUNT(p.id) AS jumlah
-FROM 
+    v.name_villages AS desa
+FROM
     pendaftar p
-LEFT JOIN 
+LEFT JOIN
     provinces prov ON p.domisili_provinces_id = prov.id_provinces
-LEFT JOIN 
+LEFT JOIN
     regencies r ON p.domisili_regencies_id = r.id_regencies
-LEFT JOIN 
+LEFT JOIN
     districts d ON p.domisili_districts_id = d.id_districts
-LEFT JOIN 
+LEFT JOIN
     villages v ON p.domisili_villages_id = v.id_villages
-LEFT JOIN 
+LEFT JOIN
     status_pendaftaran s ON p.status_pendaftaran_id = s.id_status_pendaftaran
-GROUP BY 
-    p.is_admin, prov.name_provinces, r.name_regencies, d.name_districts, v.name_villages, s.nama_status_pendaftaran, p.tanggal_lahir
-ORDER BY 
-    prov.name_provinces, r.name_regencies, d.name_districts, v.name_villages, s.nama_status_pendaftaran, p.tanggal_lahir";
+GROUP BY
+    p.is_admin, lokasi, s.nama_status_pendaftaran, p.tanggal_lahir, prov.name_provinces, r.name_regencies, d.name_districts, v.name_villages
+ORDER BY
+    p.is_admin, lokasi, s.nama_status_pendaftaran";
 
 $result = $conn->query($query);
 $data = [];
@@ -53,9 +57,34 @@ $total_diterima = 0;
 $total_ditolak = 0;
 $total_pending = 0;
 
-$age_data = [];
+$summary_data = [
+  'User' => [
+    'KUDUS' => ['pendaftar' => 0, 'diterima' => 0, 'ditolak' => 0, 'pending' => 0],
+    'LUAR KUDUS' => ['pendaftar' => 0, 'diterima' => 0, 'ditolak' => 0, 'pending' => 0]
+  ],
+  'Admin' => [
+    'KUDUS' => ['pendaftar' => 0, 'diterima' => 0, 'ditolak' => 0, 'pending' => 0],
+    'LUAR KUDUS' => ['pendaftar' => 0, 'diterima' => 0, 'ditolak' => 0, 'pending' => 0]
+  ]
+];
+
+$age_data = []; // Inisialisasi dengan array kosong
 
 foreach ($data as $row) {
+  $admin_label = $row['is_admin'] ? 'Admin' : 'User';
+  $lokasi = $row['lokasi'];
+
+  $summary_data[$admin_label][$lokasi]['pendaftar'] += $row['jumlah'];
+
+  if ($row['status'] == 'Diterima') {
+    $summary_data[$admin_label][$lokasi]['diterima'] += $row['jumlah'];
+  } elseif ($row['status'] == 'Ditolak') {
+    $summary_data[$admin_label][$lokasi]['ditolak'] += $row['jumlah'];
+  } elseif ($row['status'] == 'Pending') {
+    $summary_data[$admin_label][$lokasi]['pending'] += $row['jumlah'];
+  }
+
+  $total_pendaftar += $row['jumlah'];
   if ($row['status'] == 'Diterima') {
     $total_diterima += $row['jumlah'];
   } elseif ($row['status'] == 'Ditolak') {
@@ -63,7 +92,6 @@ foreach ($data as $row) {
   } elseif ($row['status'] == 'Pending') {
     $total_pending += $row['jumlah'];
   }
-  $total_pendaftar += $row['jumlah'];
 
   // Calculate age
   $birthDate = new DateTime($row['tanggal_lahir']);
@@ -106,26 +134,23 @@ ksort($age_data); // Sort age data by age
             </tr>
           </thead>
           <tbody>
-            <?php
-            $current_admin = '';
-            foreach ($data as $row) {
-              if ($current_admin !== $row['is_admin']) {
-                if ($current_admin !== '') {
-                  echo '<tr><td colspan="2" class="text-center align-middle">Total</td>';
-                  echo "<td>{$total_pendaftar}</td><td>{$total_diterima}</td><td>{$total_ditolak}</td><td>{$total_pending}</td></tr>";
-                }
-                $current_admin = $row['is_admin'];
-                $admin_label = $current_admin ? 'Admin' : 'User';
-                echo "<tr><td rowspan='2' class='text-center align-middle'>{$admin_label}</td>";
-              }
-              echo "<td>{$row['kabupaten']}</td>";
-              echo "<td>{$row['jumlah']}</td>";
-              echo "<td>" . ($row['status'] == 'Diterima' ? $row['jumlah'] : '') . "</td>";
-              echo "<td>" . ($row['status'] == 'Ditolak' ? $row['jumlah'] : '') . "</td>";
-              echo "<td>" . ($row['status'] == 'Pending' ? $row['jumlah'] : '') . "</td>";
-              echo "</tr>";
-            }
-            ?>
+            <?php foreach ($summary_data as $admin_label => $locations) : ?>
+              <tr>
+                <td rowspan="2" class="text-center align-middle"><?= $admin_label ?></td>
+                <td>KUDUS</td>
+                <td><?= $locations['KUDUS']['pendaftar'] ?></td>
+                <td><?= $locations['KUDUS']['diterima'] ?></td>
+                <td><?= $locations['KUDUS']['ditolak'] ?></td>
+                <td><?= $locations['KUDUS']['pending'] ?></td>
+              </tr>
+              <tr>
+                <td>LUAR KUDUS</td>
+                <td><?= $locations['LUAR KUDUS']['pendaftar'] ?></td>
+                <td><?= $locations['LUAR KUDUS']['diterima'] ?></td>
+                <td><?= $locations['LUAR KUDUS']['ditolak'] ?></td>
+                <td><?= $locations['LUAR KUDUS']['pending'] ?></td>
+              </tr>
+            <?php endforeach; ?>
             <tr>
               <td colspan="2" class="text-center align-middle">Jumlah</td>
               <td><?= $total_pendaftar; ?></td>
@@ -149,14 +174,12 @@ ksort($age_data); // Sort age data by age
             </tr>
           </thead>
           <tbody>
-            <?php
-            foreach ($age_data as $age => $jumlah) {
-              echo "<tr>";
-              echo "<td>{$age}</td>";
-              echo "<td>{$jumlah}</td>";
-              echo "</tr>";
-            }
-            ?>
+            <?php foreach ($age_data as $age => $jumlah) : ?>
+              <tr>
+                <td><?= $age ?></td>
+                <td><?= $jumlah ?></td>
+              </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>
@@ -176,17 +199,15 @@ ksort($age_data); // Sort age data by age
             </tr>
           </thead>
           <tbody>
-            <?php
-            foreach ($data as $row) {
-              echo "<tr>";
-              echo "<td>{$row['provinsi']}</td>";
-              echo "<td>{$row['kabupaten']}</td>";
-              echo "<td>{$row['kecamatan']}</td>";
-              echo "<td>{$row['desa']}</td>";
-              echo "<td>{$row['jumlah']}</td>";
-              echo "</tr>";
-            }
-            ?>
+            <?php foreach ($data as $row) : ?>
+              <tr>
+                <td><?= isset($row['provinsi']) ? $row['provinsi'] : '' ?></td>
+                <td><?= isset($row['kabupaten']) ? $row['kabupaten'] : '' ?></td>
+                <td><?= isset($row['kecamatan']) ? $row['kecamatan'] : '' ?></td>
+                <td><?= isset($row['desa']) ? $row['desa'] : '' ?></td>
+                <td><?= $row['jumlah'] ?></td>
+              </tr>
+            <?php endforeach; ?>
           </tbody>
         </table>
       </div>

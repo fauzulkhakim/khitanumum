@@ -145,6 +145,11 @@ require_once 'header.php';
                         <!-- Awal Card Data -->
                         <div class="row mb">
                             <div class="col">
+
+                                <!-- Button kembali -->
+                                <a href="pendaftar.php" class="back-button my-2"><i class="fa-solid fa-left-long"></i> Kembali</a>
+                                <!-- Akhir Button kembali -->
+
                                 <!-- Awal Card Identitas -->
                                 <div class="card my-2">
                                     <div class="card-header fw-bold">
@@ -538,14 +543,6 @@ require_once 'header.php';
                                 <!-- Submit -->
                                 <div class="row">
                                     <div class="col-md-10 py-2">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="setuju" required>
-                                            <label class="form-check-label" for="setuju">
-                                                <p class="justify-content-start">
-                                                    Dengan mendaftar, pengguna menyetujui dan memahami bahwa data yang diterima akan digunakan untuk keperluan administrasi dan dibagikan dengan pihak ketiga yang terlibat dalam acara, sesuai dengan kebijakan privasi dan ketentuan yang telah ditetapkan.
-                                                </p>
-                                            </label>
-                                        </div>
                                     </div>
                                     <div class="col-md-2 text-center pt-2 pe-2">
                                         <input type="submit" class="btn btn-success" value="Simpan" id="btnSubmit">

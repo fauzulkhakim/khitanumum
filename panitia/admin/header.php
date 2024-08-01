@@ -74,6 +74,22 @@
       font-size: 13px;
       /* Mengatur ukuran ikon */
     }
+
+    .back-button {
+      background-color: #3C5B6F;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      border-radius: 5px;
+    }
+
+    .back-button:hover {
+      background-color: #373A40;
+      color: #F8F4E1;
+    }
   </style>
 </head>
 
