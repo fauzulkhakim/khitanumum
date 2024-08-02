@@ -436,10 +436,14 @@ require_once 'header.php';
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4 pb-4">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control" id="mustahiq" name="mustahiq" value="<?= htmlspecialchars($pendaftaran['mustahiq']); ?>" required>
-                                                    <label for="mustahiq">Mustahiq</label>
-                                                    <div class="invalid-feedback"><small>Mustahiq harus diisi</small></div>
+                                                <div id="mustahiq" class="form-text">Mustahiq</div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="mustahiq" id="mustahiq_ya" value="1" <?= $pendaftaran['mustahiq'] == 1 ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="mustahiq_ya">Ya</label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="mustahiq" id="mustahiq_tidak" value="0" <?= $pendaftaran['mustahiq'] == 0 ? 'checked' : ''; ?>>
+                                                    <label class="form-check-label" for="mustahiq_tidak">Tidak</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 pb-4">

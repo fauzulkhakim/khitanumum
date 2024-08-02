@@ -132,6 +132,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
           .then(response => response.json())
           .then(data => {
             if (data.success) {
+              location.reload();
               alert('Status berhasil diubah');
             } else {
               alert('Gagal mengubah status: ' + data.error);

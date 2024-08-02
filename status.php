@@ -18,12 +18,6 @@ if (!$pendaftar) {
     echo "<div class='alert alert-danger text-center'>Data tidak ditemukan. Silakan cek kembali NIK Anda.</div>";
     exit();
 }
-
-// Cek status verifikasi
-if ($pendaftar['is_verified'] == 0) {
-    echo "<div class='alert alert-warning text-center'>Anda belum memverifikasi OTP. Silakan verifikasi terlebih dahulu.</div>";
-    exit();
-}
 ?>
 
 <!DOCTYPE html>

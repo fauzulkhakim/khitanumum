@@ -6,7 +6,6 @@
 // }
 date_default_timezone_set('Asia/Jakarta');
 require '../config/config.php';
-require_once 'header.php';
 ?>
 
 <!doctype html>
@@ -52,6 +51,17 @@ require_once 'header.php';
       caret-color: transparent;
       /* Menyembunyikan kursor */
     }
+
+    .back-button {
+      background-color: #3C5B6F;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      border-radius: 5px;
+    }
   </style>
 
 </head>
@@ -67,7 +77,7 @@ require_once 'header.php';
       </div>
       <div class="col-ml text-center text-white my-2">
         <h3>Halaman Admin Tambah Pendaftar Khitan Umum</h3>
-    </div>
+      </div>
       <div class="col-ml-2"></div>
     </div>
     <!-- Akhir Logo dan kop -->
@@ -775,9 +785,5 @@ require_once 'header.php';
   </script>
 
 </body>
-
-<?php
-require_once 'footer.php';
-?>
 
 </html>
