@@ -72,6 +72,11 @@ require_once 'header.php';
                 <div class="card-body">
                     <div class="row mb">
                         <div class="col">
+
+                            <!-- Button kembali -->
+                            <a href="pendaftar.php" class="back-button my-2"><i class="fa-solid fa-left-long"></i> Kembali</a>
+                            <!-- Akhir Button kembali -->
+
                             <div class="card my-2">
                                 <div class="card-header fw-bold">
                                     Data Identitas Calon Peserta
