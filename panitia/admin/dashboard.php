@@ -1,15 +1,17 @@
 <?php
-// session_start();
-// if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
-// // User is logged in
-// } else {
-// // User is not logged in, redirect to login page
-// if (!isset($_SESSION['user'])) {
-// header("Location: index.php");
-// exit();
-// }
-// }
 require '../config/config.php';
+
+session_start();
+if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
+// User is logged in
+} else {
+// User is not logged in, redirect to login page
+if (!isset($_SESSION['user'])) {
+header("Location: ../index.php");
+exit();
+}
+}
+
 require_once 'header.php';
 
 // Query untuk mendapatkan data pendaftar berdasarkan status dan lokasi

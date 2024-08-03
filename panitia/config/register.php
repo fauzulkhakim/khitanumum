@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../config/config.php';
+require 'config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_lengkap = $_POST['nama_lengkap'];
@@ -21,4 +21,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $stmt->close();
 }
-?>

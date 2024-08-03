@@ -1,6 +1,7 @@
 <?php
 // Menentukan halaman aktif
 $current_page = basename($_SERVER['PHP_SELF']);
+$user_role = $_SESSION['user']['role'] ?? null;
 ?>
 
 </div>
@@ -10,28 +11,35 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <nav class="navbar navbar-expand navbar-light navbar-bottom">
   <div class="container-fluid">
     <ul class="navbar-nav mx-auto">
-      <!-- home -->
+      <!-- Home -->
       <li class="nav-item">
         <a class="nav-link <?= ($current_page == 'dashboard.php') ? 'active' : ''; ?>" href="dashboard.php">
           <i class="fas fa-home text-center d-block"></i>
           <span>Home</span>
         </a>
       </li>
-      <!-- pendaftar -->
-      <li class="nav-item">
-        <a class="nav-link <?= ($current_page == 'pendaftar.php') ? 'active' : ''; ?>" href="pendaftar.php">
-          <i class="fas fa-users text-center d-block"></i>
-          <span>Pendaftar</span>
-        </a>
-      </li>
-      <!-- setting -->
-      <li class="nav-item">
-        <a class="nav-link <?= ($current_page == 'pengaturan.php') ? 'active' : ''; ?>" href="pengaturan.php">
-          <i class="fas fa-cogs text-center d-block"></i>
-          <span>Setting</span>
-        </a>
-      </li>
-      <!-- logout -->
+
+      <!-- Pendaftar (Hanya untuk master dan admin) -->
+      <?php if (in_array($user_role, ['master', 'admin'])) : ?>
+        <li class="nav-item">
+          <a class="nav-link <?= ($current_page == 'pendaftar.php') ? 'active' : ''; ?>" href="pendaftar.php">
+            <i class="fas fa-users text-center d-block"></i>
+            <span>Pendaftar</span>
+          </a>
+        </li>
+      <?php endif; ?>
+
+      <!-- Pengaturan (Hanya untuk master) -->
+      <?php if ($user_role == 'master') : ?>
+        <li class="nav-item">
+          <a class="nav-link <?= ($current_page == 'pengaturan.php') ? 'active' : ''; ?>" href="pengaturan.php">
+            <i class="fas fa-cogs text-center d-block"></i>
+            <span>Setting</span>
+          </a>
+        </li>
+      <?php endif; ?>
+
+      <!-- Logout (Tampil untuk semua role) -->
       <li class="nav-item">
         <a class="nav-link" href="../config/logout.php" id="logout-link" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
           <i class="fas fa-sign-out-alt text-center d-block"></i>
@@ -41,6 +49,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </ul>
   </div>
 </nav>
+
 
 <!-- jQuery Library -->
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
@@ -132,8 +141,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
           .then(response => response.json())
           .then(data => {
             if (data.success) {
-              location.reload();
               alert('Status berhasil diubah');
+              location.reload();
             } else {
               alert('Gagal mengubah status: ' + data.error);
             }
@@ -160,55 +169,67 @@ $current_page = basename($_SERVER['PHP_SELF']);
       ordering: false,
       paging: false
     });
+  });
+</script>
 
-    $('.admin-toggle').on('change', function() {
-      var userId = $(this).data('id');
-      var role = $(this).is(':checked') ? 'admin' : 'user';
-      updateRole(userId, role);
-    });
+<script>
+  document.querySelectorAll('.role-dropdown').forEach(item => {
+    item.addEventListener('change', event => {
+      const userId = event.target.getAttribute('data-id');
+      const newRole = event.target.value;
 
-    $('.akses-toggle').on('change', function() {
-      var userId = $(this).data('id');
-      var akses = $(this).is(':checked') ? 1 : 0;
-      updateAkses(userId, akses);
+      fetch('../config/update_role.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: userId,
+            role: newRole
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Role berhasil diperbarui');
+            location.reload(); // Reload the page
+          } else {
+            alert('Kesalahan saat memperbarui role: ' + data.error);
+          }
+        })
+        .catch(error => console.error('Error:', error));
     });
   });
+</script>
 
-  function updateRole(id, role) {
-    $.ajax({
-      type: 'POST',
-      url: '../config/update_user.php',
-      data: {
-        user_id: id,
-        role: role
-      },
-      success: function(response) {
-        if (response == 1) {
-          alert('Role telah diupdate');
-        } else {
-          alert('Terjadi kesalahan saat mengupdate role');
-        }
-      }
-    });
-  }
+<script>
+  document.querySelectorAll('.akses-toggle').forEach(item => {
+    item.addEventListener('change', event => {
+      const userId = event.target.getAttribute('data-id');
+      const newAkses = event.target.checked ? 1 : 0;
 
-  function updateAkses(id, akses) {
-    $.ajax({
-      type: 'POST',
-      url: '../config/update_user.php',
-      data: {
-        user_id: id,
-        akses: akses
-      },
-      success: function(response) {
-        if (response == 1) {
-          alert('Akses telah diupdate');
-        } else {
-          alert('Terjadi kesalahan saat mengupdate akses');
-        }
-      }
+      fetch('../config/update_akses.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: userId,
+            akses: newAkses
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Hak akses berhasil diperbarui');
+            location.reload(); // Reload the page
+          } else {
+            alert('Gagal memperbarui hak akses: ' + data.error);
+          }
+        })
+        .catch(error => console.error('Error:', error));
     });
-  }
+  });
 </script>
 <!-- Akhir Halaman Pengaturan -->
 

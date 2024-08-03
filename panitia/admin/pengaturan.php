@@ -1,19 +1,27 @@
 <?php
 require '../config/config.php';
-// session_start();
+session_start();
 
-// if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
-//   // Pengguna sudah login
-// } else {
-//   // Pengguna belum login, alihkan ke halaman login
-//   if (!isset($_SESSION['user'])) {
-//     header("Location: index.php");
-//     exit();
-//   }
-// }
+if (!isset($_SESSION['user'])) {
+  header("Location: ../index.php");
+  exit();
+}
+
+// Cek role
+if ($_SESSION['user']['role'] !== 'master') {
+  header("Location: dashboard.php"); // atau halaman lain yang sesuai
+  exit();
+}
 
 // Membaca nilai saat ini untuk dibuka, ditutup, dan pelaksanaan
 include '../config/dates_config.php';
+
+// Ambil data enum dari kolom role
+$query = "SHOW COLUMNS FROM users LIKE 'role'";
+$result = $conn->query($query);
+$row = $result->fetch_assoc();
+preg_match("/^enum\(\'(.*)\'\)$/", $row['Type'], $matches);
+$enum_values = explode("','", $matches[1]);
 
 // Menangani pengiriman formulir untuk memperbarui tanggal
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -173,9 +181,11 @@ require_once 'header.php';
               <td><?= $user['nama_lengkap']; ?></td>
               <td><?= $user['username']; ?></td>
               <td>
-                <div class="form-check form-switch">
-                  <input class="form-check-input admin-toggle" type="checkbox" role="switch" id="admin-<?= $user['id'] ?>" <?= $user['role'] == 'admin' ? 'checked' : '' ?> data-id="<?= $user['id'] ?>">
-                </div>
+                <select name="role" class="form-select role-dropdown" data-id="<?= $user['id'] ?>">
+                  <?php foreach ($enum_values as $value) : ?>
+                    <option value="<?= $value ?>" <?= $user['role'] == $value ? 'selected' : '' ?>><?= ucfirst($value) ?></option>
+                  <?php endforeach; ?>
+                </select>
               </td>
               <td>
                 <div class="form-check form-switch">
@@ -190,6 +200,8 @@ require_once 'header.php';
     </div>
     <!-- Akhir Data Admin -->
   </div>
+
+
 
   <?php
   require_once 'footer.php';

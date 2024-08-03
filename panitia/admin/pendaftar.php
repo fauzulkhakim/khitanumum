@@ -1,10 +1,18 @@
 <?php
-// session_start();
-// if (!isset($_SESSION['user'])) {
-//   header("Location: index.php");
-//   exit();
-// }
 require '../config/config.php';
+session_start();
+
+if (!isset($_SESSION['user'])) {
+  header("Location: ../index.php");
+  exit();
+}
+
+// Cek role
+if ($_SESSION['user']['role'] !== 'master' && $_SESSION['user']['role'] !== 'admin') {
+  header("Location: dashboard.php"); // atau halaman lain yang sesuai
+  exit();
+}
+
 require_once 'header.php';
 ?>
 
@@ -150,10 +158,10 @@ require_once 'header.php';
       <div class="modal-body">
         <div id="modalInfoContent">
           <!-- Informasi akan dimuat di sini oleh JavaScript -->
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
+</div>
+</div>
+</div>
 </div> -->
 
 <?php
