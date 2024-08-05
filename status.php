@@ -190,9 +190,10 @@ if (!$pendaftar) {
             <p class="mt-4 text-center">UNDANGAN Pemeriksaan Kesehatan akan dikirimkan lewat WA setelah Verifikasi Administratif.</p>
             <div class="contact-info text-center mt-3">
                 <p>Info lebih lanjut, hubungi:</p>
-                <p>Faza: 0877-6012-3112</p>
-                <p>Ari: 0812-1212-1992</p>
+                <p>Faza: <a href="https://wa.me/6287760123112" target="_blank">087760123112</a></p>
+                <p>Ari: <a href="https://wa.me/6281212121992" target="_blank">081212121992</a></p>
             </div>
+
         </div>
         <div class="card-footer">
             <small><?php echo date('d/m/Y H:i:s', strtotime($pendaftar['date_created'])); ?></small>
