@@ -36,7 +36,7 @@ LEFT JOIN
 LEFT JOIN
     status_pendaftaran s ON p.status_pendaftaran_id = s.id_status_pendaftaran
 GROUP BY
-    p.is_admin, lokasi, s.nama_status_pendaftaran, p.tanggal_lahir, prov.name_provinces, r.name_regencies, d.name_districts, v.name_villages
+    p.is_admin, lokasi, s.nama_status_pendaftaran, prov.name_provinces, r.name_regencies, d.name_districts, v.name_villages
 ORDER BY
     p.is_admin, lokasi, s.nama_status_pendaftaran";
 
