@@ -13,7 +13,7 @@ $query = "
 SELECT
     p.is_admin,
     CASE
-        WHEN p.domisili_districts_id = 3319030 THEN 'KUDUS'
+        WHEN p.domisili_regencies_id = 3319 THEN 'KUDUS'
         ELSE 'LUAR KUDUS'
     END AS lokasi,
     s.nama_status_pendaftaran AS status,
