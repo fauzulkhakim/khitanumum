@@ -1,11 +1,11 @@
 <?php
-// session_start();
-// if (!isset($_SESSION['user'])) {
-//     header("Location: index.php");
-//     exit();
-// }
 date_default_timezone_set('Asia/Jakarta');
 require '../config/config.php';
+
+if (!check_login()) {
+  header("Location: ../index.php");
+  exit();
+}
 ?>
 
 <!doctype html>

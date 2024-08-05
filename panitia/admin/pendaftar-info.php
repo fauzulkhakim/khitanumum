@@ -1,10 +1,10 @@
 <?php
-// session_start();
-// if (!isset($_SESSION['user'])) {
-//     header("Location: index.php");
-//     exit();
-// }
 require '../config/config.php';
+
+if (!check_login()) {
+    header("Location: ../index.php");
+    exit();
+}
 
 $id = $_GET['id'];
 $sql = "SELECT
@@ -330,7 +330,7 @@ require_once 'header.php';
                                         </div>
                                     </div>
                                     <div class="row">
-                                    <div class="col-md-4 pb-4">
+                                        <div class="col-md-4 pb-4">
                                             <div id="mustahiq" class="form-text">Mustahiq</div>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" name="mustahiq" id="mustahiq_ya" value="1" <?= $pendaftaran['mustahiq'] == 1 ? 'checked' : ''; ?> disabled>

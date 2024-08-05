@@ -101,6 +101,12 @@ session_start();
                     </div>
                 </div>
 
+                <!-- Checkbox Remember Me -->
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Ingat Saya</label>
+                </div>
+
                 <!-- Button -->
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary">Login</button>

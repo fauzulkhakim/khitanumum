@@ -5,6 +5,7 @@ require 'config.php';
 // Ambil data dari form
 $username = $_POST['username'];
 $password = $_POST['password'];
+$rememberMe = isset($_POST['rememberMe']);
 
 // Cek apakah username dan password benar
 $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
@@ -22,19 +23,23 @@ if ($result->num_rows === 1) {
             // Set sesi
             $_SESSION['user'] = $user;
 
+            // Set cookie untuk "Remember Me"
+            if ($rememberMe) {
+                $cookie_name = "user_login";
+                $cookie_value = base64_encode($username . ':' . $password);
+                $cookie_time = time() + (86400 * 30); // 30 hari
+                setcookie($cookie_name, $cookie_value, $cookie_time, "/");
+            }
+
             // Redirect berdasarkan role
             switch ($user['role']) {
                 case 'master':
-                    header("Location: ../admin/dashboard.php");
-                    break;
                 case 'admin':
+                case 'user':
                     header("Location: ../admin/dashboard.php");
                     break;
                 case 'foto':
                     header("Location: ../foto/index.php");
-                    break;
-                case 'user':
-                    header("Location: ../admin/dashboard.php");
                     break;
                 default:
                     $_SESSION['error'] = "Role tidak dikenali.";

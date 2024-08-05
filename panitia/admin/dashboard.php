@@ -1,15 +1,9 @@
 <?php
 require '../config/config.php';
 
-session_start();
-if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
-// User is logged in
-} else {
-// User is not logged in, redirect to login page
-if (!isset($_SESSION['user'])) {
-header("Location: ../index.php");
-exit();
-}
+if (!check_login()) {
+  header("Location: ../index.php");
+  exit();
 }
 
 require_once 'header.php';
@@ -19,7 +13,7 @@ $query = "
 SELECT
     p.is_admin,
     CASE
-        WHEN r.name_regencies = 'KUDUS' THEN 'KUDUS'
+        WHEN p.domisili_districts_id = 3319030 THEN 'KUDUS'
         ELSE 'LUAR KUDUS'
     END AS lokasi,
     s.nama_status_pendaftaran AS status,
@@ -73,7 +67,7 @@ $summary_data = [
 $age_data = []; // Inisialisasi dengan array kosong
 
 foreach ($data as $row) {
-  $admin_label = $row['is_admin'] ? 'Admin' : 'User';
+  $admin_label = ($row['is_admin'] == 1) ? 'Admin' : 'User';
   $lokasi = $row['lokasi'];
 
   $summary_data[$admin_label][$lokasi]['pendaftar'] += $row['jumlah'];
@@ -107,6 +101,23 @@ foreach ($data as $row) {
 }
 
 ksort($age_data); // Sort age data by age
+
+// Mengelompokkan data alamat dan menghitung jumlah
+$address_data = [];
+foreach ($data as $row) {
+  $address_key = $row['provinsi'] . '|' . $row['kabupaten'] . '|' . $row['kecamatan'] . '|' . $row['desa'];
+  if (!isset($address_data[$address_key])) {
+    $address_data[$address_key] = [
+      'provinsi' => $row['provinsi'],
+      'kabupaten' => $row['kabupaten'],
+      'kecamatan' => $row['kecamatan'],
+      'desa' => $row['desa'],
+      'jumlah' => 0
+    ];
+  }
+  $address_data[$address_key]['jumlah'] += $row['jumlah'];
+}
+
 ?>
 
 <div class="row justify-content-center bg-dark">
@@ -173,13 +184,17 @@ ksort($age_data); // Sort age data by age
             <tr>
               <th>Usia</th>
               <th>Jumlah</th>
+              <th>Persentase</th>
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($age_data as $age => $jumlah) : ?>
+            <?php foreach ($age_data as $age => $jumlah) :
+              $percentage = ($jumlah / $total_pendaftar) * 100;
+            ?>
               <tr>
-                <td><?= $age ?></td>
+                <td><?= $age ?> tahun</td>
                 <td><?= $jumlah ?></td>
+                <td><?= number_format($percentage, 2) ?>%</td>
               </tr>
             <?php endforeach; ?>
           </tbody>
@@ -201,13 +216,13 @@ ksort($age_data); // Sort age data by age
             </tr>
           </thead>
           <tbody>
-            <?php foreach ($data as $row) : ?>
+            <?php foreach ($address_data as $address) : ?>
               <tr>
-                <td><?= isset($row['provinsi']) ? $row['provinsi'] : '' ?></td>
-                <td><?= isset($row['kabupaten']) ? $row['kabupaten'] : '' ?></td>
-                <td><?= isset($row['kecamatan']) ? $row['kecamatan'] : '' ?></td>
-                <td><?= isset($row['desa']) ? $row['desa'] : '' ?></td>
-                <td><?= $row['jumlah'] ?></td>
+                <td><?= $address['provinsi'] ?></td>
+                <td><?= $address['kabupaten'] ?></td>
+                <td><?= $address['kecamatan'] ?></td>
+                <td><?= $address['desa'] ?></td>
+                <td><?= $address['jumlah'] ?></td>
               </tr>
             <?php endforeach; ?>
           </tbody>

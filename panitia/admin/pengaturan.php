@@ -1,8 +1,7 @@
 <?php
 require '../config/config.php';
-session_start();
 
-if (!isset($_SESSION['user'])) {
+if (!check_login()) {
   header("Location: ../index.php");
   exit();
 }
