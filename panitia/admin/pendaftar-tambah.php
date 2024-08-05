@@ -1,11 +1,18 @@
 <?php
-// session_start();
-// if (!isset($_SESSION['user'])) {
-//     header("Location: index.php");
-//     exit();
-// }
 date_default_timezone_set('Asia/Jakarta');
 require '../config/config.php';
+session_start();
+
+if (!isset($_SESSION['user'])) {
+  header("Location: ../index.php");
+  exit();
+}
+
+// Cek role
+if ($_SESSION['user']['role'] !== 'master' && $_SESSION['user']['role'] !== 'admin') {
+  header("Location: dashboard.php");
+  exit();
+}
 ?>
 
 <!doctype html>

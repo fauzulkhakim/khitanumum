@@ -1,9 +1,4 @@
 <?php
-// session_start();
-// if (!isset($_SESSION['user'])) {
-//     header("Location: index.php");
-//     exit();
-// }
 require '../config/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,6 +28,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $relasi = $_POST['relasi'];
     $status_pendaftaran_id = $_POST['status_pendaftaran_id'];
 
+    // Dokumen KIA/KK
+    $dokumen_kia_kk = isset($_FILES['dokumen_kia_kk']) && $_FILES['dokumen_kia_kk']['error'] == 0 ? uploadImage($_FILES['dokumen_kia_kk'], $nik, 'kia_kk') : $pendaftaran['dokumen_kia_kk'];
+    // Dokumen Sekolah
+    $dokumen_sekolah = isset($_FILES['dokumen_sekolah']) && $_FILES['dokumen_sekolah']['error'] == 0 ? uploadImage($_FILES['dokumen_sekolah'], $nik, 'sekolah') : $pendaftaran['dokumen_sekolah'];
+    // Dokumen Domisili
+    $dokumen_domisili = isset($_FILES['dokumen_domisili']) && $_FILES['dokumen_domisili']['error'] == 0 ? uploadImage($_FILES['dokumen_domisili'], $nik, 'domisili') : $pendaftaran['dokumen_domisili'];
+    // Dokumen Pendukung
+    $dokumen_pendukung = isset($_FILES['dokumen_pendukung']) && $_FILES['dokumen_pendukung']['error'] == 0 ? uploadImage($_FILES['dokumen_pendukung'], $nik, 'pendukung') : $pendaftaran['dokumen_pendukung'];
+
+
     $sql = "UPDATE pendaftar SET
         nama_depan = '$nama_depan',
         nama_belakang = '$nama_belakang',
@@ -57,8 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         no_hp = '$no_hp',
         mustahiq = '$mustahiq',
         relasi = '$relasi',
-        status_pendaftaran_id = '$status_pendaftaran_id'
-    WHERE id = $id";
+        status_pendaftaran_id = '$status_pendaftaran_id',
+        dokumen_kia_kk = '$dokumen_kia_kk',
+        dokumen_sekolah = '$dokumen_sekolah',
+        dokumen_domisili = '$dokumen_domisili',
+        dokumen_pendukung = '$dokumen_pendukung'
+        WHERE id = $id";
 
     if ($conn->query($sql) === TRUE) {
         header("Location: pendaftar.php");
@@ -88,6 +97,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 p.id = $id";
     $result = $conn->query($sql);
     $pendaftaran = $result->fetch_assoc();
+}
+
+function uploadImage($file, $nik, $dir)
+{
+    $file_name = $file['name'];
+    $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
+
+    $new_file_name = rand(000, 999) . '_' . $nik . '.' . $file_extension;
+    $file_tmp = $file['tmp_name'];
+
+    $targetDir = '../dokumen/' . $dir . '/';
+    if (!is_dir($targetDir)) {
+        mkdir($targetDir, 0777, true);
+    }
+    $targetFile = $targetDir . $new_file_name;
+
+    if (move_uploaded_file($file_tmp, $targetFile)) {
+        return $new_file_name;
+    } else {
+        return null; // Handle error appropriately
+    }
 }
 
 require_once 'header.php';

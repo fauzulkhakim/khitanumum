@@ -1,7 +1,6 @@
 <?php
+require 'config.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  require 'config.php';
-
   $nama_depan = mysqli_real_escape_string($conn, $_POST['nama_depan']);
   $nama_belakang = mysqli_real_escape_string($conn, $_POST['nama_belakang']);
   $nik = mysqli_escape_string($conn, $_POST['nik']);

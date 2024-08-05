@@ -3,13 +3,13 @@ require '../config/config.php';
 
 session_start();
 if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
-// User is logged in
+  // User is logged in
 } else {
-// User is not logged in, redirect to login page
-if (!isset($_SESSION['user'])) {
-header("Location: ../index.php");
-exit();
-}
+  // User is not logged in, redirect to login page
+  if (!isset($_SESSION['user'])) {
+    header("Location: ../index.php");
+    exit();
+  }
 }
 
 require_once 'header.php';
@@ -42,7 +42,7 @@ LEFT JOIN
 LEFT JOIN
     status_pendaftaran s ON p.status_pendaftaran_id = s.id_status_pendaftaran
 GROUP BY
-    p.is_admin, lokasi, s.nama_status_pendaftaran, p.tanggal_lahir, prov.name_provinces, r.name_regencies, d.name_districts, v.name_villages
+    p.is_admin, lokasi, s.nama_status_pendaftaran, prov.name_provinces, r.name_regencies, d.name_districts, v.name_villages
 ORDER BY
     p.is_admin, lokasi, s.nama_status_pendaftaran";
 
