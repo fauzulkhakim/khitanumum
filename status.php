@@ -141,51 +141,66 @@ if (!$pendaftar) {
         <div class="card-body">
             <div class="info-section">
                 <span>Nomor KIA / NIK:</span>
-                <?php echo htmlspecialchars($pendaftar['nik']); ?>
+                <span style="color: #000000;">
+                    <?php echo htmlspecialchars($pendaftar['nik']); ?>
+                </span>
             </div>
             <div class="info-section">
                 <span>Nama Peserta:</span>
-                <?php echo htmlspecialchars($pendaftar['nama_depan'] . ' ' . $pendaftar['nama_belakang']); ?>
+                <span style="color: #000000;">
+                    <?php echo htmlspecialchars($pendaftar['nama_depan'] . ' ' . $pendaftar['nama_belakang']); ?>
+                </span>
             </div>
             <div class="info-section">
                 <span>Nama Orang Tua/Wali:</span>
-                <?php echo htmlspecialchars($pendaftar['orang_tua_wali']); ?>
+                <span style="color: #000000;">
+                    <?php echo htmlspecialchars($pendaftar['orang_tua_wali']); ?>
+                </span>
             </div>
             <div class="info-section">
                 <span>Alamat:</span>
-                <?php echo htmlspecialchars($pendaftar['alamat_lengkap']); ?>
-                <span>RT/RW:
+                <span style="color: #000000;">
+                    <?php echo htmlspecialchars($pendaftar['alamat_lengkap']); ?>
+                </span>
+                <span>RT/RW:</span>
+                <span style="color: #000000;">
                     <?php echo isset($pendaftar['rt_rw']) && isset($pendaftar['rw_rw']) ? htmlspecialchars($pendaftar['rt_rw']) . ' / ' . htmlspecialchars($pendaftar['rw_rw']) : '-'; ?>
                 </span>
-                <span>Kel/Desa:
+                <span>Kel/Desa:</span>
+                <span style="color: #000000;">
                     <?php echo isset($pendaftar['desa_kelurahan']) ? htmlspecialchars($pendaftar['desa_kelurahan']) : '-'; ?>
                 </span>
-                <span>Kecamatan:
+                <span>Kecamatan:</span>
+                <span style="color: #000000;">
                     <?php echo isset($pendaftar['kecamatan']) ? htmlspecialchars($pendaftar['kecamatan']) : '-'; ?>
                 </span>
-                <span>Kabupaten/Kota:
+                <span>Kabupaten/Kota:</span>
+                <span style="color: #000000;">
                     <?php echo isset($pendaftar['kabupaten_kota']) ? htmlspecialchars($pendaftar['kabupaten_kota']) : '-'; ?>
                 </span>
             </div>
+
             <!-- Status Pendaftaran -->
             <div class="info-section">
                 <span>Status Pendaftaran:</span>
-                <?php
-                if ($pendaftar['status_pendaftaran_id'] == 1) {
-                    echo '🟠Belum Verifikasi';
-                } elseif ($pendaftar['status_pendaftaran_id'] == 2) {
-                    echo '✅Diterima';
-                    // Tampilkan tombol download dan QR code jika diterima
-                    echo '<div class="text-center mt-3">
+                <span style="color: #000000;">
+                    <?php
+                    if ($pendaftar['status_pendaftaran_id'] == 1) {
+                        echo '🟠 Belum Verifikasi';
+                    } elseif ($pendaftar['status_pendaftaran_id'] == 2) {
+                        echo '✅ Diterima';
+                        // Tampilkan tombol download dan QR code jika diterima
+                        echo '<div class="text-center mt-3">
                             <a href="javascript:void(0)" id="download-pdf" class="btn btn-success">Download PDF</a>
                             <a href="javascript:void(0)" id="show-qrcode" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#qrcodeModal">QR Code</a>
                         </div>';
-                } elseif ($pendaftar['status_pendaftaran_id'] == 3) {
-                    echo '❌Ditolak';
-                } elseif ($pendaftar['status_pendaftaran_id'] == 4) {
-                    echo '🟡Pending';
-                }
-                ?>
+                    } elseif ($pendaftar['status_pendaftaran_id'] == 3) {
+                        echo '❌ Ditolak';
+                    } elseif ($pendaftar['status_pendaftaran_id'] == 4) {
+                        echo '🟡 Pending';
+                    }
+                    ?>
+                </span>
             </div>
             <p class="mt-4 text-center">UNDANGAN Pemeriksaan Kesehatan akan dikirimkan lewat WA setelah Verifikasi Administratif.</p>
             <div class="contact-info text-center mt-3">
