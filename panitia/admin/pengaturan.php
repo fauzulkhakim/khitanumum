@@ -8,7 +8,7 @@ if (!check_login()) {
 
 // Cek role
 if ($_SESSION['user']['role'] !== 'master') {
-  header("Location: dashboard.php"); // atau halaman lain yang sesuai
+  header("Location: dashboard.php");
   exit();
 }
 
@@ -26,8 +26,8 @@ $enum_values = explode("','", $matches[1]);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (isset($_POST['pendaftaran'])) {
     if (isset($_POST['dibuka']) && isset($_POST['ditutup'])) {
-      $dibuka = $_POST['dibuka'];
-      $ditutup = $_POST['ditutup'];
+      $dibuka = date('Y-m-d H:i:s', strtotime($_POST['dibuka']));
+      $ditutup = date('Y-m-d H:i:s', strtotime($_POST['ditutup']));
 
       // Menulis tanggal baru ke file dates_config.php
       $config_content = "<?php\n";
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
   } elseif (isset($_POST['pelaksanaan'])) {
     if (isset($_POST['pelaksanaan'])) {
-      $pelaksanaan = $_POST['pelaksanaan'];
+      $pelaksanaan = date('Y-m-d H:i:s', strtotime($_POST['pelaksanaan']));
 
       // Menulis tanggal pelaksanaan baru ke file dates_config.php
       $config_content = "<?php\n";
@@ -67,6 +67,7 @@ setlocale(LC_TIME, 'id_ID.UTF-8'); // Mengatur locale ke bahasa Indonesia
 
 require_once 'header.php';
 ?>
+
 
 <style>
   .date-range {

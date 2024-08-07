@@ -1,6 +1,9 @@
 <?php
 date_default_timezone_set('Asia/Jakarta');
 require 'panitia/config/config.php';
+
+// Cek apakah pendaftaran sudah ditutup
+$current_time = date('Y-m-d H:i:s');
 ?>
 
 <!doctype html>
@@ -73,7 +76,7 @@ require 'panitia/config/config.php';
       <div class="col-md-8">
 
         <!-- Pengkondisian waktu pendaftaran -->
-        <?php if (date('Y-m-d H:i:s') >= $dibuka && date('Y-m-d H:i:s') <= $ditutup) { ?>
+        <?php if ($current_time >= $dibuka && $current_time <= $ditutup) { ?>
 
           <!-- Awal Pendaftaran dibuka -->
 
