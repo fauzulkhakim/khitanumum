@@ -7,6 +7,7 @@ if (!check_login()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Ambil data dari form
     $id = $_POST['id'];
     $nama_depan = $_POST['nama_depan'];
     $nama_belakang = $_POST['nama_belakang'];
@@ -41,7 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dokumen_domisili = isset($_FILES['dokumen_domisili']) && $_FILES['dokumen_domisili']['error'] == 0 ? uploadImage($_FILES['dokumen_domisili'], $nik, 'domisili') : $pendaftaran['dokumen_domisili'];
     // Dokumen Pendukung
     $dokumen_pendukung = isset($_FILES['dokumen_pendukung']) && $_FILES['dokumen_pendukung']['error'] == 0 ? uploadImage($_FILES['dokumen_pendukung'], $nik, 'pendukung') : $pendaftaran['dokumen_pendukung'];
-
 
     $sql = "UPDATE pendaftar SET
         nama_depan = '$nama_depan',
@@ -82,24 +82,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 } else {
     $id = $_GET['id'];
-    $sql = "SELECT 
-                p.*, 
-                pr.name_provinces, 
-                r.name_regencies, 
-                d.name_districts, 
-                v.name_villages, 
-                sp.nama_status_pendaftaran, 
-                ub.nama_ukuran_baju
-            FROM 
-                pendaftar p
-                JOIN provinces pr ON p.domisili_provinces_id = pr.id_provinces
-                JOIN regencies r ON p.domisili_regencies_id = r.id_regencies
-                JOIN districts d ON p.domisili_districts_id = d.id_districts
-                JOIN villages v ON p.domisili_villages_id = v.id_villages
-                JOIN status_pendaftaran sp ON p.status_pendaftaran_id = sp.id_status_pendaftaran
-                JOIN ukuran_baju ub ON p.ukuran_baju_id = ub.id_ukuran_baju
-            WHERE 
-                p.id = $id";
+    $sql = "SELECT
+        p.*,
+        tl.name_regencies,
+        pr.name_provinces,
+        r.name_regencies,
+        d.name_districts,
+        v.name_villages,
+        sp.nama_status_pendaftaran,
+        ub.nama_ukuran_baju
+        FROM
+        pendaftar p
+        JOIN regencies tl ON p.domisili_regencies_id = tl.id_regencies
+        JOIN provinces pr ON p.domisili_provinces_id = pr.id_provinces
+        JOIN regencies r ON p.domisili_regencies_id = r.id_regencies
+        JOIN districts d ON p.domisili_districts_id = d.id_districts
+        JOIN villages v ON p.domisili_villages_id = v.id_villages
+        JOIN status_pendaftaran sp ON p.status_pendaftaran_id = sp.id_status_pendaftaran
+        JOIN ukuran_baju ub ON p.ukuran_baju_id = ub.id_ukuran_baju
+        WHERE p.id = $id";
     $result = $conn->query($sql);
     $pendaftaran = $result->fetch_assoc();
 }
@@ -108,16 +109,13 @@ function uploadImage($file, $nik, $dir)
 {
     $file_name = $file['name'];
     $file_extension = pathinfo($file_name, PATHINFO_EXTENSION);
-
     $new_file_name = rand(000, 999) . '_' . $nik . '.' . $file_extension;
     $file_tmp = $file['tmp_name'];
-
     $targetDir = '../dokumen/' . $dir . '/';
     if (!is_dir($targetDir)) {
         mkdir($targetDir, 0777, true);
     }
     $targetFile = $targetDir . $new_file_name;
-
     if (move_uploaded_file($file_tmp, $targetFile)) {
         return $new_file_name;
     } else {
@@ -146,7 +144,6 @@ require_once 'header.php';
         background: #3C5B6F;
     }
 
-    /* buat h3 - h5 menjadi warna white */
     h3 {
         color: white;
         font-weight: bolder;
@@ -154,12 +151,6 @@ require_once 'header.php';
 
     h6 {
         color: #F8F4E1;
-    }
-
-    /* Menghilangkan kursor teks untuk input date */
-    input[type="date"] {
-        caret-color: transparent;
-        /* Menyembunyikan kursor */
     }
 </style>
 
@@ -180,28 +171,25 @@ require_once 'header.php';
                         <!-- Awal Card Data -->
                         <div class="row mb">
                             <div class="col">
-
                                 <!-- Button kembali -->
                                 <a href="pendaftar.php" class="back-button my-2"><i class="fa-solid fa-left-long"></i> Kembali</a>
                                 <!-- Akhir Button kembali -->
 
                                 <!-- Awal Card Identitas -->
                                 <div class="card my-2">
-                                    <div class="card-header fw-bold">
-                                        Data Identitas Calon Peserta
-                                    </div>
+                                    <div class="card-header fw-bold">Data Identitas Calon Peserta</div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-4 pb-4">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="nama_depan" name="nama_depan" value="<?= htmlspecialchars($pendaftaran['nama_depan']); ?>" required>
+                                                    <input type="text" class="form-control" id="nama_depan" name="nama_depan" value="<?= htmlspecialchars($pendaftaran['nama_depan']); ?>" oninput="updateNamaLengkap()" required>
                                                     <label for="nama_depan">Nama Depan</label>
                                                     <div class="invalid-feedback"><small>Nama depan harus diisi</small></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 pb-4">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="nama_belakang" name="nama_belakang" value="<?= htmlspecialchars($pendaftaran['nama_belakang']); ?>" required>
+                                                    <input type="text" class="form-control" id="nama_belakang" name="nama_belakang" value="<?= htmlspecialchars($pendaftaran['nama_belakang']); ?>" oninput="updateNamaLengkap()" required>
                                                     <label for="nama_belakang">Nama Belakang</label>
                                                     <div class="invalid-feedback"><small>Nama belakang harus diisi</small></div>
                                                 </div>
@@ -407,9 +395,7 @@ require_once 'header.php';
 
                                 <!-- Awal Card Sekolah -->
                                 <div class="card my-2">
-                                    <div class="card-header fw-bold">
-                                        Data Sekolah
-                                    </div>
+                                    <div class="card-header fw-bold">Data Sekolah</div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-4 pb-4">
@@ -448,9 +434,7 @@ require_once 'header.php';
 
                                 <!-- Awal Card Pendaftar -->
                                 <div class="card my-2">
-                                    <div class="card-header fw-bold">
-                                        Data Pendaftar
-                                    </div>
+                                    <div class="card-header fw-bold">Data Pendaftar</div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-8 pb-4">
@@ -483,7 +467,7 @@ require_once 'header.php';
                                             </div>
                                             <div class="col-md-4 pb-4">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="relasi" name="relasi" value="<?= htmlspecialchars($pendaftaran['relasi']); ?>" required>
+                                                    <input type="text" class="form-control" id="relasi" name="relasi" value="<?= htmlspecialchars($pendaftaran['relasi']); ?>">
                                                     <label for="relasi">Relasi</label>
                                                     <div class="invalid-feedback"><small>Relasi harus diisi</small></div>
                                                 </div>
@@ -578,7 +562,6 @@ require_once 'header.php';
                                 </div>
                                 <!-- Akhir Card Dokumen -->
 
-
                                 <!-- Submit -->
                                 <div class="row">
                                     <div class="col-md-10 py-2">
@@ -588,11 +571,9 @@ require_once 'header.php';
                                     </div>
                                 </div>
                                 <!-- Akhir Submit -->
-
                             </div>
                         </div>
                         <!-- Akhir Card Data -->
-
                     </div>
                 </div>
             </form>
@@ -603,32 +584,17 @@ require_once 'header.php';
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 <script>
-    //---------------------------------------------------------------------------------------------------------------------------------
     // Menyiapkan data ketika halaman dibuka
     document.addEventListener('DOMContentLoaded', () => {
         // Data kabupaten untuk tempat lahir
         fetchTempatLahir();
-        // Tampilkan tanggal sesuai
-        tanggalLahir();
-        // Data provinsi untuk alamat
-        fetchProvinces();
     });
 
-    //---------------------------------------------------------------------------------------------------------------------------------
-    // Menghubungkan nama depan dan nama belakang
-    function updateNamaLengkap() {
-        var nama_depan = document.getElementById('nama_depan').value;
-        var nama_belakang = document.getElementById('nama_belakang').value;
-        document.getElementById('nama_lengkap').value = nama_depan + ' ' + nama_belakang;
-    }
-
-    // ---------------------------------------------------------------------------------------------------------------------------------
     // Tempat Lahir => Kabupaten fetch API
     function fetchTempatLahir() {
         fetch('../config/tempat_lahir.php')
             .then(response => response.json())
             .then(data => {
-
                 const kabupatenSelect = document.getElementById('tempat_lahir');
                 kabupatenSelect.innerHTML = '<option value="" disabled selected>Pilih</option>'; // Reset options
 
@@ -636,9 +602,42 @@ require_once 'header.php';
                     const option = document.createElement('option');
                     option.value = kabupaten.id_regencies;
                     option.textContent = kabupaten.name_regencies;
+                    if (kabupaten.id_regencies == "<?= $pendaftaran['tempat_lahir_regencies_id']; ?>") {
+                        option.selected = true;
+                    }
                     kabupatenSelect.appendChild(option);
                 });
             })
+    }
+
+    // Validasi form
+    (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+</script>
+
+<script>
+    //---------------------------------------------------------------------------------------------------------------------------------
+    // Menghubungkan nama depan dan nama belakang
+    function updateNamaLengkap() {
+        var nama_depan = document.getElementById('nama_depan').value;
+        var nama_belakang = document.getElementById('nama_belakang').value;
+        document.getElementById('nama_lengkap').value = nama_depan + ' ' + nama_belakang;
     }
 
 

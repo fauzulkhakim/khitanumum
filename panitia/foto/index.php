@@ -1,3 +1,18 @@
+<?php
+require '../config/config.php';
+
+if (!check_login()) {
+    header("Location: ../index.php");
+    exit();
+}
+
+// Cek role
+if ($_SESSION['user']['role'] !== 'master' && $_SESSION['user']['role'] !== 'foto') {
+    header("Location: ../index.php"); // atau halaman lain yang sesuai
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

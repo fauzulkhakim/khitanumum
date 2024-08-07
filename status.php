@@ -258,7 +258,7 @@ if (!$pendaftar) {
         });
 
         document.getElementById('show-qrcode').addEventListener('click', function() {
-            const idPendaftar = "<?php echo $pendaftar['id']; ?>"; // Ambil ID Pendaftar
+            const idPendaftar = "<?php echo 46 . sprintf('%04d', $pendaftar['id']); ?>"; // Ambil ID Pendaftar
 
             // Generate QR Code
             var qr = new QRious({
