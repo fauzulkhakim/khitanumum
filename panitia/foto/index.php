@@ -86,6 +86,15 @@ if ($_SESSION['user']['role'] !== 'master' && $_SESSION['user']['role'] !== 'fot
             width: 100%;
             height: auto;
         }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-weight: 500;
+            color: #3C5B6F;
+        }
     </style>
 </head>
 
@@ -95,13 +104,27 @@ if ($_SESSION['user']['role'] !== 'master' && $_SESSION['user']['role'] !== 'fot
             <h2 class="card-title">Ambil Foto Peserta</h2>
         </div>
         <div class="card-body">
-            <div id="camera">
-                <video id="video" width="300" height="300" autoplay></video>
-                <button id="capture" class="btn btn-primary mt-3">Ambil Foto</button>
-            </div>
-            <div id="output">
-                <canvas id="photoCanvas"></canvas>
-            </div>
+            <form id="participantForm">
+                <div class="form-group">
+                    <label for="name">Nama</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="id_number">Nomor ID</label>
+                    <input type="text" id="id_number" name="id_number" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="barcode">Barcode</label>
+                    <input type="text" id="barcode" name="barcode" class="form-control" required>
+                </div>
+                <div id="camera">
+                    <video id="video" width="300" height="300" autoplay></video>
+                    <button type="button" id="capture" class="btn btn-primary mt-3">Ambil Foto</button>
+                </div>
+                <div id="output">
+                    <canvas id="photoCanvas"></canvas>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -122,23 +145,23 @@ if ($_SESSION['user']['role'] !== 'master' && $_SESSION['user']['role'] !== 'fot
                 console.error('Gagal mengakses kamera: ', err);
             });
 
-        // Fungsi untuk menangkap gambar dan menggabungkannya dengan twibbon
+        // Fungsi untuk menangkap gambar dan menggabungkannya dengan template
         captureButton.addEventListener('click', () => {
             const twibbon = new Image();
-            twibbon.src = '../assets/avatar.jfif'; // Path ke twibbon
+            twibbon.src = '../assets/avatar.jfif'; // Path ke template
 
             twibbon.onload = () => {
-                // Mengatur ukuran kanvas sesuai dengan ukuran twibbon
+                // Mengatur ukuran kanvas sesuai dengan ukuran template
                 canvas.width = twibbon.width;
                 canvas.height = twibbon.height;
 
-                // Menggambar twibbon terlebih dahulu
+                // Menggambar template terlebih dahulu
                 context.drawImage(twibbon, 0, 0, canvas.width, canvas.height);
 
-                // Gambar dari video (kamera), disesuaikan dengan posisi lingkaran pada twibbon
+                // Gambar dari video (kamera), disesuaikan dengan posisi lingkaran pada template
                 const centerX = canvas.width / 2;
                 const centerY = canvas.height / 2 - 17;
-                const radius = 45; // Adjust this according to the actual radius of the white circle in the twibbon
+                const radius = 45; // Sesuaikan dengan radius lingkaran putih pada template
 
                 context.beginPath();
                 context.arc(centerX, centerY, radius, 0, 2 * Math.PI);
@@ -149,13 +172,40 @@ if ($_SESSION['user']['role'] !== 'master' && $_SESSION['user']['role'] !== 'fot
                 const videoWidth = video.videoWidth;
                 const videoHeight = video.videoHeight;
 
-                // Calculate scale to fit the video within the circle
+                // Kalkulasi skala untuk menyesuaikan video di dalam lingkaran
                 const scale = Math.max((radius * 2) / videoWidth, (radius * 2) / videoHeight);
                 const scaledWidth = videoWidth * scale;
                 const scaledHeight = videoHeight * scale;
 
-                // Draw the video image centered inside the circle
+                // Menggambar gambar video di lingkaran
                 context.drawImage(video, centerX - scaledWidth / 2, centerY - scaledHeight / 2, scaledWidth, scaledHeight);
+
+                // Menambahkan teks untuk Nama, Nomor ID, dan Barcode
+                const name = document.getElementById('name').value;
+                const idNumber = document.getElementById('id_number').value;
+                const barcode = document.getElementById('barcode').value;
+
+                context.font = 'bold 16px Poppins';
+                context.fillStyle = '#000';
+                context.textAlign = 'center';
+
+                // Menyesuaikan posisi teks
+                context.fillText(name, canvas.width / 2, canvas.height - 120); // Atur posisi Y sesuai dengan kebutuhan
+                context.fillText(idNumber, canvas.width / 2, canvas.height - 100); // Atur posisi Y sesuai dengan kebutuhan
+                context.fillText(barcode, canvas.width / 2, canvas.height - 80); // Atur posisi Y sesuai dengan kebutuhan
+
+                // Mengunduh gambar
+                const dataURL = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.href = dataURL;
+                link.download = 'twibbon.png';
+                link.click();
+
+                // Test
+                console.log("Name: ", name);
+                console.log("ID Number: ", idNumber);
+                console.log("Barcode: ", barcode);
+
             };
         });
     </script>
