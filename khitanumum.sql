@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 03 Agu 2024 pada 10.20
+-- Waktu pembuatan: 13 Agu 2024 pada 12.14
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -7295,9 +7295,10 @@ INSERT INTO `kelas` (`id_kelas`, `nama_kelas`) VALUES
 CREATE TABLE `pendaftar` (
   `id` int(11) NOT NULL,
   `is_admin` int(1) NOT NULL,
-  `nama_depan` varchar(255) NOT NULL,
-  `nama_belakang` varchar(255) NOT NULL,
+  `nama_lengkap` varchar(255) NOT NULL,
   `nik` varchar(16) NOT NULL,
+  `no_kk` varchar(16) NOT NULL,
+  `no_peserta` int(8) NOT NULL,
   `otp` int(6) NOT NULL,
   `status_pendaftaran_id` int(1) NOT NULL,
   `mustahiq` int(1) NOT NULL,
@@ -7324,7 +7325,7 @@ CREATE TABLE `pendaftar` (
   `dokumen_sekolah` varchar(128) DEFAULT NULL,
   `dokumen_domisili` varchar(128) DEFAULT NULL,
   `dokumen_pendukung` varchar(128) DEFAULT NULL,
-  `name_created` varchar(128) DEFAULT NULL,
+  `name_created` varchar(255) DEFAULT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
   `name_updated` varchar(128) DEFAULT NULL,
   `date_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -7334,9 +7335,8 @@ CREATE TABLE `pendaftar` (
 -- Dumping data untuk tabel `pendaftar`
 --
 
-INSERT INTO `pendaftar` (`id`, `is_admin`, `nama_depan`, `nama_belakang`, `nik`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `name_created`, `date_created`, `name_updated`, `date_updated`) VALUES
-(1, 0, 'Fauzul', 'Khakim', '3319021904970001', 0, 4, 0, NULL, 'Achmad', '08988335639', 3319, '2016-10-01', 'Jl Pasar Baru Gg Mangga III No 273', 33, 3319, 3319020, 3319020007, 5, 4, 1, '98', '158', 1, 'MA Qudsiyyah', 3, 'Kerjasan Kota Kudus', '469_3319021904970001.jpeg', '571_3319021904970001.jpeg', '', '', 'Umum', '2024-07-24 12:33:19', NULL, '2024-08-03 03:35:35'),
-(2, 0, 'Albert', 'Einstein', '3319030382103820', 440997, 2, 0, NULL, 'Ahmadi', '08988335639', 1107, '2009-12-09', 'ALUE BAGOK, RT01/RW03', 11, 1107, 1107062, 1107062026, 1, 1, 1, '50', '165', 3, 'test', 11, 'test', '837_3319030382103820.png', '933_3319030382103820.png', '', '', 'Umum', '2024-08-03 07:13:23', NULL, '2024-08-03 08:19:53');
+INSERT INTO `pendaftar` (`id`, `is_admin`, `nama_lengkap`, `nik`, `no_kk`, `no_peserta`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `name_created`, `date_created`, `name_updated`, `date_updated`) VALUES
+(460140, 1, 'test', '3319030382103821', '3319030382103821', 0, 585126, 1, 0, '', 'test', '08988335639', 1107, '2023-10-06', 'test', 11, 1107, 1107062, 1107062026, 1, 3, 1, '50', '165', 3, 'test', 11, 'test', '', '', '', '', 'Alham Manazil', '2024-08-13 09:57:48', NULL, '2024-08-13 10:07:21');
 
 --
 -- Trigger `pendaftar`
@@ -88754,7 +88754,7 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT untuk tabel `pendaftar`
 --
 ALTER TABLE `pendaftar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=123;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=460144;
 
 --
 -- AUTO_INCREMENT untuk tabel `rt_rw`
