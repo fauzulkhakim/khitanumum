@@ -424,13 +424,19 @@ $current_time = date('Y-m-d H:i:s');
       </div>
       <!-- Akhir Pendaftaran dibuka -->
 
+    <?php } else if ($current_time > $ditutup) { ?>
       <!-- Awal Pendaftaran ditutup -->
-    <?php } else { ?>
       <div class="rounded bg-danger text-white d-flex align-items-center justify-content-center" style="max-width: 300px; margin: 0 auto; height: 45px;">
         <h5 class="fw-bold mb-0">Pendaftaran ditutup</h5>
       </div>
+      <!-- Akhir Pendaftaran ditutup -->
+    <?php } else { ?>
+      <!-- Awal Pendaftaran belum dibuka -->
+      <div class="rounded bg-danger text-white d-flex align-items-center justify-content-center" style="max-width: 300px; margin: 0 auto; height: 45px;">
+        <h5 class="fw-bold mb-0">Pendaftaran belum dibuka</h5>
+      </div>
+      <!-- Akhir Pendaftaran belum dibuka -->
     <?php } ?>
-    <!-- Akhir Pendaftaran ditutup -->
     </div>
     <!-- Akhir Konten -->
 
