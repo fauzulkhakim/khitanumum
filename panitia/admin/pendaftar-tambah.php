@@ -120,8 +120,9 @@ require_once 'header.php';
 <body>
   <!-- Awal Kontainer -->
   <div class="container-fluid">
+    
     <!-- Awal Logo dan kop -->
-    <div class="row mt-3">
+    <div class="row mt-5">
       <div class="col-ml-4"></div>
       <div class="col-ml-1 text-center">
         <img src="../assets/icon_khitan_umum.png" height="100">
@@ -165,8 +166,8 @@ require_once 'header.php';
                         <div class="row">
                           <div class="col-md-12 pb-4">
                             <div class="form-floating">
-                              <input type="text" class="form-control" id="logged_in_user" name="logged_in_user" value="<?php echo htmlspecialchars($logged_in_user); ?>" readonly>
-                              <label for="logged_in_user">Nama Admin</label>
+                              <input type="text" class="form-control" id="name_created" name="name_created" value="<?php echo htmlspecialchars($logged_in_user); ?>" readonly>
+                              <label for="name_created">Nama Admin</label>
                             </div>
                           </div>
                         </div>
@@ -188,7 +189,15 @@ require_once 'header.php';
                           </div>
                         </div>
                         <div class="row">
-                          <div class="col-md-6 pb-4">
+                        <div class="col-md-4 pb-4">
+                            <div class="form-floating">
+                              <input type="text" class="form-control" id="no_kk" name="no_kk" pattern="[0-9]{16}" required>
+                              <label for="no_kk">Nomor KK</label>
+                              <div id="no_kk" class="form-text">Dapat dilihat pada KIA/KK</div>
+                              <div class="invalid-feedback"><small>Nomor KK harus diisi dengan 16 digit</small></div>
+                            </div>
+                          </div>
+                          <div class="col-md-4 pb-4">
                             <div class="form-floating">
                               <select class="form-select" id="tempat_lahir" name="tempat_lahir" required>
                               </select>
@@ -196,7 +205,7 @@ require_once 'header.php';
                               <div class="invalid-feedback"><small>Tempat lahir harus diisi</small></div>
                             </div>
                           </div>
-                          <div class="col-md-6 pb-4">
+                          <div class="col-md-4 pb-4">
                             <div class="form-floating">
                               <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
                               <label for="tanggal_lahir">Tanggal Lahir</label>

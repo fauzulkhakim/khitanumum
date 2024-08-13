@@ -4,6 +4,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // Escape data input dari form
   $nama_lengkap = mysqli_escape_string($conn, $_POST['nama_lengkap']);
   $nik = mysqli_real_escape_string($conn, $_POST['nik']);
+  $no_kk = mysqli_real_escape_string($conn, $_POST['no_kk']);
   $tempat_lahir = mysqli_real_escape_string($conn, $_POST['tempat_lahir']);
   $tanggal_lahir = mysqli_real_escape_string($conn, $_POST['tanggal_lahir']);
   $provinsi = mysqli_real_escape_string($conn, $_POST['provinsi']);
@@ -52,9 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Simpan data pendaftar bersama OTP
   $sql = "INSERT INTO `pendaftar` (
-        `id`, `is_admin`, `nama_lengkap`, `nik`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `name_created`, `date_created`, `name_updated`, `date_updated`
+        `id`, `is_admin`, `nama_lengkap`, `nik`, `no_kk`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `name_created`, `date_created`, `name_updated`, `date_updated`
     ) VALUES (
-        NULL, '0', '$nama_lengkap', '$nik', '$otp', '1', '0', NULL, '$orang_tua_wali', '$no_hp', '$tempat_lahir', '$tanggal_lahir', '$alamat_lengkap', '$provinsi', '$kabupaten_kota', '$kecamatan', '$desa_kelurahan', '$rt', '$rw', '$domisili', '$berat_badan', '$tinggi_badan', '$ukuran_baju', '$nama_sekolah', '$kelas', '$alamat_sekolah', '$dokumen_kia_kk', '$dokumen_sekolah', '$dokumen_domisili', '$dokumen_pendukung','Umum', NOW(), NULL, NULL
+        NULL, '0', '$nama_lengkap', '$nik', '$no_kk', '$otp', '1', '0', NULL, '$orang_tua_wali', '$no_hp', '$tempat_lahir', '$tanggal_lahir', '$alamat_lengkap', '$provinsi', '$kabupaten_kota', '$kecamatan', '$desa_kelurahan', '$rt', '$rw', '$domisili', '$berat_badan', '$tinggi_badan', '$ukuran_baju', '$nama_sekolah', '$kelas', '$alamat_sekolah', '$dokumen_kia_kk', '$dokumen_sekolah', '$dokumen_domisili', '$dokumen_pendukung','Umum', NOW(), NULL, NULL
     )";
 
   if (mysqli_query($conn, $sql)) {

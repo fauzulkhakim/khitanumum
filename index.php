@@ -7,7 +7,7 @@ $current_time = date('Y-m-d H:i:s');
 ?>
 
 <!doctype html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="utf-8">
@@ -15,6 +15,7 @@ $current_time = date('Y-m-d H:i:s');
   <title>Khitan Umum YM3SK</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="icon" href="panitia/assets/icon_khitan_umum.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
@@ -34,7 +35,6 @@ $current_time = date('Y-m-d H:i:s');
       background: #3C5B6F;
     }
 
-    /* buat h3 - h5 menjadi warna white */
     h3 {
       color: white;
       font-weight: bolder;
@@ -44,18 +44,58 @@ $current_time = date('Y-m-d H:i:s');
       color: #F8F4E1;
     }
 
-    /* Menghilangkan kursor teks untuk input date */
-    input[type="date"] {
-      caret-color: transparent;
-      /* Menyembunyikan kursor */
+    /* Sembunyikan form saat halaman pertama kali dimuat */
+    #form-pendaftaran {
+      display: none;
+      margin-top: 30px;
+    }
+
+    /* Pastikan select2 memiliki tampilan yang konsisten dengan elemen Bootstrap lainnya */
+    .select2-container--default .select2-selection--single {
+      height: calc(3.5rem + 2px);
+      /* Samakan dengan tinggi form-control */
+      padding: 0.75rem 1rem;
+      /* Samakan padding dengan form-control */
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      box-shadow: inset 0 0.075rem 0.1rem rgba(0, 0, 0, 0.075);
+    }
+
+    /* Untuk mengatur padding dalam elemen select2 agar teks berada di tengah */
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+      padding-left: 0.75rem;
+      /* Padding kiri */
+      padding-right: 0.75rem;
+      /* Padding kanan */
+      padding-top: calc((3.5rem - 1.5rem) / 2);
+      /* Padding atas, sesuaikan sesuai tinggi elemen */
+      padding-bottom: calc((3.5rem - 1.5rem) / 2);
+      /* Padding bawah, sesuaikan sesuai tinggi elemen */
+      line-height: 1.5rem;
+      /* Sesuaikan line-height agar seimbang */
+      color: #495057;
+      /* Warna teks */
+    }
+
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+      height: calc(3.5rem + 2px);
+      /* Samakan dengan tinggi select2 */
+      top: 50%;
+      transform: translateY(-50%);
+      right: 10px;
     }
   </style>
-
 </head>
 
 <body>
-  <!-- Awal Kontainer -->
   <div class="container-fluid">
+
     <!-- Awal Logo dan kop -->
     <div class="row mt-5">
       <div class="col-ml-4"></div>
@@ -71,15 +111,26 @@ $current_time = date('Y-m-d H:i:s');
     </div>
     <!-- Akhir Logo dan kop -->
 
-    <!-- Awal Konten -->
-    <div class="row pt-2 justify-content-center">
-      <div class="col-md-8">
+    <!-- Formulir Pendaftaran -->
+    <?php if ($current_time >= $dibuka && $current_time <= $ditutup) { ?>
+      <!-- Awal Petunjuk Pengisian -->
+      <div class="row pt-2 justify-content-center">
+        <div class="col-md-8">
+          <div class="card mb-2">
+            <div class="card-body">
+              <h4 class="card-title">Petunjuk Pengisian Formulir</h4>
+              <ul>
+                <li>Isi data dengan lengkap & benar sesuai dengan dokumen resmi.</li>
+                <li>Pastikan telah memeriksa ulang semua informasi sebelum mengirimkan formulir.</li>
+                <li><b>Panitia tidak bertanggungjawab atas kesalahan pengisian data.</b></li>
+                <li>Setelah mendaftar, Anda akan menerima informasi melalui nomor WhatsApp yang digunakan saat pendaftaran.</li>
+              </ul>
+              <button id="btn-daftar" class="btn btn-success mt-3">Daftar Sekarang</button>
+            </div>
+          </div>
+          <!-- Akhir Petunjuk Pengisian -->
 
-        <!-- Pengkondisian waktu pendaftaran -->
-        <?php if ($current_time >= $dibuka && $current_time <= $ditutup) { ?>
-
-          <!-- Awal Pendaftaran dibuka -->
-
+          <!-- Awal Formulir Pendaftaran -->
           <form action="panitia/config/pendaftaran-tambah.php" method="POST" enctype="multipart/form-data" id="form-pendaftaran" class="needs-validation" novalidate>
 
             <!-- Awal Card Konten -->
@@ -97,34 +148,29 @@ $current_time = date('Y-m-d H:i:s');
                       </div>
                       <div class="card-body">
                         <div class="row">
-                          <div class="col-md-4 pb-4">
+                          <div class="col-md-6 pb-4">
                             <div class="form-floating">
-                              <input type="text" class="form-control" id="nama_depan" name="nama_depan" oninput="updateNamaLengkap()" required>
-                              <label for="nama_depan">Nama Depan</label>
-                              <div class="invalid-feedback"><small>Nama depan harus diisi</small></div>
+                              <input type="text" class="form-control" id="nik" name="nik" pattern="[0-9]{16}" required>
+                              <label for="nik">NIK</label>
+                              <div id="nik" class="form-text">Dapat dilihat pada KIA/KK</div>
+                              <div class="invalid-feedback"><small>NIK harus diisi dengan 16 digit</small></div>
                             </div>
                           </div>
-                          <div class="col-md-4 pb-4">
+                          <div class="col-md-6 pb-4">
                             <div class="form-floating">
-                              <input type="text" class="form-control" id="nama_belakang" name="nama_belakang" oninput="updateNamaLengkap()" required>
-                              <label for="nama_belakang">Nama Belakang</label>
-                              <div class="invalid-feedback"><small>Nama belakang harus diisi</small></div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <input class="form-control" type="text" name="nama_lengkap" id="nama_lengkap" value="" disabled readonly>
+                              <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" required>
                               <label for="nama_lengkap">Nama Lengkap</label>
+                              <div class="invalid-feedback"><small>Nama Lengkap harus diisi</small></div>
                             </div>
                           </div>
                         </div>
                         <div class="row">
                           <div class="col-md-4 pb-4">
                             <div class="form-floating">
-                              <input type="text" class="form-control" id="nik" name="nik" pattern="[0-9]{16}" required>
-                              <label for="nik">NIK</label>
-                              <div id="nik" class="form-text">Dapat dilihat pada KIA/KK</div>
-                              <div class="invalid-feedback"><small>NIK harus diisi dengan 16 digit</small></div>
+                              <input type="text" class="form-control" id="no_kk" name="no_kk" pattern="[0-9]{16}" required>
+                              <label for="no_kk">Nomor KK</label>
+                              <div id="no_kk" class="form-text">Dapat dilihat pada KIA/KK</div>
+                              <div class="invalid-feedback"><small>Nomor KK harus diisi dengan 16 digit</small></div>
                             </div>
                           </div>
                           <div class="col-md-4 pb-4">
@@ -363,7 +409,7 @@ $current_time = date('Y-m-d H:i:s');
                         <!-- Sekolah -->
                         <div class="row">
                           <div class="col-md-4 pb-4">
-                            <input class="form-control" type="file" id="dokumen_sekolah" name="dokumen_sekolah" required>
+                            <input class="form-control" type="file" id="dokumen_sekolah" name="dokumen_sekolah">
                             <div id="dokumen_sekolah" class="form-text">Dokumen Sekolah</div>
                             <div class="invalid-feedback"><small>Dokumen sekolah harus diisi sesuai ketentuan</small></div>
                           </div>
@@ -421,50 +467,64 @@ $current_time = date('Y-m-d H:i:s');
             <!-- Akhir Card Konten -->
 
           </form>
-      </div>
-      <!-- Akhir Pendaftaran dibuka -->
-
-    <?php } else if ($current_time > $ditutup) { ?>
-      <!-- Awal Pendaftaran ditutup -->
-      <div class="rounded bg-danger text-white d-flex align-items-center justify-content-center" style="max-width: 300px; margin: 0 auto; height: 45px;">
-        <h5 class="fw-bold mb-0">Pendaftaran ditutup</h5>
-      </div>
-      <!-- Akhir Pendaftaran ditutup -->
-    <?php } else { ?>
-      <!-- Awal Pendaftaran belum dibuka -->
-      <div class="rounded bg-danger text-white d-flex align-items-center justify-content-center" style="max-width: 300px; margin: 0 auto; height: 45px;">
-        <h5 class="fw-bold mb-0">Pendaftaran belum dibuka</h5>
-      </div>
-      <!-- Akhir Pendaftaran belum dibuka -->
-    <?php } ?>
-    </div>
-    <!-- Akhir Konten -->
-
-  </div>
-  <!-- Akhir Kontainer -->
-
-  <!-- Modal -->
-  <div class="modal fade" id="btnSubmit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+        <?php } else { ?>
+          <div class="rounded bg-danger text-white d-flex align-items-center justify-content-center" style="max-width: 300px; margin: 0 auto; height: 45px;">
+            <h5 class="fw-bold mb-0">Pendaftaran ditutup</h5>
+          </div>
+        <?php } ?>
         </div>
       </div>
-    </div>
+      <!-- Akhir Petunjuk Pengisian -->
   </div>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script>
+    document.getElementById('btn-daftar').addEventListener('click', function() {
+      // Tampilkan form pendaftaran
+      document.getElementById('form-pendaftaran').style.display = 'block';
+
+      // Hilangkan tombol daftar
+      document.getElementById('btn-daftar').style.display = 'none';
+
+      // Scroll ke form pendaftaran
+      document.getElementById('form-pendaftaran').scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+
+    // Implementasi select2js
+    $(document).ready(function() {
+      // Inisialisasi Select2 pada dropdown tempat lahir, provinsi, kabupaten, kecamatan, desa
+      $('#tempat_lahir').select2({
+        minimumResultsForSearch: 10, // Tampilkan search box hanya jika options lebih dari 10
+        width: '100%' // Pastikan lebar 100% untuk menyesuaikan dengan form-control
+      });
+
+      $('#provinsi').select2({
+        minimumResultsForSearch: 10,
+        width: '100%'
+      });
+
+      $('#kabupaten_kota').select2({
+        minimumResultsForSearch: 10,
+        width: '100%'
+      });
+
+      $('#kecamatan').select2({
+        minimumResultsForSearch: 10,
+        width: '100%'
+      });
+
+      $('#desa_kelurahan').select2({
+        minimumResultsForSearch: 10,
+        width: '100%'
+      });
+    });
+  </script>
 
   <script>
     //---------------------------------------------------------------------------------------------------------------------------------
@@ -612,22 +672,36 @@ $current_time = date('Y-m-d H:i:s');
     }
 
     // --------------------------------------------------------------------------------------------------------------------------------
-    // Radio button domisili
+    // Tombol radio domisili
     document.addEventListener('DOMContentLoaded', () => {
       const radioButtons = document.querySelectorAll('input[name="domisili"]');
-      const dependentInput = document.getElementById('dokumen_domisili');
-      const iconRequired = document.getElementById('dokumen_domisili_required');
+      const dokumenDomisili = document.getElementById('dokumen_domisili');
+      const previewDomisili = document.getElementById('preview_domisili');
+      const formTextDomisili = document.querySelector('#dokumen_domisili').nextElementSibling;
 
+      // Fungsi untuk memperbarui visibilitas dan atribut required dari bidang dokumen domisili
+      function perbaruiBidangDomisili() {
+        if (document.getElementById('domisili_ya').checked) {
+          // Sembunyikan dan nonaktifkan bidang ketika "Ya" dipilih
+          dokumenDomisili.required = false;
+          dokumenDomisili.style.display = 'none';
+          previewDomisili.style.display = 'none';
+          formTextDomisili.style.display = 'none';
+        } else if (document.getElementById('domisili_tidak').checked) {
+          // Tampilkan dan aktifkan bidang ketika "Tidak" dipilih
+          dokumenDomisili.required = true;
+          dokumenDomisili.style.display = 'block';
+          previewDomisili.style.display = 'block';
+          formTextDomisili.style.display = 'block';
+        }
+      }
+
+      // Inisialisasi visibilitas bidang berdasarkan tombol radio yang dipilih
+      perbaruiBidangDomisili();
+
+      // Tambahkan event listener ke tombol radio untuk memperbarui bidang secara dinamis
       radioButtons.forEach(radio => {
-        radio.addEventListener('change', () => {
-          if (radio.checked && radio.value === 0) {
-            dependentInput.required = true;
-            iconRequired.show(true)
-          } else {
-            dependentInput.required = false;
-            iconRequired.show(false)
-          }
-        });
+        radio.addEventListener('change', perbaruiBidangDomisili);
       });
     });
 
@@ -759,7 +833,6 @@ $current_time = date('Y-m-d H:i:s');
       })
     })()
   </script>
-
 </body>
 
 </html>

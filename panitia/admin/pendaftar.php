@@ -70,7 +70,7 @@ require_once 'header.php';
                 <td class="text-center align-middle"><?= $pendaftaran['id']; ?></td>
                 <td class="align-middle"><?= $pendaftaran['nama_lengkap']; ?></td>
                 <td class="text-center align-middle <?= $highlight_nik; ?>"><?= $pendaftaran['nik']; ?></td>
-                <td class="text-center align-middle <?= $highlight_kk; ?>"><?= $pendaftaran['dokumen_kia_kk']; ?></td>
+                <td class="text-center align-middle <?= $highlight_kk; ?>"><?= $pendaftaran['no_kk']; ?></td>
                 <td class="text-center align-middle <?= $highlight_hp; ?>"><?= $pendaftaran['no_hp']; ?></td>
                 <td class="align-middle"><?= trim(str_ireplace('Kabupaten', '', $pendaftaran['name_regencies'])); ?></td>
                 <td class="align-middle"><?= $pendaftaran['relasi']; ?></td>

@@ -6,8 +6,16 @@ if (!check_login()) {
     exit();
 }
 
+// Pastikan name_updated diambil dari sesi dengan benar
+if (isset($_SESSION['user']['nama_lengkap'])) {
+    $logged_in_user = $_SESSION['user']['nama_lengkap'];
+} else {
+    $logged_in_user = 'Unknown';
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ambil data dari form
+    $name_updated = $logged_in_user;
     $id = $_POST['id'];
     $nama_lengkap = $_POST['nama_lengkap'];
     $nik = $_POST['nik'];
@@ -44,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $sql = "UPDATE pendaftar SET
         nama_lengkap = '$nama_lengkap',
+        name_updated = '$name_updated',
         nik = '$nik',
         tempat_lahir_regencies_id = '$tempat_lahir',
         tanggal_lahir = '$tanggal_lahir',
@@ -227,6 +236,12 @@ require_once 'header.php';
                                                     <label for="nik">NIK</label>
                                                     <div id="nik" class="form-text">Dapat dilihat pada KIA/KK</div>
                                                     <div class="invalid-feedback"><small>NIK harus diisi dengan 16 digit</small></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 pb-4">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" id="name_updated" name="name_updated" value="<?php echo htmlspecialchars($logged_in_user); ?>" readonly>
+                                                    <label for="name_updated">Nama Admin</label>
                                                 </div>
                                             </div>
 
