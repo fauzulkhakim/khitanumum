@@ -9,8 +9,7 @@ if (!check_login()) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ambil data dari form
     $id = $_POST['id'];
-    $nama_depan = $_POST['nama_depan'];
-    $nama_belakang = $_POST['nama_belakang'];
+    $nama_lengkap = $_POST['nama_lengkap'];
     $nik = $_POST['nik'];
     $tempat_lahir = $_POST['tempat_lahir'];
     $tanggal_lahir = $_POST['tanggal_lahir'];
@@ -44,8 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dokumen_pendukung = isset($_FILES['dokumen_pendukung']) && $_FILES['dokumen_pendukung']['error'] == 0 ? uploadImage($_FILES['dokumen_pendukung'], $nik, 'pendukung') : $pendaftaran['dokumen_pendukung'];
 
     $sql = "UPDATE pendaftar SET
-        nama_depan = '$nama_depan',
-        nama_belakang = '$nama_belakang',
+        nama_lengkap = '$nama_lengkap',
         nik = '$nik',
         tempat_lahir_regencies_id = '$tempat_lahir',
         tanggal_lahir = '$tanggal_lahir',
@@ -126,6 +124,8 @@ function uploadImage($file, $nik, $dir)
 require_once 'header.php';
 ?>
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 <style>
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 
@@ -151,6 +151,47 @@ require_once 'header.php';
 
     h6 {
         color: #F8F4E1;
+    }
+
+    /* Pastikan select2 memiliki tampilan yang konsisten dengan elemen Bootstrap lainnya */
+    .select2-container--default .select2-selection--single {
+        height: calc(3.5rem + 2px);
+        /* Samakan dengan tinggi form-control */
+        padding: 0.75rem 1rem;
+        /* Samakan padding dengan form-control */
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        box-shadow: inset 0 0.075rem 0.1rem rgba(0, 0, 0, 0.075);
+    }
+
+    /* Untuk mengatur padding dalam elemen select2 agar teks berada di tengah */
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        padding-left: 0.75rem;
+        /* Padding kiri */
+        padding-right: 0.75rem;
+        /* Padding kanan */
+        padding-top: calc((3.5rem - 1.5rem) / 2);
+        /* Padding atas, sesuaikan sesuai tinggi elemen */
+        padding-bottom: calc((3.5rem - 1.5rem) / 2);
+        /* Padding bawah, sesuaikan sesuai tinggi elemen */
+        line-height: 1.5rem;
+        /* Sesuaikan line-height agar seimbang */
+        color: #495057;
+        /* Warna teks */
+    }
+
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: calc(3.5rem + 2px);
+        /* Samakan dengan tinggi select2 */
+        top: 50%;
+        transform: translateY(-50%);
+        right: 10px;
     }
 </style>
 
@@ -182,32 +223,20 @@ require_once 'header.php';
                                         <div class="row">
                                             <div class="col-md-4 pb-4">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="nama_depan" name="nama_depan" value="<?= htmlspecialchars($pendaftaran['nama_depan']); ?>" oninput="updateNamaLengkap()" required>
-                                                    <label for="nama_depan">Nama Depan</label>
-                                                    <div class="invalid-feedback"><small>Nama depan harus diisi</small></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 pb-4">
-                                                <div class="form-floating">
-                                                    <input type="text" class="form-control" id="nama_belakang" name="nama_belakang" value="<?= htmlspecialchars($pendaftaran['nama_belakang']); ?>" oninput="updateNamaLengkap()" required>
-                                                    <label for="nama_belakang">Nama Belakang</label>
-                                                    <div class="invalid-feedback"><small>Nama belakang harus diisi</small></div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 pb-4">
-                                                <div class="form-floating">
-                                                    <input class="form-control" type="text" name="nama_lengkap" id="nama_lengkap" value="<?= htmlspecialchars($pendaftaran['nama_depan'] . ' ' . $pendaftaran['nama_belakang']); ?>" disabled readonly>
-                                                    <label for="nama_lengkap">Nama Lengkap</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-4 pb-4">
-                                                <div class="form-floating">
                                                     <input type="text" class="form-control" id="nik" name="nik" value="<?= htmlspecialchars($pendaftaran['nik']); ?>" pattern="[0-9]{16}" required>
                                                     <label for="nik">NIK</label>
                                                     <div id="nik" class="form-text">Dapat dilihat pada KIA/KK</div>
                                                     <div class="invalid-feedback"><small>NIK harus diisi dengan 16 digit</small></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 pb-4">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" value="<?= htmlspecialchars($pendaftaran['nama_lengkap']); ?>" required>
+                                                    <label for="nama_lengkap">Nama Lengkap</label>
+                                                    <div class="invalid-feedback"><small>Nama Lengkap harus diisi</small></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4 pb-4">
@@ -582,6 +611,44 @@ require_once 'header.php';
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<!-- implementasi select2js -->
+<script>
+    $(document).ready(function() {
+        // Inisialisasi Select2 pada dropdown tempat lahir, provinsi, kabupaten, kecamatan, desa
+        $('#tempat_lahir').select2({
+            minimumResultsForSearch: 10, // Tampilkan search box hanya jika options lebih dari 10
+            width: '100%' // Pastikan lebar 100% untuk menyesuaikan dengan form-control
+        });
+
+        $('#provinsi').select2({
+            minimumResultsForSearch: 10,
+            width: '100%'
+        });
+
+        $('#kabupaten_kota').select2({
+            minimumResultsForSearch: 10,
+            width: '100%'
+        });
+
+        $('#kecamatan').select2({
+            minimumResultsForSearch: 10,
+            width: '100%'
+        });
+
+        $('#desa_kelurahan').select2({
+            minimumResultsForSearch: 10,
+            width: '100%'
+        });
+        $('#yourDropdownId').select2({
+            minimumResultsForSearch: 10,
+            width: '100%',
+            multiple: true
+        });
+    });
+</script>
 
 <script>
     // Menyiapkan data ketika halaman dibuka

@@ -83,30 +83,18 @@ require_once 'header.php';
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-4 pb-4">
+                                        <div class="col-md-12 pb-4">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="nama_depan" name="nama_depan" value="<?= htmlspecialchars($pendaftaran['nama_depan']); ?>" readonly>
-                                                <label for="nama_depan">Nama Depan</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 pb-4">
-                                            <div class="form-floating">
-                                                <input type="text" class="form-control" id="nama_belakang" name="nama_belakang" value="<?= htmlspecialchars($pendaftaran['nama_belakang']); ?>" readonly>
-                                                <label for="nama_belakang">Nama Belakang</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4 pb-4">
-                                            <div class="form-floating">
-                                                <input class="form-control" type="text" name="nama_lengkap" id="nama_lengkap" value="<?= htmlspecialchars($pendaftaran['nama_depan'] . ' ' . $pendaftaran['nama_belakang']); ?>" disabled readonly>
-                                                <label for="nama_lengkap">Nama Lengkap</label>
+                                                <input type="text" class="form-control" id="nik" name="nik" value="<?= htmlspecialchars($pendaftaran['nik']); ?>" readonly>
+                                                <label for="nik">NIK</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-4 pb-4">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="nik" name="nik" value="<?= htmlspecialchars($pendaftaran['nik']); ?>" readonly>
-                                                <label for="nik">NIK</label>
+                                                <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" value="<?= htmlspecialchars($pendaftaran['nama_lengkap']); ?>" readonly>
+                                                <label for="nama_lengkap">Nama Lengkap</label>
                                             </div>
                                         </div>
                                         <div class="col-md-4 pb-4">

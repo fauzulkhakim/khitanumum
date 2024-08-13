@@ -148,7 +148,7 @@ if (!$pendaftar) {
             <div class="info-section">
                 <span>Nama Peserta:</span>
                 <span style="color: #000000;">
-                    <?php echo htmlspecialchars($pendaftar['nama_depan'] . ' ' . $pendaftar['nama_belakang']); ?>
+                    <?php echo htmlspecialchars($pendaftar['nama_lengkap']); ?>
                 </span>
             </div>
             <div class="info-section">

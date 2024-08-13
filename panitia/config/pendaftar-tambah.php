@@ -1,8 +1,10 @@
 <?php
 require 'config.php';
+session_start(); // Pastikan sesi sudah dimulai
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $nama_depan = mysqli_real_escape_string($conn, $_POST['nama_depan']);
-  $nama_belakang = mysqli_real_escape_string($conn, $_POST['nama_belakang']);
+  // Ambil data dari form
+  $nama_lengkap = mysqli_escape_string($conn, $_POST['nama_lengkap']);
   $nik = mysqli_escape_string($conn, $_POST['nik']);
   $tempat_lahir = mysqli_escape_string($conn, $_POST['tempat_lahir']);
   $tanggal_lahir = mysqli_escape_string($conn, $_POST['tanggal_lahir']);
@@ -24,7 +26,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $no_hp = mysqli_escape_string($conn, $_POST['no_hp']);
   $relasi = mysqli_escape_string($conn, $_POST['relasi']);
   $mustahiq = mysqli_escape_string($conn, $_POST['mustahiq']);
+  $name_created = mysqli_escape_string($conn, $_POST['logged_in_user']);
 
+  // Upload dokumen
   $dokumen_kia_kk = uploadImage($_FILES['dokumen_kia_kk'], $nik, 'kia_kk');
   $dokumen_sekolah = uploadImage($_FILES['dokumen_sekolah'], $nik, 'sekolah');
   $dokumen_domisili = uploadImage($_FILES['dokumen_domisili'], $nik, 'domisili');
@@ -32,17 +36,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $otp = mt_rand(100000, 999999);
 
+  // Query untuk menyimpan data
   $sql = "INSERT INTO `pendaftar` (
-    `id`, `is_admin`, `nama_depan`, `nama_belakang`, `nik`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `name_created`, `date_created`, `name_updated`, `date_updated`
+        `id`, `is_admin`, `nama_lengkap`, `nik`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `name_created`, `date_created`, `name_updated`, `date_updated`
     ) VALUES (
-    NULL, '1', '$nama_depan', '$nama_belakang', '$nik', '$otp', '1', '$mustahiq',  '$relasi', '$orang_tua_wali', '$no_hp', '$tempat_lahir', '$tanggal_lahir', '$alamat_lengkap', '$provinsi', '$kabupaten_kota', '$kecamatan', '$desa_kelurahan', '$rt', '$rw', '$domisili', '$berat_badan', '$tinggi_badan', '$ukuran_baju', '$nama_sekolah', '$kelas', '$alamat_sekolah', '$dokumen_kia_kk', '$dokumen_sekolah', '$dokumen_domisili', '$dokumen_pendukung','1', NOW(), NULL, NULL
+        NULL, '1', '$nama_lengkap', '$nik', '$otp', '1', '$mustahiq', '$relasi', '$orang_tua_wali', '$no_hp', '$tempat_lahir', '$tanggal_lahir', '$alamat_lengkap', '$provinsi', '$kabupaten_kota', '$kecamatan', '$desa_kelurahan', '$rt', '$rw', '$domisili', '$berat_badan', '$tinggi_badan', '$ukuran_baju', '$nama_sekolah', '$kelas', '$alamat_sekolah', '$dokumen_kia_kk', '$dokumen_sekolah', '$dokumen_domisili', '$dokumen_pendukung', '$name_created', NOW(), NULL, NULL
     )";
 
   if (mysqli_query($conn, $sql)) {
     echo "<script>
-    alert('Data berhasil ditambahkan');
-    window.location.href = '../admin/pendaftar.php';
-  </script>";
+            alert('Data berhasil ditambahkan');
+            window.location.href = '../admin/pendaftar.php';
+            </script>";
   } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
   }
