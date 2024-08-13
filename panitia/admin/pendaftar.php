@@ -57,24 +57,24 @@ require_once 'header.php';
             while ($pendaftaran = $result->fetch_assoc()) :
               // Cek duplikasi NIK, No KK, No HP
               $highlight_nik = in_array($pendaftaran['nik'], $nicks) ? 'table-danger' : '';
-              $highlight_kk = in_array($pendaftaran['dokumen_kia_kk'], $nicks) ? 'table-danger' : '';
+              $highlight_kk = in_array($pendaftaran['no_kk'], $nicks) ? 'table-danger' : '';
               $highlight_hp = in_array($pendaftaran['no_hp'], $nicks) ? 'table-danger' : '';
 
               // Simpan NIK, No KK, No HP dalam array untuk perbandingan berikutnya
               $nicks[] = $pendaftaran['nik'];
-              $nicks[] = $pendaftaran['dokumen_kia_kk'];
+              $nicks[] = $pendaftaran['no_kk'];
               $nicks[] = $pendaftaran['no_hp'];
             ?>
               <tr>
                 <td class="text-center align-middle"><?= $no; ?></td>
-                <td class="text-center align-middle"><?= $pendaftaran['id']; ?></td>
+                <td class="text-center align-middle"><?= $pendaftaran['no_peserta']; ?></td>
                 <td class="align-middle"><?= $pendaftaran['nama_lengkap']; ?></td>
                 <td class="text-center align-middle <?= $highlight_nik; ?>"><?= $pendaftaran['nik']; ?></td>
                 <td class="text-center align-middle <?= $highlight_kk; ?>"><?= $pendaftaran['no_kk']; ?></td>
                 <td class="text-center align-middle <?= $highlight_hp; ?>"><?= $pendaftaran['no_hp']; ?></td>
                 <td class="align-middle"><?= trim(str_ireplace('Kabupaten', '', $pendaftaran['name_regencies'])); ?></td>
                 <td class="align-middle"><?= $pendaftaran['relasi']; ?></td>
-                <td class="align-middle"><?= $pendaftaran['name_created']; ?></td>
+                <td class="align-middle"><?= $pendaftaran['updated']; ?></td>
                 <td class="text-center align-middle">
                   <select class="form-select status-dropdown" data-id="<?= $pendaftaran['id']; ?>" style="width: 180px;">
                     <?php

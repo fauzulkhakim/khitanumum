@@ -6,7 +6,7 @@ if (!check_login()) {
     exit();
 }
 
-// Pastikan name_updated diambil dari sesi dengan benar
+// Pastikan name_created diambil dari sesi
 if (isset($_SESSION['user']['nama_lengkap'])) {
     $logged_in_user = $_SESSION['user']['nama_lengkap'];
 } else {
@@ -15,10 +15,11 @@ if (isset($_SESSION['user']['nama_lengkap'])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ambil data dari form
-    $name_updated = $logged_in_user;
+    $updated = $logged_in_user;
     $id = $_POST['id'];
     $nama_lengkap = $_POST['nama_lengkap'];
     $nik = $_POST['nik'];
+    $no_kk = $_POST['no_kk'];
     $tempat_lahir = $_POST['tempat_lahir'];
     $tanggal_lahir = $_POST['tanggal_lahir'];
     $provinsi = $_POST['provinsi'];
@@ -52,8 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $sql = "UPDATE pendaftar SET
         nama_lengkap = '$nama_lengkap',
-        name_updated = '$name_updated',
+        updated = '$updated',
         nik = '$nik',
+        no_kk = '$no_kk',
         tempat_lahir_regencies_id = '$tempat_lahir',
         tanggal_lahir = '$tanggal_lahir',
         domisili_provinces_id = '$provinsi',
@@ -240,12 +242,18 @@ require_once 'header.php';
                                             </div>
                                             <div class="col-md-4 pb-4">
                                                 <div class="form-floating">
-                                                    <input type="text" class="form-control" id="name_updated" name="name_updated" value="<?php echo htmlspecialchars($logged_in_user); ?>" readonly>
-                                                    <label for="name_updated">Nama Admin</label>
+                                                    <input type="text" class="form-control" id="no_kk" name="no_kk" value="<?php echo htmlspecialchars($pendaftaran['no_kk']); ?>" required>
+                                                    <label for="no_kk">Nomor KK</label>
                                                 </div>
                                             </div>
-
+                                            <div class="col-md-4 pb-4">
+                                                <div class="form-floating">
+                                                    <input type="text" class="form-control" id="updated" name="updated" value="<?php echo htmlspecialchars($logged_in_user); ?>" readonly>
+                                                    <label for="updated">Nama Admin</label>
+                                                </div>
+                                            </div>
                                         </div>
+
                                         <div class="row">
                                             <div class="col-md-4 pb-4">
                                                 <div class="form-floating">
