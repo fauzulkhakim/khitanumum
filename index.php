@@ -120,10 +120,11 @@ $current_time = date('Y-m-d H:i:s');
             <div class="card-body">
               <h4 class="card-title">Petunjuk Pengisian Formulir</h4>
               <ul>
-                <li>Isi data dengan lengkap & benar sesuai dengan dokumen resmi.</li>
-                <li>Pastikan telah memeriksa ulang semua informasi sebelum mengirimkan formulir.</li>
-                <li><b>Panitia tidak bertanggungjawab atas kesalahan pengisian data.</b></li>
-                <li>Setelah mendaftar, Anda akan menerima informasi melalui nomor WhatsApp yang digunakan saat pendaftaran.</li>
+                <li>Anak Berusia 7-15 tahun pada 21 September 2024</li>
+                <li>Berdomisili Kudus</li>
+                <li>Menyiapkan Foto / Gambar KK atau KIA untuk diupload</li>
+                <li>Pendaftaran ditutup ketika kuota terpenuhi</li>
+                <li>Pastikan telah memeriksa ulang semua informasi sebelum mengirimkan formulir. Panitia tidak bertanggungjawab atas kesalahan pengisian data</li>
               </ul>
               <button id="btn-daftar" class="btn btn-success mt-3">Daftar Sekarang</button>
             </div>
