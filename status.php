@@ -5,7 +5,7 @@ require 'panitia/config/config.php';
 $otp = isset($_GET['otp']) ? $_GET['otp'] : '';
 
 if (empty($otp)) {
-    echo "<div class='alert alert-danger text-center'>OTP tidak ditemukan. Silakan login kembali.</div>";
+    echo "<div class='alert alert-danger text-center'>OTP tidak ditemukan.</div>";
     exit();
 }
 
@@ -74,7 +74,8 @@ if (!$pendaftar) {
         }
 
         .card {
-            max-width: 500px;
+            max-width: 400px;
+            min-width: 380px;
             margin: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border: none;
@@ -82,8 +83,8 @@ if (!$pendaftar) {
         }
 
         .card-header {
-            background: #3C5B6F;
-            color: #fff;
+            background: #929A94;
+            color: #2D3C28;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             padding: 15px 20px;
@@ -135,102 +136,123 @@ if (!$pendaftar) {
 <body>
     <div class="card">
         <div class="card-header text-center">
-            <h5 class="card-title">Bukti Pendaftaran</h5>
-            <p class="mb-0">Khitan Umum 1446 H</p>
+            <div class="row justify-content-center">
+                <div class="col-3 text-end align-self-center">
+                    <img src="panitia/assets/icon_khitan_umum.png" alt="logo" width="50">
+                </div>
+                <div class="col-9 text-start">
+                    <h5 class="card-title">Status Pendaftaran</h5>
+                    <p class="mb-0">Khitan Umum 1446 H</p>
+                </div>
+            </div>
         </div>
+        <?php
+        $status = '';
+        $qr = '';
+        if ($pendaftar['status_pendaftaran_id'] == 1) {
+            $status = '🟠 &nbsp; Belum Verifikasi';
+        } elseif ($pendaftar['status_pendaftaran_id'] == 2) {
+            $status = '✅ &nbsp; Diterima';
+            $qr = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=46' . $pendaftar['no_peserta'];
+            // $qr = 'https://barcode.tec-it.com/barcode.ashx?data=46' . $pendaftar['no_peserta'];
+        } elseif ($pendaftar['status_pendaftaran_id'] == 3) {
+            $status = '❌ &nbsp; Ditolak';
+        } elseif ($pendaftar['status_pendaftaran_id'] == 4) {
+            $status = '⌛︎ &nbsp; Pending';
+        }
+        ?>
+
         <div class="card-body">
-            <div class="info-section">
-                <span>Nomor KIA / NIK:</span>
-                <span style="color: #000000;">
-                    <?php echo htmlspecialchars($pendaftar['nik']); ?>
-                </span>
+            <div class="row">
+                <table>
+                    <tr>
+                        <td style="color: #3C5B6F; font-weight: 600; font-size: 18px" class="text-center">Status Pendaftaran : </td>
+                        <?php if ($pendaftar['status_pendaftaran_id'] == 2) { ?>
+                            <td rowspan="2" class="text-end"><img src="<?php echo $qr; ?>" alt="qr" width="80px"></td>
+                        <?php } ?>
+                    </tr>
+                    <tr>
+                        <td style="color: #3C5B6F; font-weight: 600; font-size: 24px" class="text-center"><?php echo $status; ?></td>
+                    </tr>
+                    <?php if ($pendaftar['status_pendaftaran_id'] == 2) { ?>
+                        <tr>
+                            <td></td>
+                            <td style="padding-right: 4%; padding-top: 5px" class="text-end"><?php echo 46 . $pendaftar['no_peserta']; ?></td>
+                        </tr>
+                    <?php } ?>
+                </table>
             </div>
-            <div class="info-section">
-                <span>Nama Peserta:</span>
-                <span style="color: #000000;">
-                    <?php echo htmlspecialchars($pendaftar['nama_lengkap']); ?>
-                </span>
-            </div>
-            <div class="info-section">
-                <span>Nama Orang Tua/Wali:</span>
-                <span style="color: #000000;">
-                    <?php echo htmlspecialchars($pendaftar['orang_tua_wali']); ?>
-                </span>
-            </div>
-            <div class="info-section">
-                <span>Alamat:</span>
-                <span style="color: #000000;">
-                    <?php echo htmlspecialchars($pendaftar['alamat_lengkap']); ?>
-                </span>
-                <span>RT/RW:</span>
-                <span style="color: #000000;">
-                    <?php echo isset($pendaftar['rt_rw']) && isset($pendaftar['rw_rw']) ? htmlspecialchars($pendaftar['rt_rw']) . ' / ' . htmlspecialchars($pendaftar['rw_rw']) : '-'; ?>
-                </span>
-                <span>Kel/Desa:</span>
-                <span style="color: #000000;">
-                    <?php echo isset($pendaftar['desa_kelurahan']) ? htmlspecialchars($pendaftar['desa_kelurahan']) : '-'; ?>
-                </span>
-                <span>Kecamatan:</span>
-                <span style="color: #000000;">
-                    <?php echo isset($pendaftar['kecamatan']) ? htmlspecialchars($pendaftar['kecamatan']) : '-'; ?>
-                </span>
-                <span>Kabupaten/Kota:</span>
-                <span style="color: #000000;">
-                    <?php echo isset($pendaftar['kabupaten_kota']) ? htmlspecialchars($pendaftar['kabupaten_kota']) : '-'; ?>
-                </span>
+            <div class=" row mt-3">
+                <table>
+                    <thead>
+                        <th style="width: 22%;"></th>
+                        <th style="width: 3%;"></th>
+                        <th style="width: 75%;"></th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nama</td>
+                            <td>:</td>
+                            <td><?php echo htmlspecialchars($pendaftar['nama_lengkap']); ?></td>
+                        </tr>
+                        <tr>
+                            <td>NIK</td>
+                            <td>:</td>
+                            <td><?php echo htmlspecialchars($pendaftar['nik']); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Orang Tua</td>
+                            <td>:</td>
+                            <td><?php echo htmlspecialchars($pendaftar['orang_tua_wali']); ?></td>
+                        </tr>
+                        <tr>
+                            <td>Alamat</td>
+                            <td>:</td>
+                            <td><?php echo htmlspecialchars($pendaftar['desa_kelurahan']) . ' ' . htmlspecialchars($pendaftar['rt_rw']) . '/' . htmlspecialchars($pendaftar['rw_rw']); ?></td>
+                        </tr>
+                        <tr>
+                            <!-- Buang Kabupaten -->
+                            <?php
+                            $kab_kota = $pendaftar['kabupaten_kota'];
+                            if (stripos($kab_kota, 'Kabupaten') === 0) {
+                                $kab_kota = trim(substr($kab_kota, strlen('Kabupaten')));
+                            }
+                            ?>
+                            <td></td>
+                            <td></td>
+                            <td><?php echo htmlspecialchars($pendaftar['kecamatan']) . ' ' . htmlspecialchars($kab_kota); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
-            <!-- Status Pendaftaran -->
-            <div class="info-section">
-                <span>Status Pendaftaran:</span>
-                <span style="color: #000000;">
-                    <?php
-                    if ($pendaftar['status_pendaftaran_id'] == 1) {
-                        echo '🟠 Belum Verifikasi';
-                    } elseif ($pendaftar['status_pendaftaran_id'] == 2) {
-                        echo '✅ Diterima';
-                        // Tampilkan tombol download dan QR code jika diterima
-                        echo '<div class="text-center mt-3">
-                            <a href="javascript:void(0)" id="download-pdf" class="btn btn-success">Download PDF</a>
-                            <a href="javascript:void(0)" id="show-qrcode" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#qrcodeModal">QR Code</a>
-                        </div>';
-                    } elseif ($pendaftar['status_pendaftaran_id'] == 3) {
-                        echo '❌ Ditolak';
-                    } elseif ($pendaftar['status_pendaftaran_id'] == 4) {
-                        echo '🟡 Pending';
-                    }
-                    ?>
-                </span>
-            </div>
-            <p class="mt-4 text-center">UNDANGAN Pemeriksaan Kesehatan akan dikirimkan lewat WA setelah Verifikasi Administratif.</p>
-            <div class="contact-info text-center mt-3">
-                <p>Info lebih lanjut, hubungi:</p>
-                <p>Faza: <a href="https://wa.me/6287760123112" target="_blank">087760123112</a></p>
-                <p>Ari: <a href="https://wa.me/6281212121992" target="_blank">081212121992</a></p>
-            </div>
+            <?php if ($pendaftar['status_pendaftaran_id'] == 1) { ?>
+                <!-- Belum Verifikasi -->
+                <p class="mt-4 text-center">Pendaftaran berhasil. <br> Proses verifikasi 2 X 24 jam.</p>
+            <?php } elseif ($pendaftar['status_pendaftaran_id'] == 2) { ?>
+                <!-- Diterima -->
+                <p class="mt-4 text-center">Pendaftaran diterima. <br> Undangan Pemeriksaan Kesehatan akan segera dikirimkan via WhatsApp.</p>
+                <div class="contact-info text-center mt-2">
+                    <p>Info lebih lanjut, hubungi:</p>
+                    <p>Haidar : <a href="https://wa.me/6285878537250" target="_blank">085878537250</a></p>
+                    <p>Vian : <a href="https://wa.me/6281910287931" target="_blank">081910287931</a></p>
+                </div>
+            <?php } elseif ($pendaftar['status_pendaftaran_id'] == 3) { ?>
+                <!-- Ditolak -->
+                <p class="mt-4 text-center">Pendaftaran ditolak.</p>
+            <?php } else { ?>
+                <!-- Pending -->
+                <p class="mt-4 text-center">Pendaftaran dalam antrian.</p>
+                <div class="contact-info text-center mt-2">
+                    <p>Info lebih lanjut, hubungi:</p>
+                    <p>Haidar : <a href="https://wa.me/6285878537250" target="_blank">085878537250</a></p>
+                    <p>Vian : <a href="https://wa.me/6281910287931" target="_blank">081910287931</a></p>
+                </div>
+            <?php } ?>
 
         </div>
         <div class="card-footer">
             <small><?php echo date('d/m/Y H:i:s', strtotime($pendaftar['date_created'])); ?></small>
-        </div>
-    </div>
-
-    <!-- Modal QR Code -->
-    <div class="modal fade" id="qrcodeModal" tabindex="-1" aria-labelledby="qrcodeModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="qrcodeModalLabel">QR Code</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center">
-                    <canvas id="qrcode"></canvas>
-                    <p class="mt-3">ID Pendaftar: <span id="id-pendaftar"></span></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -239,38 +261,6 @@ if (!$pendaftar) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
 
-    <script>
-        document.getElementById('download-pdf').addEventListener('click', function() {
-            const element = document.querySelector('.card'); // Pilih elemen yang ingin di-download sebagai PDF
-
-            html2canvas(element, {
-                scale: 3 // Menambah skala untuk kualitas lebih baik
-            }).then((canvas) => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jspdf.jsPDF({
-                    orientation: 'portrait',
-                    unit: 'px', // Unit piksel
-                    format: [canvas.width, canvas.height] // Sesuaikan ukuran PDF dengan kanvas
-                });
-                pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-                pdf.save("status_pendaftaran.pdf");
-            });
-        });
-
-        document.getElementById('show-qrcode').addEventListener('click', function() {
-            const idPendaftar = "<?php echo 46 . sprintf('%04d', $pendaftar['id']); ?>"; // Ambil ID Pendaftar
-
-            // Generate QR Code
-            var qr = new QRious({
-                element: document.getElementById('qrcode'),
-                value: idPendaftar,
-                size: 200
-            });
-
-            // Set ID Pendaftar
-            document.getElementById('id-pendaftar').textContent = idPendaftar;
-        });
-    </script>
 </body>
 
 </html>
