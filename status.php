@@ -83,7 +83,7 @@ if (!$pendaftar) {
         }
 
         .card-header {
-            background: #929A94;
+            background: #f1f1f1;
             color: #2D3C28;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;

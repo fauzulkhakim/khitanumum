@@ -36,12 +36,12 @@ $current_time = date('Y-m-d H:i:s');
     }
 
     h3 {
-      color: white;
+      color: #2D3C28;
       font-weight: bolder;
     }
 
     h6 {
-      color: #F8F4E1;
+      color: #2D3C28;
     }
 
     /* Sembunyikan form saat halaman pertama kali dimuat */
