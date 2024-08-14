@@ -83,10 +83,16 @@ require_once 'header.php';
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-12 pb-4">
+                                        <div class="col-md-6 pb-4">
                                             <div class="form-floating">
                                                 <input type="text" class="form-control" id="nik" name="nik" value="<?= htmlspecialchars($pendaftaran['nik']); ?>" readonly>
                                                 <label for="nik">NIK</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 pb-4">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="no_kk" name="no_kk" value="<?= htmlspecialchars($pendaftaran['no_kk']); ?>" readonly>
+                                                <label for="no_kk">Nomor KK</label>
                                             </div>
                                         </div>
                                     </div>
