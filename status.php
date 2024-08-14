@@ -75,8 +75,8 @@ if (!$pendaftar) {
 
         .card {
             max-width: 400px;
-            min-width: 380px;
-            margin: 20px;
+            min-width: 350px;
+            margin: 30px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border: none;
             border-radius: 10px;
@@ -163,7 +163,7 @@ if (!$pendaftar) {
         ?>
 
         <div class="card-body">
-            <div class="row">
+            <div class="row" style="padding-right: 10%;">
                 <table>
                     <tr>
                         <td style="color: #3C5B6F; font-weight: 600; font-size: 18px" class="text-center">Status Pendaftaran : </td>
@@ -182,7 +182,7 @@ if (!$pendaftar) {
                     <?php } ?>
                 </table>
             </div>
-            <div class=" row mt-3">
+            <div class="row mt-3" style="padding-left: 5%;">
                 <table>
                     <thead>
                         <th style="width: 22%;"></th>
