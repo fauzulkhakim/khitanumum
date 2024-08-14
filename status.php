@@ -153,8 +153,8 @@ if (!$pendaftar) {
             $status = '🟠 &nbsp; Belum Verifikasi';
         } elseif ($pendaftar['status_pendaftaran_id'] == 2) {
             $status = '✅ &nbsp; Diterima';
-            $qr = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=46' . $pendaftar['no_peserta'];
-            // $qr = 'https://barcode.tec-it.com/barcode.ashx?data=46' . $pendaftar['no_peserta'];
+            $qr = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . $pendaftar['no_peserta'];
+            // $qr = 'https://barcode.tec-it.com/barcode.ashx?data=' . $pendaftar['no_peserta'];
         } elseif ($pendaftar['status_pendaftaran_id'] == 3) {
             $status = '❌ &nbsp; Ditolak';
         } elseif ($pendaftar['status_pendaftaran_id'] == 4) {
@@ -177,7 +177,7 @@ if (!$pendaftar) {
                     <?php if ($pendaftar['status_pendaftaran_id'] == 2) { ?>
                         <tr>
                             <td></td>
-                            <td style="padding-right: 4%; padding-top: 5px" class="text-end"><?php echo 46 . $pendaftar['no_peserta']; ?></td>
+                            <td style="padding-right: 4%; padding-top: 5px" class="text-end"><?php echo $pendaftar['no_peserta']; ?></td>
                         </tr>
                     <?php } ?>
                 </table>
