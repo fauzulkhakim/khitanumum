@@ -91,20 +91,26 @@ function uploadImage($file, $nik, $dir)
 
 function sendSuccessMessage($no_hp, $link)
 {
-  $api_key = 'isWg7e+RSvxmVDncTvbw';
+  $api_key = 'dCX2xQGWT6nENJcJZi9g';
   $url = 'https://api.fonnte.com/send';
 
   $message = "✅ Pendaftaran Berhasil
 ------------------------------------------------------------
 
-Untuk melihat informasi status pendaftaran, silahkan buka link dibawah ini:
+Silahkan tunggu proses verifikasi maksimal 2x24 jam. Jika lolos verifikasi akan dikirim undangan via WA.
+
+
+Cek status calon peserta khitan secara berkala pada link dibawah ini:
+
 $link
 
-Informasi lebih lanjut akan diberikan melalui nomor whatsapp ini.
+Informasi lebih lanjut akan diberikan melalui nomor whatsapp :
+wa.me/6285878537250 (Haidar)
+wa.me/6281910287931 (Vian)
 
 ------------------------------------------------------------
 
--= KhitanUmum 1446H =-";
+-= Khitan Umum 1446H =-";
 
   $data = [
     'target' => $no_hp, // Nomor tujuan dengan format internasional
