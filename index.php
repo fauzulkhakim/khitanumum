@@ -32,7 +32,7 @@ $current_time = date('Y-m-d H:i:s');
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #3C5B6F;
+      background: #929A94;
     }
 
     h3 {
