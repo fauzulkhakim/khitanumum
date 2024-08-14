@@ -69,7 +69,7 @@ if (!$pendaftar) {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f8f9fa;
+            background: #929A94;
             color: #333;
         }
 
