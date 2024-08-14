@@ -222,6 +222,11 @@ if (!$pendaftar) {
                             <td></td>
                             <td><?php echo htmlspecialchars($pendaftar['kecamatan']) . ' ' . htmlspecialchars($kab_kota); ?></td>
                         </tr>
+                        <tr>
+                            <td>Waktu</td>
+                            <td>:</td>
+                            <td><?php echo date('d/m/Y H:i:s', strtotime($pendaftar['date_created'])); ?></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -252,7 +257,7 @@ if (!$pendaftar) {
 
         </div>
         <div class="card-footer">
-            <small><?php echo date('d/m/Y H:i:s', strtotime($pendaftar['date_created'])); ?></small>
+            <small><?php echo date('d/m/Y H:i:s'); ?></small>
         </div>
     </div>
 
