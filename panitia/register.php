@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -81,11 +85,19 @@
     <div class="container mt-5 mb-5">
         <div class="card p-4">
             <header class="mb-4 text-center">Daftar</header>
+
+            <!-- Tampilkan pesan sukses atau error -->
+            <?php if (isset($_SESSION['message'])) : ?>
+                <div class="alert alert-success"><?= $_SESSION['message']; ?></div>
+                <?php unset($_SESSION['message']); ?>
+            <?php endif; ?>
+
             <?php if (isset($_SESSION['error'])) : ?>
                 <div class="alert alert-danger"><?= $_SESSION['error']; ?></div>
                 <?php unset($_SESSION['error']); ?>
             <?php endif; ?>
-            <form action="/config/register.php" method="POST" class="needs-validation" novalidate>
+
+            <form action="config/register.php" method="POST" class="needs-validation" novalidate>
                 <!-- Nama Lengkap -->
                 <div class="mb-3">
                     <label for="nama_lengkap" class="form-label">Nama Lengkap</label>

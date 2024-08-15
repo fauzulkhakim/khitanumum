@@ -76,6 +76,20 @@ session_start();
     <div class="container mt-5">
         <div class="card p-4">
             <header class="mb-4 text-center">Login</header>
+
+            <!-- Alert untuk pesan sukses/error -->
+            <?php
+            if (isset($_GET['message'])) {
+                echo "<div class='alert alert-success'>" . htmlspecialchars($_GET['message']) . "</div>";
+            }
+
+            if (isset($_GET['error'])) {
+                echo "<div class='alert alert-danger'>" . htmlspecialchars($_GET['error']) . "</div>";
+            }
+            ?>
+
+
+            <!-- Tampilkan pesan sukses atau error -->
             <?php if (isset($_SESSION['error'])) : ?>
                 <div class="alert alert-danger"><?= $_SESSION['error']; ?></div>
                 <?php unset($_SESSION['error']); ?>

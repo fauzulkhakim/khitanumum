@@ -46,15 +46,25 @@ require_once 'header.php';
           <tbody>
             <?php
             $sql = "SELECT p.*, r.name_regencies, s.nama_status_pendaftaran
-                                FROM pendaftar p
-                                LEFT JOIN regencies r ON p.domisili_regencies_id = r.id_regencies
-                                LEFT JOIN status_pendaftaran s ON p.status_pendaftaran_id = s.id_status_pendaftaran";
+        FROM pendaftar p
+        LEFT JOIN regencies r ON p.domisili_regencies_id = r.id_regencies
+        LEFT JOIN status_pendaftaran s ON p.status_pendaftaran_id = s.id_status_pendaftaran";
 
             $result = $conn->query($sql);
             $no = 1;
             $nicks = []; // Array untuk menyimpan NIK, No KK, dan No HP untuk cek duplikat
 
             while ($pendaftaran = $result->fetch_assoc()) :
+              // Tentukan kelas warna berdasarkan status pendaftaran
+              $statusClass = '';
+              if ($pendaftaran['status_pendaftaran_id'] == 2) {
+                $statusClass = 'table-success'; // Hijau untuk "Diterima"
+              } elseif ($pendaftaran['status_pendaftaran_id'] == 4) {
+                $statusClass = 'table-warning'; // Kuning untuk "Pending"
+              } elseif ($pendaftaran['status_pendaftaran_id'] == 3) {
+                $statusClass = 'table-danger'; // Merah untuk "Ditolak"
+              }
+
               // Cek duplikasi NIK, No KK, No HP
               $highlight_nik = in_array($pendaftaran['nik'], $nicks) ? 'table-danger' : '';
               $highlight_kk = in_array($pendaftaran['no_kk'], $nicks) ? 'table-danger' : '';
@@ -75,8 +85,8 @@ require_once 'header.php';
                 <td class="align-middle"><?= trim(str_ireplace('Kabupaten', '', $pendaftaran['name_regencies'])); ?></td>
                 <td class="align-middle"><?= $pendaftaran['relasi']; ?></td>
                 <td class="align-middle"><?= $pendaftaran['updated']; ?></td>
-                <td class="text-center align-middle">
-                  <select class="form-select status-dropdown" data-id="<?= $pendaftaran['id']; ?>" style="width: 180px;">
+                <td class="text-center align-middle <?= $statusClass; ?>">
+                  <select class="form-select status-dropdown" data-id="<?= $pendaftaran['id']; ?>" style="width: 180px;" <?= ($pendaftaran['status_pendaftaran_id'] == 2) ? 'disabled' : ''; ?>>
                     <?php
                     $statusQuery = "SELECT * FROM status_pendaftaran";
                     $statusResult = $conn->query($statusQuery);
@@ -121,6 +131,7 @@ require_once 'header.php';
             endwhile;
             ?>
           </tbody>
+
         </table>
       </div>
     </div>
