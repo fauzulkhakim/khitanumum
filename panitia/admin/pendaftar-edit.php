@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Ambil data dari form
     $updated = $logged_in_user;
     $id = $_POST['id'];
-    $nama_lengkap = $_POST['nama_lengkap'];
+    $nama_lengkap = strtoupper($_POST['nama_lengkap']);
     $nik = $_POST['nik'];
     $no_kk = $_POST['no_kk'];
     $tempat_lahir = $_POST['tempat_lahir'];
@@ -28,18 +28,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $desa_kelurahan = $_POST['desa_kelurahan'];
     $rt = $_POST['rt'];
     $rw = $_POST['rw'];
-    $alamat_lengkap = $_POST['alamat_lengkap'];
+    $alamat_lengkap = strtoupper($_POST['alamat_lengkap']);
     $domisili = $_POST['domisili'];
     $berat_badan = $_POST['berat_badan'];
     $tinggi_badan = $_POST['tinggi_badan'];
     $ukuran_baju = $_POST['ukuran_baju'];
-    $nama_sekolah = $_POST['nama_sekolah'];
+    $nama_sekolah = strtoupper($_POST['nama_sekolah']);
     $kelas = $_POST['kelas'];
-    $alamat_sekolah = $_POST['alamat_sekolah'];
-    $orang_tua_wali = $_POST['orang_tua_wali'];
+    $alamat_sekolah = strtoupper($_POST['alamat_sekolah']);
+    $orang_tua_wali = strtoupper($_POST['orang_tua_wali']);
     $no_hp = $_POST['no_hp'];
     $mustahiq = $_POST['mustahiq'];
-    $relasi = $_POST['relasi'];
+    $relasi = strtoupper($_POST['relasi']);
     $status_pendaftaran_id = $_POST['status_pendaftaran_id'];
 
     // Dokumen KIA/KK

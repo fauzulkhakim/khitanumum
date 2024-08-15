@@ -4,7 +4,7 @@ session_start(); // Pastikan sesi sudah dimulai
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // Ambil data dari form
-  $nama_lengkap = mysqli_escape_string($conn, $_POST['nama_lengkap']);
+  $nama_lengkap = mysqli_escape_string($conn, strtoupper($_POST['nama_lengkap']));
   $name_created = mysqli_real_escape_string($conn, $_POST['name_created']);
   $nik = mysqli_escape_string($conn, $_POST['nik']);
   $no_kk = mysqli_real_escape_string($conn, $_POST['no_kk']);
@@ -16,17 +16,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $desa_kelurahan = mysqli_escape_string($conn, $_POST['desa_kelurahan']);
   $rt = mysqli_escape_string($conn, $_POST['rt']);
   $rw = mysqli_escape_string($conn, $_POST['rw']);
-  $alamat_lengkap = mysqli_escape_string($conn, $_POST['alamat_lengkap']);
+  $alamat_lengkap = mysqli_escape_string($conn, strtoupper($_POST['alamat_lengkap']));
   $domisili = mysqli_escape_string($conn, $_POST['domisili']);
   $berat_badan = mysqli_escape_string($conn, $_POST['berat_badan']);
   $tinggi_badan = mysqli_escape_string($conn, $_POST['tinggi_badan']);
   $ukuran_baju = mysqli_escape_string($conn, $_POST['ukuran_baju']);
-  $nama_sekolah = mysqli_escape_string($conn, $_POST['nama_sekolah']);
+  $nama_sekolah = mysqli_escape_string($conn, strtoupper($_POST['nama_sekolah']));
   $kelas = mysqli_escape_string($conn, $_POST['kelas']);
-  $alamat_sekolah = mysqli_escape_string($conn, $_POST['alamat_sekolah']);
-  $orang_tua_wali = mysqli_escape_string($conn, $_POST['orang_tua_wali']);
+  $alamat_sekolah = mysqli_escape_string($conn, strtoupper($_POST['alamat_sekolah']));
+  $orang_tua_wali = mysqli_escape_string($conn, strtoupper($_POST['orang_tua_wali']));
   $no_hp = mysqli_escape_string($conn, $_POST['no_hp']);
-  $relasi = mysqli_escape_string($conn, $_POST['relasi']);
+  $relasi = mysqli_escape_string($conn, strtoupper($_POST['relasi']));
   $mustahiq = mysqli_escape_string($conn, $_POST['mustahiq']);
 
   // cek apakah NIK sudah ada

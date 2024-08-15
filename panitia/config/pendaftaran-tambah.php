@@ -2,7 +2,7 @@
 require 'config.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // Escape data input dari form
-  $nama_lengkap = mysqli_escape_string($conn, $_POST['nama_lengkap']);
+  $nama_lengkap = mysqli_escape_string($conn, strtoupper($_POST['nama_lengkap']));
   $nik = mysqli_real_escape_string($conn, $_POST['nik']);
   $no_kk = mysqli_real_escape_string($conn, $_POST['no_kk']);
   $tempat_lahir = mysqli_real_escape_string($conn, $_POST['tempat_lahir']);
@@ -13,15 +13,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $desa_kelurahan = mysqli_real_escape_string($conn, $_POST['desa_kelurahan']);
   $rt = mysqli_real_escape_string($conn, $_POST['rt']);
   $rw = mysqli_real_escape_string($conn, $_POST['rw']);
-  $alamat_lengkap = mysqli_real_escape_string($conn, $_POST['alamat_lengkap']);
+  $alamat_lengkap = mysqli_real_escape_string($conn, strtoupper($_POST['alamat_lengkap']));
   $domisili = mysqli_real_escape_string($conn, $_POST['domisili']);
   $berat_badan = mysqli_real_escape_string($conn, $_POST['berat_badan']);
   $tinggi_badan = mysqli_real_escape_string($conn, $_POST['tinggi_badan']);
   $ukuran_baju = mysqli_real_escape_string($conn, $_POST['ukuran_baju']);
-  $nama_sekolah = mysqli_real_escape_string($conn, $_POST['nama_sekolah']);
+  $nama_sekolah = mysqli_real_escape_string($conn, strtoupper($_POST['nama_sekolah']));
   $kelas = mysqli_real_escape_string($conn, $_POST['kelas']);
-  $alamat_sekolah = mysqli_real_escape_string($conn, $_POST['alamat_sekolah']);
-  $orang_tua_wali = mysqli_real_escape_string($conn, $_POST['orang_tua_wali']);
+  $alamat_sekolah = mysqli_real_escape_string($conn, strtoupper($_POST['alamat_sekolah']));
+  $orang_tua_wali = mysqli_real_escape_string($conn, strtoupper($_POST['orang_tua_wali']));
   $no_hp = mysqli_real_escape_string($conn, $_POST['no_hp']);
 
   // cek apakah NIK sudah ada
