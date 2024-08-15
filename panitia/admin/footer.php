@@ -153,6 +153,46 @@ $user_role = $_SESSION['user']['role'] ?? null;
   });
 </script>
 
+<!-- Resend Status-->
+<script>
+  $(document).ready(function() {
+    $('.buttonStatus').click(function() {
+      var id = $(this).data('id');
+
+      $.ajax({
+        url: '../config/resend_status.php',
+        type: 'POST',
+        data: {
+          id: id
+        },
+        success: function(response) {
+          alert(response.message);
+        }
+      });
+    });
+  });
+</script>
+
+<!-- Resend Undangan-->
+<script>
+  $(document).ready(function() {
+    $('.buttonUndangan').click(function() {
+      var id = $(this).data('id');
+
+      $.ajax({
+        url: '../config/resend_undangan.php',
+        type: 'POST',
+        data: {
+          id: id
+        },
+        success: function(response) {
+          alert(response.message);
+        }
+      });
+    });
+  });
+</script>
+
 <!-- Akhir Halaman Pendaftar -->
 
 <!-- Halaman Pengaturan -->

@@ -38,9 +38,10 @@ require_once 'header.php';
               <th class="text-center align-middle">No HP</th>
               <th class="text-center align-middle">Kab/Kota</th>
               <th class="text-center align-middle">Relasi</th>
-              <th class="text-center align-middle">Verifikator</th>
-              <th class="text-center align-middle" style="width: 150px;">Status Pendaftaran</th>
-              <th class="text-center align-middle">Aksi</th>
+              <th class="text-center align-middle">Diubah oleh</th>
+              <th class="text-center align-middle" style="min-width: 150px">Status Pendaftaran</th>
+              <th class="text-center align-middle" style="min-width: 200px">Document & Resend</th>
+              <th class="text-center align-middle" style="min-width: 150px">Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -97,13 +98,13 @@ require_once 'header.php';
                     ?>
                   </select>
                 </td>
-                <td class="text-center align-middle d-flex">
-                  <?php
-                  $no_hp = $pendaftaran['no_hp'];
-                  if (substr($no_hp, 0, 1) === '0') {
-                    $no_hp = '+62' . substr($no_hp, 1);
-                  }
-                  ?>
+                <?php
+                $no_hp = $pendaftaran['no_hp'];
+                if (substr($no_hp, 0, 1) === '0') {
+                  $no_hp = '+62' . substr($no_hp, 1);
+                }
+                ?>
+                <td class="text-center align-middle">
                   <button class="btn btn-sm btn-secondary m-1" data-toggle="modal" data-target="#imageModal" data-images='<?= json_encode([
                                                                                                                             ["label" => "Dokumen KIA/KK", "file" => "kia_kk/" . $pendaftaran["dokumen_kia_kk"]],
                                                                                                                             ["label" => "Dokumen Sekolah", "file" => "sekolah/" . $pendaftaran["dokumen_sekolah"]],
@@ -115,6 +116,14 @@ require_once 'header.php';
                   <a href="https://wa.me/<?= $no_hp; ?>" class="btn btn-sm btn-success m-1" target="_blank">
                     <i class="fab fa-whatsapp"></i>
                   </a>
+                  <button data-id="<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-secondary m-1 buttonStatus">
+                    <i class="fa-solid fa-square-poll-horizontal"></i>
+                  </button>
+                  <button data-id="<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-secondary m-1 buttonUndangan">
+                    <i class="fa-solid fa-file-arrow-down"></i>
+                  </button>
+                </td>
+                <td class="text-center align-middle">
                   <a href="pendaftar-info.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-primary m-1">
                     <i class="fas fa-info"></i>
                   </a>
