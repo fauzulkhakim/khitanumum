@@ -468,9 +468,13 @@ $current_time = date('Y-m-d H:i:s');
             <!-- Akhir Card Konten -->
 
           </form>
-        <?php } else { ?>
+        <?php } elseif ($current_time < $dibuka) { ?>
           <div class="rounded bg-danger text-white d-flex align-items-center justify-content-center" style="max-width: 300px; margin: 0 auto; height: 45px;">
             <h5 class="fw-bold mb-0">Pendaftaran belum dibuka</h5>
+          </div>
+        <?php } else { ?>
+          <div class="rounded bg-danger text-white d-flex align-items-center justify-content-center" style="max-width: 300px; margin: 0 auto; height: 45px;">
+            <h5 class="fw-bold mb-0">Pendaftaran ditutup</h5>
           </div>
         <?php } ?>
         </div>
