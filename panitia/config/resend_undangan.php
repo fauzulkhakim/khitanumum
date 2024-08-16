@@ -18,7 +18,7 @@ $result = mysqli_fetch_assoc($result);
 // Cek hasil query
 if (mysqli_num_rows(mysqli_query($conn, $sql)) > 0) {
 
-  $link = "https://dev.menarakudus.id/undangan.php?otp=" . $result['otp']; // Sesuaikan link dengan URL yang benar
+  $link = "https://khitanumum.menarakudus.id/undangan.php?otp=" . $result['otp']; // Sesuaikan link dengan URL yang benar
   sendMessage($result['no_hp'], $link);
 
   echo json_encode(["status" => "success", "message" => "Pesan terkirim"]);

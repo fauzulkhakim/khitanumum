@@ -1,4 +1,11 @@
 <?php
+$dev = $_GET['dev'];
+
+if (!$dev) {
+  echo "Website dalam persiapan";
+  exit;
+}
+
 date_default_timezone_set('Asia/Jakarta');
 require 'panitia/config/config.php';
 
