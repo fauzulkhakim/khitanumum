@@ -107,14 +107,14 @@ session_start();
                 <!-- Username -->
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="" minlength="4" required>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="" required>
                     <div class="invalid-feedback">Username harus diisi minimal 4 karakter.</div>
                 </div>
                 <!-- Password -->
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <div class="input-group">
-                        <input type="password" id="password" name="password" class="form-control password" placeholder="" minlength="8" required>
+                        <input type="password" id="password" name="password" class="form-control password" placeholder="" required>
                         <span class="input-group-text" onclick="togglePasswordVisibility('password', this)">
                             <i class="bx bx-hide"></i>
                         </span>

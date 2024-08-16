@@ -107,7 +107,7 @@ session_start();
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <div class="input-group">
-                        <input type="password" id="password" name="password" class="form-control password" placeholder="Masukkan password" minlength="8" required>
+                        <input type="password" id="password" name="password" class="form-control password" placeholder="Masukkan password" required>
                         <span class="input-group-text" onclick="togglePasswordVisibility('password', this)">
                             <i class="bx bx-hide"></i>
                         </span>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 16 Agu 2024 pada 06.12
+-- Waktu pembuatan: 16 Agu 2024 pada 14.07
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -8047,8 +8047,6 @@ CREATE TABLE `users` (
   `nama_lengkap` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `no_hp` varchar(20) DEFAULT NULL,
-  `alamat` text DEFAULT NULL,
   `akses` tinyint(1) DEFAULT 0,
   `role` enum('master','admin','foto','user') DEFAULT 'user',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -8059,9 +8057,9 @@ CREATE TABLE `users` (
 -- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id`, `nama_lengkap`, `username`, `password`, `no_hp`, `alamat`, `akses`, `role`, `created_at`, `updated_at`) VALUES
-(7, 'Alham Manazil', 'alham', '$2y$10$646oD1R.Xrgc5WsnBDiATeBJFy0BIwLfiTwTVipPkILjFkVgPTXnG', '08924924789248', 'Pasuruhan Lor, Jati, Kabupaten Kudus, Jawa Tengah, Indonesia', 1, 'master', '2024-07-27 05:35:59', '2024-08-03 04:54:03'),
-(13, 'rein', 'rein', '$2y$10$1qBYS5L8isJ5JWaWRyECBuvC/Ic26JPIWPdFK9/mEU3ZRMNXu4Amm', '08924924789', 'Ploso, Jati, Kabupaten Kudus, Jawa Tengah, Indonesia', 1, 'admin', '2024-07-29 04:14:57', '2024-08-13 15:44:46');
+INSERT INTO `users` (`id`, `nama_lengkap`, `username`, `password`, `akses`, `role`, `created_at`, `updated_at`) VALUES
+(1, 'Alham Manazil', 'alham', '$2y$10$646oD1R.Xrgc5WsnBDiATeBJFy0BIwLfiTwTVipPkILjFkVgPTXnG', 1, 'master', '2024-07-27 05:35:59', '2024-08-16 12:05:26'),
+(2, 'Fauzul Khakim', 'aim', '$2y$10$VRwanTlPmPxuKAEjN0VQPOf9C9U3uW2nz4g8pZGTVdCtpFqCrdWGG', 1, 'master', '2024-08-16 11:45:56', '2024-08-16 12:05:54');
 
 -- --------------------------------------------------------
 
@@ -88692,6 +88690,9 @@ ALTER TABLE `kelas`
 --
 ALTER TABLE `pendaftar`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `otp_2` (`otp`),
+  ADD UNIQUE KEY `nik` (`nik`),
+  ADD UNIQUE KEY `no_peserta` (`no_peserta`),
   ADD KEY `kelas` (`kelas_id`),
   ADD KEY `rt` (`rt_rt_rw_id`),
   ADD KEY `rw` (`rw_rt_rw_id`),
@@ -88701,7 +88702,8 @@ ALTER TABLE `pendaftar`
   ADD KEY `kabupaten_kota` (`domisili_regencies_id`),
   ADD KEY `kecamatan` (`domisili_districts_id`),
   ADD KEY `desa_kelurahan` (`domisili_villages_id`),
-  ADD KEY `tempat_lahir` (`tempat_lahir_regencies_id`);
+  ADD KEY `tempat_lahir` (`tempat_lahir_regencies_id`),
+  ADD KEY `otp` (`otp`);
 
 --
 -- Indeks untuk tabel `provinces`
@@ -88784,7 +88786,7 @@ ALTER TABLE `ukuran_baju`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
