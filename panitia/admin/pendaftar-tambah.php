@@ -120,7 +120,7 @@ require_once 'header.php';
 <body>
   <!-- Awal Kontainer -->
   <div class="container-fluid">
-    
+
     <!-- Awal Logo dan kop -->
     <div class="row mt-5">
       <div class="col-ml-4"></div>
@@ -138,384 +138,371 @@ require_once 'header.php';
     <div class="row pt-2 justify-content-center">
       <div class="col-md-8">
 
-        <!-- Pengkondisian waktu pendaftaran -->
-        <?php if (date('Y-m-d H:i:s') >= $dibuka && date('Y-m-d H:i:s') <= $ditutup) { ?>
+        <form action="../config/pendaftar-tambah.php" method="POST" enctype="multipart/form-data" id="form-pendaftaran" class="needs-validation" novalidate>
 
-          <!-- Awal Pendaftaran dibuka -->
+          <!-- Awal Card Konten -->
+          <div class="card">
+            <div class="card-body">
 
-          <form action="../config/pendaftar-tambah.php" method="POST" enctype="multipart/form-data" id="form-pendaftaran" class="needs-validation" novalidate>
+              <!-- Awal Card Data -->
+              <div class="row mb">
+                <div class="col">
 
-            <!-- Awal Card Konten -->
-            <div class="card">
-              <div class="card-body">
+                  <!-- Button kembali -->
+                  <a href="pendaftar.php" class="back-button my-2"><i class="fa-solid fa-left-long"></i> Kembali</a>
+                  <!-- Akhir Button kembali -->
 
-                <!-- Awal Card Data -->
-                <div class="row mb">
-                  <div class="col">
-
-                    <!-- Button kembali -->
-                    <a href="pendaftar.php" class="back-button my-2"><i class="fa-solid fa-left-long"></i> Kembali</a>
-                    <!-- Akhir Button kembali -->
-
-                    <!-- Awal Card Identitas -->
-                    <div class="card my-2">
-                      <div class="card-header fw-bold">
-                        Data Identitas Calon Peserta
+                  <!-- Awal Card Identitas -->
+                  <div class="card my-2">
+                    <div class="card-header fw-bold">
+                      Data Identitas Calon Peserta
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-12 pb-4">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="name_created" name="name_created" value="<?php echo htmlspecialchars($logged_in_user); ?>" readonly>
+                            <label for="name_created">Nama Admin</label>
+                          </div>
+                        </div>
                       </div>
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-md-12 pb-4">
-                            <div class="form-floating">
-                              <input type="text" class="form-control" id="name_created" name="name_created" value="<?php echo htmlspecialchars($logged_in_user); ?>" readonly>
-                              <label for="name_created">Nama Admin</label>
-                            </div>
+                      <div class="row">
+                        <div class="col-md-6 pb-4">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="nik" name="nik" pattern="[0-9]{16}" required>
+                            <label for="nik">NIK</label>
+                            <div id="nik" class="form-text">Dapat dilihat pada KIA/KK</div>
+                            <div class="invalid-feedback"><small>NIK harus diisi dengan 16 digit</small></div>
                           </div>
                         </div>
-                        <div class="row">
-                          <div class="col-md-6 pb-4">
-                            <div class="form-floating">
-                              <input type="text" class="form-control" id="nik" name="nik" pattern="[0-9]{16}" required>
-                              <label for="nik">NIK</label>
-                              <div id="nik" class="form-text">Dapat dilihat pada KIA/KK</div>
-                              <div class="invalid-feedback"><small>NIK harus diisi dengan 16 digit</small></div>
-                            </div>
-                          </div>
-                          <div class="col-md-6 pb-4">
-                            <div class="form-floating">
-                              <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" required>
-                              <label for="nama_lengkap">Nama Lengkap</label>
-                              <div class="invalid-feedback"><small>Nama Lengkap harus diisi</small></div>
-                            </div>
+                        <div class="col-md-6 pb-4">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" required>
+                            <label for="nama_lengkap">Nama Lengkap</label>
+                            <div class="invalid-feedback"><small>Nama Lengkap harus diisi</small></div>
                           </div>
                         </div>
-                        <div class="row">
+                      </div>
+                      <div class="row">
                         <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <input type="text" class="form-control" id="no_kk" name="no_kk" pattern="[0-9]{16}" required>
-                              <label for="no_kk">Nomor KK</label>
-                              <div id="no_kk" class="form-text">Dapat dilihat pada KIA/KK</div>
-                              <div class="invalid-feedback"><small>Nomor KK harus diisi dengan 16 digit</small></div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <select class="form-select" id="tempat_lahir" name="tempat_lahir" required>
-                              </select>
-                              <label for="tempat_lahir">Tempat Lahir</label>
-                              <div class="invalid-feedback"><small>Tempat lahir harus diisi</small></div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
-                              <label for="tanggal_lahir">Tanggal Lahir</label>
-                              <div id="tanggal_lahir" class="form-text">Tidak ada rentang usia</div>
-                              <div class="invalid-feedback"><small>Tanggal lahir harus diisi dengan rentang tanggal yang tersedia</small></div>
-                            </div>
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="no_kk" name="no_kk" pattern="[0-9]{16}" required>
+                            <label for="no_kk">Nomor KK</label>
+                            <div id="no_kk" class="form-text">Dapat dilihat pada KIA/KK</div>
+                            <div class="invalid-feedback"><small>Nomor KK harus diisi dengan 16 digit</small></div>
                           </div>
                         </div>
-                        <div class="row">
-                          <p class="text-start">Alamat sesuai dokumen yang berlaku</p>
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <select class="form-select" id="provinsi" name="provinsi" onchange="fetchKabupaten()" required>
-                              </select>
-                              <label for="provinsi">Provinsi</label>
-                              <div class="invalid-feedback"><small>Provinsi harus diisi</small></div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <select class="form-select" id="kabupaten_kota" name="kabupaten_kota" onchange="fetchKecamatan()" required>
-                              </select>
-                              <label for="kabupaten_kota">Kabupaten/Kota</label>
-                              <div class="invalid-feedback"><small>Kabupaten/Kota harus diisi</small></div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <select class="form-select" id="kecamatan" name="kecamatan" onchange="fetchDesa()" required>
-                              </select>
-                              <label for="kecamatan">Kecamatan</label>
-                              <div class="invalid-feedback"><small>Kecamatan harus diisi</small></div>
-                            </div>
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <select class="form-select" id="tempat_lahir" name="tempat_lahir" required>
+                            </select>
+                            <label for="tempat_lahir">Tempat Lahir</label>
+                            <div class="invalid-feedback"><small>Tempat lahir harus diisi</small></div>
                           </div>
                         </div>
-                        <div class="row">
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <select class="form-select" id="desa_kelurahan" name="desa_kelurahan" required>
-                              </select>
-                              <label for="desa_kelurahan">Desa/Kelurahan</label>
-                              <div class="invalid-feedback"><small>Desa/Kelurahan harus diisi</small></div>
-                            </div>
-                          </div>
-                          <?php
-                          $rt = mysqli_query($conn, "SELECT * FROM rt_rw");
-                          ?>
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <select class="form-select" id="rt" name="rt" required>
-                                <option value="" disabled selected>Pilih</option>
-                                <?php while ($row = mysqli_fetch_array($rt)) { ?>
-                                  <option value="<?= $row['id_rt_rw'] ?>"><?= $row['nama_rt_rw'] ?></option>
-                                <?php } ?>
-                              </select>
-                              <label for="rt">RT</label>
-                              <div class="invalid-feedback"><small>RT harus diisi</small></div>
-                            </div>
-                          </div>
-                          <?php
-                          $rw = mysqli_query($conn, "SELECT * FROM rt_rw");
-                          ?>
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <select class="form-select" id="rw" name="rw" required>
-                                <option value="" disabled selected>Pilih</option>
-                                <?php while ($row = mysqli_fetch_array($rw)) { ?>
-                                  <option value="<?= $row['id_rt_rw'] ?>"><?= $row['nama_rt_rw'] ?></option>
-                                <?php } ?>
-                              </select>
-                              <label for="rw">RW</label>
-                              <div class="invalid-feedback"><small>RW harus diisi</small></div>
-                            </div>
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
+                            <label for="tanggal_lahir">Tanggal Lahir</label>
+                            <div id="tanggal_lahir" class="form-text">Tidak ada rentang usia</div>
+                            <div class="invalid-feedback"><small>Tanggal lahir harus diisi dengan rentang tanggal yang tersedia</small></div>
                           </div>
                         </div>
-                        <div class="row">
-                          <div class="col-md-8 pb-4">
-                            <div class="form-floating">
-                              <input type="text" class="form-control" id="alamat_lengkap" name="alamat_lengkap" required>
-                              <label for="alamat_lengkap">Alamat Lengkap</label>
-                              <div id="alamat_lengkap" class="form-text">Berisi jalan, gang, nomor rumah, dukuh atau lainnya</div>
-                              <div class="invalid-feedback"><small>Alamat harus diisi</small></div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 pb-4">
-                            <div id="domisili" class="form-text">Apakah domisili calon peserta sesuai dengan alamat?</div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="domisili" id="domisili_ya" value="1" updateDomisiliRequired() required>
-                              <label class="form-check-label" for="domisili_ya">Ya</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="domisili" id="domisili_tidak" value="0" updateDomisiliRequired required>
-                              <label class="form-check-label" for="domisili_tidak">Tidak</label>
-                              <div class="invalid-feedback"><small>Domisili harus diisi</small></div>
-                            </div>
+                      </div>
+                      <div class="row">
+                        <p class="text-start">Alamat sesuai dokumen yang berlaku</p>
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <select class="form-select" id="provinsi" name="provinsi" onchange="fetchKabupaten()" required>
+                            </select>
+                            <label for="provinsi">Provinsi</label>
+                            <div class="invalid-feedback"><small>Provinsi harus diisi</small></div>
                           </div>
                         </div>
-                        <div class="row">
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <input type="text" class="form-control" id="berat_badan" name="berat_badan" pattern="\d{1,3}" required>
-                              <label for="berat_badan">Berat Badan</label>
-                              <div id="berat_badan" class="form-text">Dalam satuan kg</div>
-                              <div class="invalid-feedback"><small>Berat badan harus diisi dengan angka</small></div>
-                            </div>
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <select class="form-select" id="kabupaten_kota" name="kabupaten_kota" onchange="fetchKecamatan()" required>
+                            </select>
+                            <label for="kabupaten_kota">Kabupaten/Kota</label>
+                            <div class="invalid-feedback"><small>Kabupaten/Kota harus diisi</small></div>
                           </div>
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <input type="text" class="form-control" id="tinggi_badan" name="tinggi_badan" pattern="\d{1,3}" required>
-                              <label for="tinggi_badan">Tinggi Badan</label>
-                              <div id="tinggi_badan" class="form-text">Dalam satuan cm</div>
-                              <div class="invalid-feedback"><small>Tinggi badan harus diisi dengan angka</small></div>
-                            </div>
+                        </div>
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <select class="form-select" id="kecamatan" name="kecamatan" onchange="fetchDesa()" required>
+                            </select>
+                            <label for="kecamatan">Kecamatan</label>
+                            <div class="invalid-feedback"><small>Kecamatan harus diisi</small></div>
                           </div>
-                          <?php
-                          $ukuran_baju = mysqli_query($conn, "SELECT * FROM ukuran_baju");
-                          ?>
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <select class="form-select" id="ukuran_baju" name="ukuran_baju" required>
-                                <option value="" disabled selected>Pilih</option>
-                                <?php while ($row = mysqli_fetch_array($ukuran_baju)) { ?>
-                                  <option value="<?= $row['id_ukuran_baju'] ?>"><?= $row['nama_ukuran_baju'] ?></option>
-                                <?php } ?>
-                              </select>
-                              <label for="ukuran_baju">Ukuran Baju</label>
-                              <div class="invalid-feedback"><small>Ukuran baju harus diisi</small></div>
-                            </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <select class="form-select" id="desa_kelurahan" name="desa_kelurahan" required>
+                            </select>
+                            <label for="desa_kelurahan">Desa/Kelurahan</label>
+                            <div class="invalid-feedback"><small>Desa/Kelurahan harus diisi</small></div>
+                          </div>
+                        </div>
+                        <?php
+                        $rt = mysqli_query($conn, "SELECT * FROM rt_rw");
+                        ?>
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <select class="form-select" id="rt" name="rt" required>
+                              <option value="" disabled selected>Pilih</option>
+                              <?php while ($row = mysqli_fetch_array($rt)) { ?>
+                                <option value="<?= $row['id_rt_rw'] ?>"><?= $row['nama_rt_rw'] ?></option>
+                              <?php } ?>
+                            </select>
+                            <label for="rt">RT</label>
+                            <div class="invalid-feedback"><small>RT harus diisi</small></div>
+                          </div>
+                        </div>
+                        <?php
+                        $rw = mysqli_query($conn, "SELECT * FROM rt_rw");
+                        ?>
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <select class="form-select" id="rw" name="rw" required>
+                              <option value="" disabled selected>Pilih</option>
+                              <?php while ($row = mysqli_fetch_array($rw)) { ?>
+                                <option value="<?= $row['id_rt_rw'] ?>"><?= $row['nama_rt_rw'] ?></option>
+                              <?php } ?>
+                            </select>
+                            <label for="rw">RW</label>
+                            <div class="invalid-feedback"><small>RW harus diisi</small></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-8 pb-4">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="alamat_lengkap" name="alamat_lengkap" required>
+                            <label for="alamat_lengkap">Alamat Lengkap</label>
+                            <div id="alamat_lengkap" class="form-text">Berisi jalan, gang, nomor rumah, dukuh atau lainnya</div>
+                            <div class="invalid-feedback"><small>Alamat harus diisi</small></div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 pb-4">
+                          <div id="domisili" class="form-text">Apakah domisili calon peserta sesuai dengan alamat?</div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="domisili" id="domisili_ya" value="1" updateDomisiliRequired() required>
+                            <label class="form-check-label" for="domisili_ya">Ya</label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="domisili" id="domisili_tidak" value="0" updateDomisiliRequired required>
+                            <label class="form-check-label" for="domisili_tidak">Tidak</label>
+                            <div class="invalid-feedback"><small>Domisili harus diisi</small></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="berat_badan" name="berat_badan" pattern="\d{1,3}" required>
+                            <label for="berat_badan">Berat Badan</label>
+                            <div id="berat_badan" class="form-text">Dalam satuan kg</div>
+                            <div class="invalid-feedback"><small>Berat badan harus diisi dengan angka</small></div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="tinggi_badan" name="tinggi_badan" pattern="\d{1,3}" required>
+                            <label for="tinggi_badan">Tinggi Badan</label>
+                            <div id="tinggi_badan" class="form-text">Dalam satuan cm</div>
+                            <div class="invalid-feedback"><small>Tinggi badan harus diisi dengan angka</small></div>
+                          </div>
+                        </div>
+                        <?php
+                        $ukuran_baju = mysqli_query($conn, "SELECT * FROM ukuran_baju");
+                        ?>
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <select class="form-select" id="ukuran_baju" name="ukuran_baju" required>
+                              <option value="" disabled selected>Pilih</option>
+                              <?php while ($row = mysqli_fetch_array($ukuran_baju)) { ?>
+                                <option value="<?= $row['id_ukuran_baju'] ?>"><?= $row['nama_ukuran_baju'] ?></option>
+                              <?php } ?>
+                            </select>
+                            <label for="ukuran_baju">Ukuran Baju</label>
+                            <div class="invalid-feedback"><small>Ukuran baju harus diisi</small></div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <!-- Akhir Card Identitas -->
-
-                    <!-- Awal Card Sekolah -->
-                    <div class="card my-2">
-                      <div class="card-header fw-bold">
-                        Data Sekolah
-                      </div>
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <input type="text" class="form-control" id="nama_sekolah" name="nama_sekolah" required>
-                              <label for="nama_sekolah">Nama Sekolah</label>
-                              <div class="invalid-feedback"><small>Nama sekolah harus diisi</small></div>
-                            </div>
-                          </div>
-                          <?php
-                          $kelas = mysqli_query($conn, "SELECT * FROM kelas");
-                          ?>
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <select class="form-select" id="kelas" name="kelas" required>
-                                <option value="" disabled selected>Pilih</option>
-                                <?php while ($row = mysqli_fetch_array($kelas)) { ?>
-                                  <option value="<?= $row['id_kelas'] ?>"><?= $row['nama_kelas'] ?></option>
-                                <?php } ?>
-                              </select>
-                              <label for="kelas">Kelas</label>
-                              <div class="invalid-feedback"><small>Kelas harus diisi</small></div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <input type="text" class="form-control" id="alamat_sekolah" name="alamat_sekolah" required>
-                              <label for="alamat_sekolah">Alamat Sekolah</label>
-                              <div class="invalid-feedback"><small>Alamat sekolah harus diisi</small></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Akhir Card Sekolah -->
-
-                    <!-- Awal Card Pendaftar -->
-                    <div class="card my-2">
-                      <div class="card-header fw-bold">
-                        Data Pendaftar
-                      </div>
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <input type="text" class="form-control" id="orang_tua_wali" name="orang_tua_wali" required>
-                              <label for="orang_tua_wali">Nama Orang Tua/Wali</label>
-                              <div class="invalid-feedback"><small>Nama orang tua/wali harus diisi</small></div>
-                            </div>
-                          </div>
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <input type="text" class="form-control" id="no_hp" name="no_hp" pattern="^\d{8,15}$" title="Nomor handphone harus terdiri dari 8 hingga 15 digit" required>
-                              <label for="no_hp">Nomor Handphone</label>
-                              <div id="no_hp" class="form-text">Pastikan aktif WhatsApp untuk konfirmasi pendaftaran</div>
-                              <div class="invalid-feedback"><small>Nomor handphone harus diisi</small></div>
-                            </div>
-                          </div>
-                          <!-- Field Relasi -->
-                          <div class="col-md-4 pb-4">
-                            <div class="form-floating">
-                              <input type="text" class="form-control" id="relasi" name="relasi">
-                              <label for="relasi">Relasi</label>
-                              <div id="relasi" class="form-text">Masukkan nama orang terkait</div>
-                              <div class="invalid-feedback"></div>
-                            </div>
-                          </div>
-                          <!-- Field Mustahiq (Yes or No Radio Button) -->
-                          <div class="col-md-8 pb-4">
-                            <div id="mustahiq" class="form-text">Apakah peserta yang didaftarkan mustahiq?</div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="mustahiq" id="mustahiq_ya" value="1" updateMustahiqRequired() required>
-                              <label class="form-check-label" for="mustahiq_ya">Ya</label>
-                            </div>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="mustahiq" id="mustahiq_tidak" value="0" updateMustahiqRequired required>
-                              <label class="form-check-label" for="mustahiq_tidak">Tidak</label>
-                              <div class="invalid-feedback"><small>data ini harus diisi</small></div>
-                            </div>
-                          </div>
-
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Akhir Card Pendaftar -->
-
-                    <!-- Awal Card Dokumen -->
-                    <div class="card my-2">
-                      <div class="card-header fw-bold">
-                        Upload Dokumen
-                      </div>
-                      <div class="card-body">
-                        <div class="row">
-                          <div class="col-md pb-3">
-                            <p class="text-start">Perhatian !<br>Dokumen harus jelas dan dapat dibaca untuk kebutuhan verifikasi. File harus berupa gambar dalam format jpg/jpeg.</p>
-                          </div>
-                        </div>
-                        <!-- KIA / KK -->
-                        <div class="row">
-                          <div class="col-md-4 pb-4">
-                            <input class="form-control" type="file" id="dokumen_kia_kk" name="dokumen_kia_kk" required>
-                            <div id="dokumen_kia_kk" class="form-text">Dokumen KIA/KK</div>
-                            <div class="invalid-feedback"><small>Dokumen KIA/KK harus diisi sesuai ketentuan</small></div>
-                          </div>
-                          <div class="col-md-8 pb-4 text-center">
-                            <div id="preview_kia_kk"></div>
-                          </div>
-                        </div>
-                        <!-- Sekolah -->
-                        <div class="row">
-                          <div class="col-md-4 pb-4">
-                            <input class="form-control" type="file" id="dokumen_sekolah" name="dokumen_sekolah">
-                            <div id="dokumen_sekolah" class="form-text">Dokumen Sekolah</div>
-                            <div class="invalid-feedback"><small>Dokumen sekolah harus diisi sesuai ketentuan</small></div>
-                          </div>
-                          <div class="col-md-8 pb-4 text-center">
-                            <div id="preview_sekolah"></div>
-                          </div>
-                        </div>
-                        <!-- Domisili -->
-                        <div class="row">
-                          <div class="col-md-4 pb-4">
-                            <input class="form-control" type="file" id="dokumen_domisili" name="dokumen_domisili" required>
-                            <div id="dokumen_domisili" class="form-text">Dokumen Domisili</div>
-                            <div class="invalid-feedback"><small>Dokumen domisili harus diisi sesuai ketentuan</small></div>
-                          </div>
-                          <div class="col-md-8 pb-4 text-center">
-                            <div id="preview_domisili"></div>
-                          </div>
-                        </div>
-                        <!-- Pendukung-->
-                        <div class="row">
-                          <div class="col-md-4 pb-4">
-                            <input class="form-control" type="file" id="dokumen_pendukung" name="dokumen_pendukung">
-                            <div id="dokumen_pendukung" class="form-text">Dokumen Pendukung</div>
-                          </div>
-                          <div class="col-md-8 pb-4 text-center">
-                            <div id="preview_pendukung"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Submit -->
-                    <div class="row">
-                      <div class="col-md-10 py-2">
-                      </div>
-                      <div class="col-md-2 text-center pt-2 pe-2">
-                        <input type="submit" class="btn btn-success" value="Daftar" id="btnSubmit">
-                      </div>
-                    </div>
-                    <!-- Akhir Card Dokumen -->
-
                   </div>
+                  <!-- Akhir Card Identitas -->
+
+                  <!-- Awal Card Sekolah -->
+                  <div class="card my-2">
+                    <div class="card-header fw-bold">
+                      Data Sekolah
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="nama_sekolah" name="nama_sekolah" required>
+                            <label for="nama_sekolah">Nama Sekolah</label>
+                            <div class="invalid-feedback"><small>Nama sekolah harus diisi</small></div>
+                          </div>
+                        </div>
+                        <?php
+                        $kelas = mysqli_query($conn, "SELECT * FROM kelas");
+                        ?>
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <select class="form-select" id="kelas" name="kelas" required>
+                              <option value="" disabled selected>Pilih</option>
+                              <?php while ($row = mysqli_fetch_array($kelas)) { ?>
+                                <option value="<?= $row['id_kelas'] ?>"><?= $row['nama_kelas'] ?></option>
+                              <?php } ?>
+                            </select>
+                            <label for="kelas">Kelas</label>
+                            <div class="invalid-feedback"><small>Kelas harus diisi</small></div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="alamat_sekolah" name="alamat_sekolah" required>
+                            <label for="alamat_sekolah">Alamat Sekolah</label>
+                            <div class="invalid-feedback"><small>Alamat sekolah harus diisi</small></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Akhir Card Sekolah -->
+
+                  <!-- Awal Card Pendaftar -->
+                  <div class="card my-2">
+                    <div class="card-header fw-bold">
+                      Data Pendaftar
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="orang_tua_wali" name="orang_tua_wali" required>
+                            <label for="orang_tua_wali">Nama Orang Tua/Wali</label>
+                            <div class="invalid-feedback"><small>Nama orang tua/wali harus diisi</small></div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="no_hp" name="no_hp" pattern="^\d{8,15}$" title="Nomor handphone harus terdiri dari 8 hingga 15 digit" required>
+                            <label for="no_hp">Nomor Handphone</label>
+                            <div id="no_hp" class="form-text">Pastikan aktif WhatsApp untuk konfirmasi pendaftaran</div>
+                            <div class="invalid-feedback"><small>Nomor handphone harus diisi</small></div>
+                          </div>
+                        </div>
+                        <!-- Field Relasi -->
+                        <div class="col-md-4 pb-4">
+                          <div class="form-floating">
+                            <input type="text" class="form-control" id="relasi" name="relasi">
+                            <label for="relasi">Relasi</label>
+                            <div id="relasi" class="form-text">Masukkan nama orang terkait</div>
+                            <div class="invalid-feedback"></div>
+                          </div>
+                        </div>
+                        <!-- Field Mustahiq (Yes or No Radio Button) -->
+                        <div class="col-md-8 pb-4">
+                          <div id="mustahiq" class="form-text">Apakah peserta yang didaftarkan mustahiq?</div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="mustahiq" id="mustahiq_ya" value="1" updateMustahiqRequired() required>
+                            <label class="form-check-label" for="mustahiq_ya">Ya</label>
+                          </div>
+                          <div class="form-check">
+                            <input class="form-check-input" type="radio" name="mustahiq" id="mustahiq_tidak" value="0" updateMustahiqRequired required>
+                            <label class="form-check-label" for="mustahiq_tidak">Tidak</label>
+                            <div class="invalid-feedback"><small>data ini harus diisi</small></div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Akhir Card Pendaftar -->
+
+                  <!-- Awal Card Dokumen -->
+                  <div class="card my-2">
+                    <div class="card-header fw-bold">
+                      Upload Dokumen
+                    </div>
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="col-md pb-3">
+                          <p class="text-start">Perhatian !<br>Dokumen harus jelas dan dapat dibaca untuk kebutuhan verifikasi. File harus berupa gambar dalam format jpg/jpeg.</p>
+                        </div>
+                      </div>
+                      <!-- KIA / KK -->
+                      <div class="row">
+                        <div class="col-md-4 pb-4">
+                          <input class="form-control" type="file" id="dokumen_kia_kk" name="dokumen_kia_kk" required>
+                          <div id="dokumen_kia_kk" class="form-text">Dokumen KIA/KK</div>
+                          <div class="invalid-feedback"><small>Dokumen KIA/KK harus diisi sesuai ketentuan</small></div>
+                        </div>
+                        <div class="col-md-8 pb-4 text-center">
+                          <div id="preview_kia_kk"></div>
+                        </div>
+                      </div>
+                      <!-- Sekolah -->
+                      <div class="row">
+                        <div class="col-md-4 pb-4">
+                          <input class="form-control" type="file" id="dokumen_sekolah" name="dokumen_sekolah">
+                          <div id="dokumen_sekolah" class="form-text">Dokumen Sekolah</div>
+                          <div class="invalid-feedback"><small>Dokumen sekolah harus diisi sesuai ketentuan</small></div>
+                        </div>
+                        <div class="col-md-8 pb-4 text-center">
+                          <div id="preview_sekolah"></div>
+                        </div>
+                      </div>
+                      <!-- Domisili -->
+                      <div class="row">
+                        <div class="col-md-4 pb-4">
+                          <input class="form-control" type="file" id="dokumen_domisili" name="dokumen_domisili" required>
+                          <div id="dokumen_domisili" class="form-text">Dokumen Domisili</div>
+                          <div class="invalid-feedback"><small>Dokumen domisili harus diisi sesuai ketentuan</small></div>
+                        </div>
+                        <div class="col-md-8 pb-4 text-center">
+                          <div id="preview_domisili"></div>
+                        </div>
+                      </div>
+                      <!-- Pendukung-->
+                      <div class="row">
+                        <div class="col-md-4 pb-4">
+                          <input class="form-control" type="file" id="dokumen_pendukung" name="dokumen_pendukung">
+                          <div id="dokumen_pendukung" class="form-text">Dokumen Pendukung</div>
+                        </div>
+                        <div class="col-md-8 pb-4 text-center">
+                          <div id="preview_pendukung"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Submit -->
+                  <div class="row">
+                    <div class="col-md-10 py-2">
+                    </div>
+                    <div class="col-md-2 text-center pt-2 pe-2">
+                      <input type="submit" class="btn btn-success" value="Daftar" id="btnSubmit">
+                    </div>
+                  </div>
+                  <!-- Akhir Card Dokumen -->
+
                 </div>
-                <!-- Akhir Card Data -->
-
               </div>
+              <!-- Akhir Card Data -->
+
             </div>
-            <!-- Akhir Card Konten -->
+          </div>
+          <!-- Akhir Card Konten -->
 
-          </form>
+        </form>
       </div>
-      <!-- Akhir Pendaftaran dibuka -->
 
-      <!-- Awal Pendaftaran ditutup -->
-    <?php } else { ?>
-      <div class="rounded bg-danger text-white d-flex align-items-center justify-content-center" style="max-width: 300px; margin: 0 auto; height: 45px;">
-        <h5 class="fw-bold mb-0">Pendaftaran ditutup</h5>
-      </div>
-    <?php } ?>
-    <!-- Akhir Pendaftaran ditutup -->
     </div>
     <!-- Akhir Konten -->
 
