@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 13 Agu 2024 pada 18.51
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Host: localhost
+-- Waktu pembuatan: 16 Agu 2024 pada 06.12
+-- Versi server: 10.4.28-MariaDB
+-- Versi PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -7337,8 +7337,13 @@ CREATE TABLE `pendaftar` (
 --
 
 INSERT INTO `pendaftar` (`id`, `is_admin`, `nama_lengkap`, `nik`, `no_kk`, `no_peserta`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `name_created`, `date_created`, `updated`, `name_updated`, `date_updated`) VALUES
-(1, 0, 'MIKASA', '3319030382103822', '3319030382103822', NULL, 117195, 1, 0, NULL, 'test', '08988335639', 3319, '2012-12-09', 'test', 33, 3319, 3319030, 3319030006, 1, 3, 1, '50', '165', 2, 'test', 11, 'test', '303_3319030382103822.jpg', '', '', '', NULL, '2024-08-13 16:45:24', NULL, NULL, '2024-08-13 16:45:24'),
-(2, 1, 'MUSASHI', '3319030382103827', '3319030382103827', NULL, 927373, 1, 0, 'alham manazil', 'test', '08988335639', 1107, '2012-12-09', 'test', 11, 1107, 1107062, 1107062026, 1, 5, 0, '50', '165', 1, 'test', 11, 'test', '795_3319030382103827.jpg', '', '463_3319030382103827.jpg', '', NULL, '2024-08-13 16:47:51', NULL, NULL, '2024-08-13 16:47:51');
+(1, 0, 'MIKASA', '3319030382103822', '3319030382103822', NULL, 117195, 1, 0, NULL, 'test', '08988335639', 3319, '2012-12-09', 'test', 33, 3319, 3319030, 3319030006, 1, 3, 1, '50', '165', 2, 'test', 11, 'test', '303_3319030382103822.jpg', '', '', '', NULL, '2024-08-13 16:45:24', 'Alham Manazil', NULL, '2024-08-16 04:03:06'),
+(2, 1, 'MUSASHI', '3319030382103827', '3319030382103827', NULL, 927373, 1, 0, 'alham manazil', 'test', '08988335639', 1107, '2012-12-09', 'test', 11, 1107, 1107062, 1107062026, 1, 5, 0, '50', '165', 1, 'test', 11, 'test', '795_3319030382103827.jpg', '', '463_3319030382103827.jpg', '', NULL, '2024-08-13 16:47:51', NULL, NULL, '2024-08-13 16:47:51'),
+(3, 0, 'FAUZUL KHAKIM', '3319021904970001', '3319021904240001', NULL, 100471, 1, 0, '', 'ACHMAD', '085865068194', 3319, '2016-09-30', 'JL PASAR BARU GG MANGGA III NO 273', 33, 3319, 3319020, 3319020007, 5, 4, 1, '98', '158', 4, 'MA QUDSIYYAH', 5, 'KERJASAN KOTA KUDUS', '508_3319021904970001.jpg', '', '', '', NULL, '2024-08-15 21:47:29', 'Alham Manazil', NULL, '2024-08-16 04:03:10'),
+(4, 1, 'FAUZUL HAKIM', '3319021904970002', '3319021904970012', NULL, 211616, 1, 1, 'ZAENAL', 'STEVEN', '085865068194', 1107, '2023-10-06', 'AGUS SALIM', 11, 1108, 1108111, 1108111002, 7, 8, 1, '34', '3', 4, 'KANISIUS', 5, 'DEMAAN', '', '', '', '', NULL, '2024-08-15 21:55:58', 'Alham Manazil', NULL, '2024-08-16 04:03:14'),
+(5, 0, 'BUDI HARTANTO', '3319021904970005', '3319021408240007', NULL, 132567, 1, 0, '', 'STEVEN', '085865068194', 1108, '2016-09-28', 'PASAR BARU', 51, 5106, 5106040, 5106040021, 5, 12, 1, '60', '43', 3, 'QUDSIYYAH', 4, 'KOTA KUDUS', '330_3319021904970005.jpg', '', '', '', NULL, '2024-08-15 23:16:31', 'Alham Manazil', NULL, '2024-08-16 04:03:17'),
+(6, 0, 'BUDI ARTANTO', '3319021904970003', '3319021408240009', NULL, 592132, 1, 0, '', 'STEVEN', '085865068194', 1108, '2016-09-28', 'PASAR BARU', 51, 5106, 5106040, 5106040021, 5, 12, 1, '60', '43', 3, 'QUDSIYYAH', 4, 'KOTA KUDUS', '911_3319021904970003.jpg', '', '19_3319021904970003.jpeg', '', NULL, '2024-08-15 23:19:48', 'Alham Manazil', NULL, '2024-08-16 04:03:20'),
+(7, 0, 'ABU RIZAL', '3319021904970009', '3319021904970009', NULL, 572806, 1, 0, '', 'STEVEN', '085865068194', 3319, '2016-09-29', 'JL PASAR BARU GG MANGGA III NO 273', 33, 3319, 3319020, 3319020007, 5, 4, 1, '98', '158', 2, 'MA QUDSIYYAH', 6, 'KERJASAN KOTA KUDUS', '359_3319021904970009.jpeg', '', '', '', NULL, '2024-08-16 00:29:12', 'Alham Manazil', NULL, '2024-08-16 04:03:24');
 
 --
 -- Trigger `pendaftar`
@@ -88755,7 +88760,7 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT untuk tabel `pendaftar`
 --
 ALTER TABLE `pendaftar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `rt_rw`
