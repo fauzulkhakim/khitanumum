@@ -51,15 +51,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->execute();
 
             // Kirim pesan WhatsApp
-            $link = "http://localhost/khitanumum/undangan.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
+            $link = "https://khitanumum.menarakudus.id/undangan.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
             sendMessageDiterima($data_no_hp, $link);
         } elseif ($statusId == 3) {
             // Ditolak
-            $link = "http://localhost/khitanumum/status.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
+            $link = "https://khitanumum.menarakudus.id/status.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
             sendMessageDitolak($data_no_hp, $link);
         } elseif ($statusId == 4) {
             // Pending
-            $link = "http://localhost/khitanumum/status.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
+            $link = "https://khitanumum.menarakudus.id/status.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
             sendMessagePending($data_no_hp, $link);
         }
 

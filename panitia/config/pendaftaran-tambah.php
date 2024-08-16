@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (mysqli_query($conn, $sql)) {
     // Kirim pesan sukses pendaftaran ke WhatsApp
-    $link = "http://localhost/khitanumum/status.php?otp=$otp"; // Sesuaikan link dengan URL yang benar
+    $link = "https://khitanumum.menarakudus.id/status.php?otp=$otp"; // Sesuaikan link dengan URL yang benar
     sendSuccessMessage($no_hp, $link);
 
     // Redirect ke halaman status dengan parameter OTP
