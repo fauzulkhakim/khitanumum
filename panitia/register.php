@@ -132,18 +132,6 @@ session_start();
                         <div class="invalid-feedback">Password tidak cocok.</div>
                     </div>
                 </div>
-                <!-- Nomor HP -->
-                <div class="mb-3">
-                    <label for="no_hp" class="form-label">Nomor HP</label>
-                    <input type="tel" id="no_hp" name="no_hp" class="form-control" placeholder="" minlength="11" pattern="\d*" required>
-                    <div class="invalid-feedback">Nomor HP harus diisi minimal 11 angka.</div>
-                </div>
-                <!-- Alamat -->
-                <div class="mb-3">
-                    <label for="alamat" class="form-label">Alamat</label>
-                    <input type="text" id="alamat" name="alamat" class="form-control" placeholder="" required>
-                    <div class="invalid-feedback">Alamat harus diisi.</div>
-                </div>
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary">Daftar</button>
                     <!-- Sudah punya akun? Login -->

@@ -7,13 +7,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_lengkap = $_POST['nama_lengkap'];
     $username = $_POST['username'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash password untuk keamanan
-    $no_hp = $_POST['no_hp'];
-    $alamat = $_POST['alamat'];
 
     // SQL untuk memasukkan data ke tabel users
-    $sql = "INSERT INTO users (nama_lengkap, username, password, no_hp, alamat, akses, role) VALUES (?, ?, ?, ?, ?, 0, 'user')";
+    $sql = "INSERT INTO users (nama_lengkap, username, password, akses, role) VALUES (?, ?, ?, ?, ?, 0, 'user')";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", $nama_lengkap, $username, $password, $no_hp, $alamat);
+    $stmt->bind_param("sssss", $nama_lengkap, $username, $password);
 
     try {
         // Cek apakah eksekusi berhasil
