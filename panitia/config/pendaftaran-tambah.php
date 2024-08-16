@@ -113,7 +113,7 @@ wa.me/6281910287931 (Vian)
 
 ------------------------------------------------------------
 
--= Khitan Umum 1446H =-";
+-= Khitan Umum 1446 H =-";
 
   $data = [
     'target' => $no_hp, // Nomor tujuan dengan format internasional

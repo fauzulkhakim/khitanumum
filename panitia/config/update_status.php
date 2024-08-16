@@ -8,6 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $isAccepted = ($statusId == 2); // ID status 'Diterima' adalah 2
     $adminId = $_SESSION['user']['id']; // ID admin yang login
 
+    // Kebutuhan kirim whatsapp
+    $data_wa = mysqli_query($conn, "SELECT * FROM pendaftar WHERE id = $pendaftarId");
+    $data_wa = mysqli_fetch_assoc($data_wa);
+    $data_otp = $data_wa['otp'];
+    $data_no_hp = $data_wa['no_hp'];
+
     // Mengambil nama lengkap admin
     $adminQuery = "SELECT nama_lengkap FROM users WHERE id = ?";
     $adminStmt = $conn->prepare($adminQuery);
@@ -43,6 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt = $conn->prepare($sqlNoPeserta);
             $stmt->bind_param('si', $newNoPeserta, $pendaftarId);
             $stmt->execute();
+
+            // Kirim pesan WhatsApp
+            $link = "http://localhost/khitanumum/undangan.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
+            sendMessage($data_no_hp, $link);
         }
 
         // Commit transaksi
@@ -52,5 +62,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Jika ada error, rollback transaksi
         $conn->rollback();
         echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    }
+}
+
+function sendMessage($no_hp, $link)
+{
+    $api_key = 'dCX2xQGWT6nENJcJZi9g';
+    $url = 'https://api.fonnte.com/send';
+
+    $message = "✅ Pendaftaran Diterima
+------------------------------------------------------------
+
+Download bukti daftar dan undangan melalui link dibawah ini:
+
+$link
+
+Jika ada kesalahan data anak dan membutuhkan informasi lebih lanjut silahkan hubungi WhatsApp dibawah ini:
+
+wa.me/6285878537250 (Haidar)
+wa.me/6281910287931 (Vian)
+
+------------------------------------------------------------
+
+-= Khitan Umum 1446 H =-";
+
+    $data = [
+        'target' => $no_hp, // Nomor tujuan dengan format internasional
+        'message' => $message
+    ];
+
+    $curl = curl_init();
+
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+        "Authorization: $api_key", // Header otorisasi dengan API key
+    ]);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    $result = json_decode($response, true);
+    if ($result['status'] != "success") {
+        echo "Gagal mengirim pesan sukses: " . $result['message'];
     }
 }

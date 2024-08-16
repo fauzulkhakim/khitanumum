@@ -1,4 +1,10 @@
 <?php
+// saat hosting jangan lupa periksa pesan whatsapp dan ganti url root status dan undangan di :
+// - panitia/config/pendaftaran-tambah.php
+// - panitia/config/resend_status.php
+// - panitia/config/resend_undangan.php
+// - panitia/config/update_status.php
+
 date_default_timezone_set('Asia/Jakarta');
 // Detail koneksi ke database
 $servername = "localhost";

@@ -34,7 +34,7 @@ function sendMessage($no_hp, $link)
   $api_key = 'dCX2xQGWT6nENJcJZi9g';
   $url = 'https://api.fonnte.com/send';
 
-  $message = "Kirim ulang status pendaftaran
+  $message = "🔄 Kirim ulang status pendaftaran
 ------------------------------------------------------------
 
 Cek status calon peserta khitan secara berkala pada link dibawah ini:
@@ -49,7 +49,7 @@ wa.me/6281910287931 (Vian)
 
 ------------------------------------------------------------
 
--= Khitan Umum 1446H =-";
+-= Khitan Umum 1446 H =-";
 
   $data = [
     'target' => $no_hp, // Nomor tujuan dengan format internasional
