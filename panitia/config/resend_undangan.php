@@ -18,7 +18,7 @@ $result = mysqli_fetch_assoc($result);
 // Cek hasil query
 if (mysqli_num_rows(mysqli_query($conn, $sql)) > 0) {
 
-  $link = "https://khitanumum.menarakudus.id/undangan.php?otp=" . $result['otp']; // Sesuaikan link dengan URL yang benar
+  $link = "https://dev.menarakudus.id/undangan.php?otp=" . $result['otp']; // Sesuaikan link dengan URL yang benar
   sendMessage($result['no_hp'], $link);
 
   echo json_encode(["status" => "success", "message" => "Pesan terkirim"]);
@@ -31,7 +31,7 @@ $conn->close();
 
 function sendMessage($no_hp, $link)
 {
-  $api_key = 'dCX2xQGWT6nENJcJZi9g';
+  $api_key = 'wGd+U1ehDoCTphUxwciu';
   $url = 'https://api.fonnte.com/send';
 
   $message = "🔄 Kirim ulang undangan

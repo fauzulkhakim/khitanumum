@@ -51,15 +51,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $stmt->execute();
 
             // Kirim pesan WhatsApp
-            $link = "https://khitanumum.menarakudus.id/undangan.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
+            $link = "https://dev.menarakudus.id/undangan.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
             sendMessageDiterima($data_no_hp, $link);
         } elseif ($statusId == 3) {
             // Ditolak
-            $link = "https://khitanumum.menarakudus.id/status.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
+            $link = "https://dev.menarakudus.id/status.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
             sendMessageDitolak($data_no_hp, $link);
         } elseif ($statusId == 4) {
             // Pending
-            $link = "https://khitanumum.menarakudus.id/status.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
+            $link = "https://dev.menarakudus.id/status.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
             sendMessagePending($data_no_hp, $link);
         }
 
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 function sendMessageDiterima($no_hp, $link)
 {
-    $api_key = 'dCX2xQGWT6nENJcJZi9g';
+    $api_key = 'wGd+U1ehDoCTphUxwciu';
     $url = 'https://api.fonnte.com/send';
 
     $message = "✅ Pendaftaran Diterima
@@ -122,7 +122,7 @@ wa.me/6281910287931 (Vian)
 
 function sendMessagePending($no_hp, $link)
 {
-    $api_key = 'dCX2xQGWT6nENJcJZi9g';
+    $api_key = 'wGd+U1ehDoCTphUxwciu';
     $url = 'https://api.fonnte.com/send';
 
     $message = "⌛︎ Pendaftaran dalam antrian
@@ -170,7 +170,7 @@ wa.me/6281910287931 (Vian)
 
 function sendMessageDitolak($no_hp, $link)
 {
-    $api_key = 'dCX2xQGWT6nENJcJZi9g';
+    $api_key = 'wGd+U1ehDoCTphUxwciu';
     $url = 'https://api.fonnte.com/send';
 
     $message = "❌ Pendaftaran Ditolak

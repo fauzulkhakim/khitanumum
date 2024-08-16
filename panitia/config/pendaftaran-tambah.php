@@ -61,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (mysqli_query($conn, $sql)) {
     // Kirim pesan sukses pendaftaran ke WhatsApp
-    $link = "https://khitanumum.menarakudus.id/status.php?otp=$otp"; // Sesuaikan link dengan URL yang benar
+    $link = "https://dev.menarakudus.id/status.php?otp=$otp"; // Sesuaikan link dengan URL yang benar
     sendSuccessMessage($no_hp, $link);
 
     // Redirect ke halaman status dengan parameter OTP
@@ -92,7 +92,7 @@ function uploadImage($file, $nik, $dir)
 
 function sendSuccessMessage($no_hp, $link)
 {
-  $api_key = 'dCX2xQGWT6nENJcJZi9g';
+  $api_key = 'wGd+U1ehDoCTphUxwciu';
   $url = 'https://api.fonnte.com/send';
 
   $message = "✅ Pendaftaran Berhasil
