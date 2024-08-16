@@ -44,8 +44,18 @@ if (!$pendaftar) {
     exit();
 }
 
+// Cek apakah tidak diterima
+if ($pendaftar['status_pendaftaran_id'] != 2) {
+    echo "<div class='alert alert-danger text-center'>Data tidak ditemukan. Silakan cek kembali OTP Anda.</div>";
+    exit();
+}
+
+
 
 $no_peserta = $pendaftar['no_peserta'];
+$digit_awal = substr($no_peserta, 0, 2);
+$digit_akhir = substr($no_peserta, -4);
+
 $nama = $pendaftar['nama_lengkap'];
 $nik = $pendaftar['nik'];
 $orang_tua = $pendaftar['orang_tua_wali'];
@@ -55,12 +65,12 @@ if (stripos($pendaftar['kabupaten_kota'], 'Kabupaten') === 0) {
 $alamat = $pendaftar['desa_kelurahan'] . ' ' . $pendaftar['rt_rw'] . '/' . $pendaftar['rw_rw'] . ' ' . $pendaftar['kecamatan'] . ' ' . $kab_kota;
 
 // Dispaly Gambar
-// header('Content-Type: image/png');
+header('Content-Type: image/png');
 
 // Otomatis Download
-header('Content-Description: File Transfer');
-header('Content-Disposition: attachment; filename="' . $no_peserta . '_' . $nama . '.jpg"');
-header('Content-Type: application/octet-stream');
+// header('Content-Description: File Transfer');
+// header('Content-Disposition: attachment; filename="' . $no_peserta . '_' . $nama . '.jpg"');
+// header('Content-Type: application/octet-stream');
 
 // Format
 $fontPathRegular = 'panitia/assets/font/Tinos-Regular.ttf';
@@ -69,7 +79,9 @@ $fontSize = 28;
 $image = imagecreatefrompng('panitia/assets/undangan.png');
 $color = imagecolorallocate($image, 89, 89, 89);
 
-imagettftext($image, $fontSize, 0, 1343, 396, $color, $fontPathBold, $no_peserta);
+imagettftext($image, $fontSize, 0, 1343, 396, $color, $fontPathRegular, $digit_awal);
+imagettftext($image, 29, 0, 1382, 396, $color, $fontPathBold, $digit_akhir);
+
 imagettftext($image, $fontSize, 0, 510, 641, $color, $fontPathRegular, $nama);
 imagettftext($image, $fontSize, 0, 510, 683, $color, $fontPathRegular, $nik);
 imagettftext($image, $fontSize, 0, 510, 723, $color, $fontPathRegular, $orang_tua);

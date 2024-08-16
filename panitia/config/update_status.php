@@ -52,7 +52,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Kirim pesan WhatsApp
             $link = "http://localhost/khitanumum/undangan.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
-            sendMessage($data_no_hp, $link);
+            sendMessageDiterima($data_no_hp, $link);
+        } elseif ($statusId == 3) {
+            // Ditolak
+            $link = "http://localhost/khitanumum/status.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
+            sendMessageDitolak($data_no_hp, $link);
+        } elseif ($statusId == 4) {
+            // Pending
+            $link = "http://localhost/khitanumum/status.php?otp=" . $data_otp; // Sesuaikan link dengan URL yang benar
+            sendMessagePending($data_no_hp, $link);
         }
 
         // Commit transaksi
@@ -65,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-function sendMessage($no_hp, $link)
+function sendMessageDiterima($no_hp, $link)
 {
     $api_key = 'dCX2xQGWT6nENJcJZi9g';
     $url = 'https://api.fonnte.com/send';
@@ -78,6 +86,101 @@ Download bukti daftar dan undangan melalui link dibawah ini:
 $link
 
 Jika ada kesalahan data anak dan membutuhkan informasi lebih lanjut silahkan hubungi WhatsApp dibawah ini:
+
+wa.me/6285878537250 (Haidar)
+wa.me/6281910287931 (Vian)
+
+------------------------------------------------------------
+
+-= Khitan Umum 1446 H =-";
+
+    $data = [
+        'target' => $no_hp, // Nomor tujuan dengan format internasional
+        'message' => $message
+    ];
+
+    $curl = curl_init();
+
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+        "Authorization: $api_key", // Header otorisasi dengan API key
+    ]);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    $result = json_decode($response, true);
+    if ($result['status'] != "success") {
+        echo "Gagal mengirim pesan sukses: " . $result['message'];
+    }
+}
+
+function sendMessagePending($no_hp, $link)
+{
+    $api_key = 'dCX2xQGWT6nENJcJZi9g';
+    $url = 'https://api.fonnte.com/send';
+
+    $message = "⌛︎ Pendaftaran dalam antrian
+------------------------------------------------------------
+
+Mohon tunggu sampai waktu pendaftaran selesai.
+Cek status calon peserta khitan secara berkala pada link dibawah ini:
+
+$link
+
+Jika ada kesalahan data anak dan membutuhkan informasi lebih lanjut silahkan hubungi WhatsApp dibawah ini:
+
+wa.me/6285878537250 (Haidar)
+wa.me/6281910287931 (Vian)
+
+------------------------------------------------------------
+
+-= Khitan Umum 1446 H =-";
+
+    $data = [
+        'target' => $no_hp, // Nomor tujuan dengan format internasional
+        'message' => $message
+    ];
+
+    $curl = curl_init();
+
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($curl, CURLOPT_HTTPHEADER, [
+        "Authorization: $api_key", // Header otorisasi dengan API key
+    ]);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+    $response = curl_exec($curl);
+    curl_close($curl);
+
+    $result = json_decode($response, true);
+    if ($result['status'] != "success") {
+        echo "Gagal mengirim pesan sukses: " . $result['message'];
+    }
+}
+
+function sendMessageDitolak($no_hp, $link)
+{
+    $api_key = 'dCX2xQGWT6nENJcJZi9g';
+    $url = 'https://api.fonnte.com/send';
+
+    $message = "❌ Pendaftaran Ditolak
+------------------------------------------------------------
+
+Mohon maaf calon peserta tidak dapat diterima.
+
+$link
+
+Informasi lebih lanjut silahkan hubungi WhatsApp dibawah ini:
 
 wa.me/6285878537250 (Haidar)
 wa.me/6281910287931 (Vian)

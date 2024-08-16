@@ -119,9 +119,11 @@ require_once 'header.php';
                   <button data-id="<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-secondary m-1 buttonStatus">
                     <i class="fa-solid fa-square-poll-horizontal"></i>
                   </button>
-                  <button data-id="<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-secondary m-1 buttonUndangan">
-                    <i class="fa-solid fa-file-arrow-down"></i>
-                  </button>
+                  <?php if ($pendaftaran['status_pendaftaran_id'] == 2) : ?>
+                    <button data-id="<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-secondary m-1 buttonUndangan">
+                      <i class="fa-solid fa-file-arrow-down"></i>
+                    </button>
+                  <?php endif; ?>
                 </td>
                 <td class="text-center align-middle">
                   <a href="pendaftar-info.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-primary m-1">
