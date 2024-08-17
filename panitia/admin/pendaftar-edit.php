@@ -75,9 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Dokumen Pendukung
     $dokumen_pendukung = isset($_FILES['dokumen_pendukung']) && $_FILES['dokumen_pendukung']['error'] == 0 ? uploadImage($_FILES['dokumen_pendukung'], $nik, 'pendukung') : $pendaftaran['dokumen_pendukung'];
 
-    var_dump($dokumen_kia_kk, $dokumen_sekolah, $dokumen_domisili, $dokumen_pendukung);
-    exit();
-
     $sql = "UPDATE pendaftar SET
         nama_lengkap = '$nama_lengkap',
         updated = '$updated',
