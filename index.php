@@ -1,10 +1,4 @@
 <?php
-$dev = $_GET['dev'];
-
-if (!$dev) {
-  echo "Website dalam persiapan";
-  exit;
-}
 
 date_default_timezone_set('Asia/Jakarta');
 require 'panitia/config/config.php';
@@ -582,7 +576,7 @@ $current_time = date('Y-m-d H:i:s');
     // Tanggal lahir => Rentang usia 7 - 15 tahun
     function tanggalLahir() {
       const dateInput = document.getElementById('tanggal_lahir');
-      const today = new Date('2023-10-07');
+      const today = new Date('2024-09-21');
 
       // Rentang umur yang diizinkan (misalnya, 18 hingga 60 tahun)
       const minAge = 7;
