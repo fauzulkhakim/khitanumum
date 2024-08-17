@@ -13,7 +13,31 @@ if (isset($_SESSION['user']['nama_lengkap'])) {
     $logged_in_user = 'Unknown';
 }
 
+$id = $_GET['id'];
+$sql = "SELECT
+        p.*,
+        tl.name_regencies,
+        pr.name_provinces,
+        r.name_regencies,
+        d.name_districts,
+        v.name_villages,
+        sp.nama_status_pendaftaran,
+        ub.nama_ukuran_baju
+        FROM
+        pendaftar p
+        JOIN regencies tl ON p.domisili_regencies_id = tl.id_regencies
+        JOIN provinces pr ON p.domisili_provinces_id = pr.id_provinces
+        JOIN regencies r ON p.domisili_regencies_id = r.id_regencies
+        JOIN districts d ON p.domisili_districts_id = d.id_districts
+        JOIN villages v ON p.domisili_villages_id = v.id_villages
+        JOIN status_pendaftaran sp ON p.status_pendaftaran_id = sp.id_status_pendaftaran
+        JOIN ukuran_baju ub ON p.ukuran_baju_id = ub.id_ukuran_baju
+        WHERE p.id = $id";
+$result = $conn->query($sql);
+$pendaftaran = $result->fetch_assoc();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     // Ambil data dari form
     $updated = $logged_in_user;
     $id = $_POST['id'];
@@ -50,6 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dokumen_domisili = isset($_FILES['dokumen_domisili']) && $_FILES['dokumen_domisili']['error'] == 0 ? uploadImage($_FILES['dokumen_domisili'], $nik, 'domisili') : $pendaftaran['dokumen_domisili'];
     // Dokumen Pendukung
     $dokumen_pendukung = isset($_FILES['dokumen_pendukung']) && $_FILES['dokumen_pendukung']['error'] == 0 ? uploadImage($_FILES['dokumen_pendukung'], $nik, 'pendukung') : $pendaftaran['dokumen_pendukung'];
+
+    var_dump($dokumen_kia_kk, $dokumen_sekolah, $dokumen_domisili, $dokumen_pendukung);
+    exit();
 
     $sql = "UPDATE pendaftar SET
         nama_lengkap = '$nama_lengkap',
@@ -89,29 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         echo "Error updating record: " . $conn->error;
     }
-} else {
-    $id = $_GET['id'];
-    $sql = "SELECT
-        p.*,
-        tl.name_regencies,
-        pr.name_provinces,
-        r.name_regencies,
-        d.name_districts,
-        v.name_villages,
-        sp.nama_status_pendaftaran,
-        ub.nama_ukuran_baju
-        FROM
-        pendaftar p
-        JOIN regencies tl ON p.domisili_regencies_id = tl.id_regencies
-        JOIN provinces pr ON p.domisili_provinces_id = pr.id_provinces
-        JOIN regencies r ON p.domisili_regencies_id = r.id_regencies
-        JOIN districts d ON p.domisili_districts_id = d.id_districts
-        JOIN villages v ON p.domisili_villages_id = v.id_villages
-        JOIN status_pendaftaran sp ON p.status_pendaftaran_id = sp.id_status_pendaftaran
-        JOIN ukuran_baju ub ON p.ukuran_baju_id = ub.id_ukuran_baju
-        WHERE p.id = $id";
-    $result = $conn->query($sql);
-    $pendaftaran = $result->fetch_assoc();
 }
 
 function uploadImage($file, $nik, $dir)
@@ -215,7 +219,7 @@ require_once 'header.php';
 <div class="container">
     <div class="row pt-2 justify-content-center">
         <div class="col-md-10">
-            <form action="pendaftar-edit.php" method="POST" enctype="multipart/form-data" id="form-pendaftaran" class="needs-validation" novalidate>
+            <form action="" method="POST" enctype="multipart/form-data" id="form-pendaftaran" class="needs-validation" novalidate>
                 <input type="hidden" name="id" value="<?= $pendaftaran['id']; ?>">
                 <!-- Awal Card Konten -->
                 <div class="card mb-5">
