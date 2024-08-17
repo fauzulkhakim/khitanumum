@@ -40,8 +40,8 @@ require_once 'header.php';
               <th class="text-center align-middle">Relasi</th>
               <th class="text-center align-middle">Diubah oleh</th>
               <th class="text-center align-middle" style="min-width: 150px">Status Pendaftaran</th>
-              <th class="text-center align-middle" style="min-width: 200px">Document & Resend</th>
-              <th class="text-center align-middle" style="min-width: 150px">Aksi</th>
+              <th class="text-center align-middle" style="min-width: 150px">Document & Resend</th>
+              <th class="text-center align-middle" style="min-width: 100px">Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -132,9 +132,9 @@ require_once 'header.php';
                   <a href="pendaftar-edit.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-warning m-1">
                     <i class="fas fa-edit"></i>
                   </a>
-                  <a href="../config/pendaftar-delete.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-danger m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                  <!-- <a href="../config/pendaftar-delete.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-danger m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                     <i class="fas fa-trash"></i>
-                  </a>
+                  </a> -->
                 </td>
               </tr>
             <?php

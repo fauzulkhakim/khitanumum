@@ -61,6 +61,13 @@ $user_role = $_SESSION['user']['role'] ?? null;
 <script src="https://cdn.datatables.net/2.1.2/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.1.2/js/dataTables.bootstrap5.js"></script>
 
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- Include DataTables JS -->
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<!-- Include FixedColumns JS -->
+<script src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>
+
 <!-- Tambahan untuk modal -->
 <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -90,7 +97,22 @@ $user_role = $_SESSION['user']['role'] ?? null;
 <!-- Halaman Pendaftar -->
 <script>
   $(document).ready(function() {
-    $('#pendaftar').DataTable();
+    $('#pendaftar').DataTable({
+      "scrollX": true,
+      "fixedColumns": {
+        "leftColumns": 3 // Jumlah kolom yang ingin Anda bekukan dari sisi kiri
+      },
+      stateSave: true,
+      stateSaveCallback: function(settings, data) {
+        console.log('State is being saved:', data);
+        localStorage.setItem('dataTableState', JSON.stringify(data));
+      },
+      stateLoadCallback: function(settings) {
+        var state = localStorage.getItem('dataTableState');
+        console.log('State is being loaded:', JSON.parse(state));
+        return JSON.parse(state);
+      }
+    });
 
     $('#imageModal').on('show.bs.modal', function(event) {
       var button = $(event.relatedTarget);
@@ -101,7 +123,7 @@ $user_role = $_SESSION['user']['role'] ?? null;
       if (images.length > 0) {
         images.forEach(function(image) {
           if (image.file) {
-            modalImages.append('<div class="col-md-6 mb-3"><label>' + image.label + '</label><img src="../dokumen/' + image.file + '" class="img-fluid rounded" onerror="this.onerror=null;this.src=\'../assets/image-not-found.png\';"></div>');
+            modalImages.append('<div class="col-md-6 mb-3"><label>' + image.label + '</label><a href="../dokumen/' + image.file + '" target="_blank"><img src="../dokumen/' + image.file + '" class="img-fluid rounded" onerror="this.onerror=null;this.src=\'../assets/image-not-found.png\';"></a></div>');
           }
         });
       } else {
