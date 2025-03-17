@@ -7,6 +7,7 @@ if (!check_login()) {
 }
 
 require_once 'header.php';
+require_once 'navbar_sidebar.php';
 
 // Query untuk mendapatkan data pendaftar berdasarkan status dan lokasi
 $query = "
@@ -52,15 +53,16 @@ $total_pendaftar = 0;
 $total_diterima = 0;
 $total_ditolak = 0;
 $total_pending = 0;
+$total_belum = 0;
 
 $summary_data = [
   'User' => [
-    'KUDUS' => ['pendaftar' => 0, 'diterima' => 0, 'ditolak' => 0, 'pending' => 0],
-    'LUAR KUDUS' => ['pendaftar' => 0, 'diterima' => 0, 'ditolak' => 0, 'pending' => 0]
+    'KUDUS' => ['pendaftar' => 0, 'belum' => 0, 'diterima' => 0, 'ditolak' => 0, 'pending' => 0],
+    'LUAR KUDUS' => ['pendaftar' => 0, 'belum' => 0, 'diterima' => 0, 'ditolak' => 0, 'pending' => 0]
   ],
   'Admin' => [
-    'KUDUS' => ['pendaftar' => 0, 'diterima' => 0, 'ditolak' => 0, 'pending' => 0],
-    'LUAR KUDUS' => ['pendaftar' => 0, 'diterima' => 0, 'ditolak' => 0, 'pending' => 0]
+    'KUDUS' => ['pendaftar' => 0, 'belum' => 0, 'diterima' => 0, 'ditolak' => 0, 'pending' => 0],
+    'LUAR KUDUS' => ['pendaftar' => 0, 'belum' => 0, 'diterima' => 0, 'ditolak' => 0, 'pending' => 0]
   ]
 ];
 
@@ -78,6 +80,8 @@ foreach ($data as $row) {
     $summary_data[$admin_label][$lokasi]['ditolak'] += $row['jumlah'];
   } elseif ($row['status'] == 'Pending') {
     $summary_data[$admin_label][$lokasi]['pending'] += $row['jumlah'];
+  } elseif ($row['status'] == 'Belum Verifikasi') {
+    $summary_data[$admin_label][$lokasi]['belum'] += $row['jumlah'];
   }
 
   $total_pendaftar += $row['jumlah'];
@@ -87,6 +91,8 @@ foreach ($data as $row) {
     $total_ditolak += $row['jumlah'];
   } elseif ($row['status'] == 'Pending') {
     $total_pending += $row['jumlah'];
+  } elseif ($row['status'] == 'Belum Verifikasi') {
+    $total_belum += $row['jumlah']; // Track total "Belum Verifikasi"
   }
 
   // Calculate age
@@ -100,6 +106,7 @@ foreach ($data as $row) {
   $age_data[$age] += $row['jumlah'];
 }
 
+// Mengelompokkan data umur dan menghitung jumlah
 ksort($age_data); // Sort age data by age
 
 // Mengelompokkan data alamat dan menghitung jumlah
@@ -138,12 +145,13 @@ foreach ($data as $row) {
         <table class="table table-bordered table-responsive table-hover">
           <thead class="table-dark">
             <tr>
-              <th>Daftar Oleh</th>
-              <th>Daerah</th>
-              <th>Pendaftar</th>
-              <th>Diterima</th>
-              <th>Ditolak</th>
-              <th>Pending</th>
+              <th class="text-center align-middle">Daftar Oleh</th>
+              <th class="text-center align-middle">Daerah</th>
+              <th class="text-center align-middle">Pendaftar</th>
+              <th class="text-center align-middle">Belum Verifikasi</th>
+              <th class="text-center align-middle">Diterima</th>
+              <th class="text-center align-middle">Ditolak</th>
+              <th class="text-center align-middle">Pending</th>
             </tr>
           </thead>
           <tbody>
@@ -152,6 +160,7 @@ foreach ($data as $row) {
                 <td rowspan="2" class="text-center align-middle"><?= $admin_label ?></td>
                 <td>KUDUS</td>
                 <td><?= $locations['KUDUS']['pendaftar'] ?></td>
+                <td><?= $locations['KUDUS']['belum'] ?></td>
                 <td><?= $locations['KUDUS']['diterima'] ?></td>
                 <td><?= $locations['KUDUS']['ditolak'] ?></td>
                 <td><?= $locations['KUDUS']['pending'] ?></td>
@@ -159,6 +168,7 @@ foreach ($data as $row) {
               <tr>
                 <td>LUAR KUDUS</td>
                 <td><?= $locations['LUAR KUDUS']['pendaftar'] ?></td>
+                <td><?= $locations['LUAR KUDUS']['belum'] ?></td>
                 <td><?= $locations['LUAR KUDUS']['diterima'] ?></td>
                 <td><?= $locations['LUAR KUDUS']['ditolak'] ?></td>
                 <td><?= $locations['LUAR KUDUS']['pending'] ?></td>
@@ -167,11 +177,13 @@ foreach ($data as $row) {
             <tr>
               <td colspan="2" class="text-center align-middle">Jumlah</td>
               <td><?= $total_pendaftar; ?></td>
+              <td><?= $total_belum; ?></td>
               <td><?= $total_diterima; ?></td>
               <td><?= $total_ditolak; ?></td>
               <td><?= $total_pending; ?></td>
             </tr>
           </tbody>
+
         </table>
       </div>
       <!-- Akhir Kalkulasi Pendaftar -->

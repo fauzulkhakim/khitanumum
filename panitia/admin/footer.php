@@ -4,77 +4,48 @@ $current_page = basename($_SERVER['PHP_SELF']);
 $user_role = $_SESSION['user']['role'] ?? null;
 ?>
 
+</div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
 </div>
-</div>
-</div>
+<!-- /.content-wrapper -->
 
-<nav class="navbar navbar-expand navbar-light navbar-bottom">
-  <div class="container-fluid">
-    <ul class="navbar-nav mx-auto">
-      <!-- Home -->
-      <li class="nav-item">
-        <a class="nav-link <?= ($current_page == 'dashboard.php') ? 'active' : ''; ?>" href="dashboard.php">
-          <i class="fas fa-home text-center d-block"></i>
-          <span>Home</span>
-        </a>
-      </li>
-
-      <!-- Pendaftar (Hanya untuk master dan admin) -->
-      <?php if (in_array($user_role, ['master', 'admin'])) : ?>
-        <li class="nav-item">
-          <a class="nav-link <?= ($current_page == 'pendaftar.php') ? 'active' : ''; ?>" href="pendaftar.php">
-            <i class="fas fa-users text-center d-block"></i>
-            <span>Pendaftar</span>
-          </a>
-        </li>
-      <?php endif; ?>
-
-      <!-- Pengaturan (Hanya untuk master) -->
-      <?php if ($user_role == 'master') : ?>
-        <li class="nav-item">
-          <a class="nav-link <?= ($current_page == 'pengaturan.php') ? 'active' : ''; ?>" href="pengaturan.php">
-            <i class="fas fa-cogs text-center d-block"></i>
-            <span>Setting</span>
-          </a>
-        </li>
-      <?php endif; ?>
-
-      <!-- Logout (Tampil untuk semua role) -->
-      <li class="nav-item">
-        <a class="nav-link" href="../config/logout.php" id="logout-link" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
-          <i class="fas fa-sign-out-alt text-center d-block"></i>
-          <span>Logout</span>
-        </a>
-      </li>
-    </ul>
+<!-- Main Footer -->
+<footer class="main-footer">
+  <div class="float-right d-none d-sm-inline">
+    Anything you want
   </div>
-</nav>
+  <strong>Copyright &copy; 2025 <a href="#">Your Company</a>.</strong> All rights reserved.
+</footer>
+</div>
+<!-- ./wrapper -->
 
+<!-- REQUIRED SCRIPTS -->
 
-<!-- jQuery Library -->
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- DataTables JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/2.1.2/js/dataTables.js"></script>
-<script src="https://cdn.datatables.net/2.1.2/js/dataTables.bootstrap5.js"></script>
-
-<!-- Include jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<!-- Include DataTables JS -->
-<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<!-- Include FixedColumns JS -->
-<script src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>
-
-<!-- Tambahan untuk modal -->
-<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
-<!-- Font Awesome JS -->
-<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<!-- jQuery -->
+<script src="../assets/adminlte3/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../assets/adminlte3/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../assets/adminlte3/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../assets/adminlte3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../assets/adminlte3/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../assets/adminlte3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../assets/adminlte3/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../assets/adminlte3/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../assets/adminlte3/plugins/jszip/jszip.min.js"></script>
+<script src="../assets/adminlte3/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../assets/adminlte3/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../assets/adminlte3/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../assets/adminlte3/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../assets/adminlte3/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Select2 -->
+<script src="../assets/adminlte3/plugins/select2/js/select2.full.min.js"></script>
+<!-- ChartJS -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- AdminLTE App -->
+<script src="../assets/adminlte3/dist/js/adminlte.min.js"></script>
 
 <!-- Halaman Dashboard -->
 <script>

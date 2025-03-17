@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Waktu pembuatan: 16 Agu 2024 pada 14.07
+-- Host: 127.0.0.1
+-- Waktu pembuatan: 17 Mar 2025 pada 04.53
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -7326,6 +7326,7 @@ CREATE TABLE `pendaftar` (
   `dokumen_domisili` varchar(128) DEFAULT NULL,
   `dokumen_pendukung` varchar(128) DEFAULT NULL,
   `name_created` varchar(255) DEFAULT NULL,
+  `created` varchar(255) NOT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated` varchar(255) DEFAULT NULL,
   `name_updated` varchar(255) DEFAULT NULL,
@@ -7336,14 +7337,10 @@ CREATE TABLE `pendaftar` (
 -- Dumping data untuk tabel `pendaftar`
 --
 
-INSERT INTO `pendaftar` (`id`, `is_admin`, `nama_lengkap`, `nik`, `no_kk`, `no_peserta`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `name_created`, `date_created`, `updated`, `name_updated`, `date_updated`) VALUES
-(1, 0, 'MIKASA', '3319030382103822', '3319030382103822', NULL, 117195, 1, 0, NULL, 'test', '08988335639', 3319, '2012-12-09', 'test', 33, 3319, 3319030, 3319030006, 1, 3, 1, '50', '165', 2, 'test', 11, 'test', '303_3319030382103822.jpg', '', '', '', NULL, '2024-08-13 16:45:24', 'Alham Manazil', NULL, '2024-08-16 04:03:06'),
-(2, 1, 'MUSASHI', '3319030382103827', '3319030382103827', NULL, 927373, 1, 0, 'alham manazil', 'test', '08988335639', 1107, '2012-12-09', 'test', 11, 1107, 1107062, 1107062026, 1, 5, 0, '50', '165', 1, 'test', 11, 'test', '795_3319030382103827.jpg', '', '463_3319030382103827.jpg', '', NULL, '2024-08-13 16:47:51', NULL, NULL, '2024-08-13 16:47:51'),
-(3, 0, 'FAUZUL KHAKIM', '3319021904970001', '3319021904240001', NULL, 100471, 1, 0, '', 'ACHMAD', '085865068194', 3319, '2016-09-30', 'JL PASAR BARU GG MANGGA III NO 273', 33, 3319, 3319020, 3319020007, 5, 4, 1, '98', '158', 4, 'MA QUDSIYYAH', 5, 'KERJASAN KOTA KUDUS', '508_3319021904970001.jpg', '', '', '', NULL, '2024-08-15 21:47:29', 'Alham Manazil', NULL, '2024-08-16 04:03:10'),
-(4, 1, 'FAUZUL HAKIM', '3319021904970002', '3319021904970012', NULL, 211616, 1, 1, 'ZAENAL', 'STEVEN', '085865068194', 1107, '2023-10-06', 'AGUS SALIM', 11, 1108, 1108111, 1108111002, 7, 8, 1, '34', '3', 4, 'KANISIUS', 5, 'DEMAAN', '', '', '', '', NULL, '2024-08-15 21:55:58', 'Alham Manazil', NULL, '2024-08-16 04:03:14'),
-(5, 0, 'BUDI HARTANTO', '3319021904970005', '3319021408240007', NULL, 132567, 1, 0, '', 'STEVEN', '085865068194', 1108, '2016-09-28', 'PASAR BARU', 51, 5106, 5106040, 5106040021, 5, 12, 1, '60', '43', 3, 'QUDSIYYAH', 4, 'KOTA KUDUS', '330_3319021904970005.jpg', '', '', '', NULL, '2024-08-15 23:16:31', 'Alham Manazil', NULL, '2024-08-16 04:03:17'),
-(6, 0, 'BUDI ARTANTO', '3319021904970003', '3319021408240009', NULL, 592132, 1, 0, '', 'STEVEN', '085865068194', 1108, '2016-09-28', 'PASAR BARU', 51, 5106, 5106040, 5106040021, 5, 12, 1, '60', '43', 3, 'QUDSIYYAH', 4, 'KOTA KUDUS', '911_3319021904970003.jpg', '', '19_3319021904970003.jpeg', '', NULL, '2024-08-15 23:19:48', 'Alham Manazil', NULL, '2024-08-16 04:03:20'),
-(7, 0, 'ABU RIZAL', '3319021904970009', '3319021904970009', NULL, 572806, 1, 0, '', 'STEVEN', '085865068194', 3319, '2016-09-29', 'JL PASAR BARU GG MANGGA III NO 273', 33, 3319, 3319020, 3319020007, 5, 4, 1, '98', '158', 2, 'MA QUDSIYYAH', 6, 'KERJASAN KOTA KUDUS', '359_3319021904970009.jpeg', '', '', '', NULL, '2024-08-16 00:29:12', 'Alham Manazil', NULL, '2024-08-16 04:03:24');
+INSERT INTO `pendaftar` (`id`, `is_admin`, `nama_lengkap`, `nik`, `no_kk`, `no_peserta`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `name_created`, `created`, `date_created`, `updated`, `name_updated`, `date_updated`) VALUES
+(1, 0, 'MUHAMMAD ALFIN HIDAYATULLAH FIRMANSYAH', '3319030382103822', '3319030382103822', '460003', 117195, 2, 0, NULL, 'test', '08988335639', 3319, '2012-12-09', 'test', 33, 3319, 3319030, 3319030006, 1, 3, 1, '50', '165', 2, 'test', 11, 'test', '303_3319030382103822.jpg', '', '', '', NULL, '', '2024-08-13 16:45:24', 'Alham Manazil', NULL, '2024-08-26 09:06:34'),
+(3, 1, 'AHMAD NURUL KAMAL', '3319030382103820', '3319030382103820', '460002', 124103, 2, 0, 'alham manazil', 'test', '08988335639', 1107, '2012-12-09', 'test', 11, 1107, 1107062, 1107062026, 1, 3, 1, '50', '165', 3, 'test', 10, 'test', '715_3319030382103820.jpg', '', '', '', NULL, '', '2024-08-14 03:42:42', 'Alham Manazil', NULL, '2024-08-26 07:31:25'),
+(4, 0, 'MUHAMMAD MUHYIDIN ZULFIKAR ABDUL RAZAQ SETIAWAN SUSANTO', '3319030382103827', '3319030382103827', '460001', 474773, 2, 0, NULL, 'test', '08988335639', 1107, '2012-12-09', 'test', 11, 1107, 1107062, 1107062026, 1, 3, 1, '50', '165', 3, 'test', 10, 'test', '926_3319030382103827.jfif', '', '', '', NULL, 'Umum', '2024-08-14 08:54:24', 'Alham Manazil', NULL, '2024-08-26 08:17:49');
 
 --
 -- Trigger `pendaftar`
@@ -8047,6 +8044,8 @@ CREATE TABLE `users` (
   `nama_lengkap` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
+  `no_hp` varchar(20) DEFAULT NULL,
+  `alamat` text DEFAULT NULL,
   `akses` tinyint(1) DEFAULT 0,
   `role` enum('master','admin','foto','user') DEFAULT 'user',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -8057,9 +8056,12 @@ CREATE TABLE `users` (
 -- Dumping data untuk tabel `users`
 --
 
-INSERT INTO `users` (`id`, `nama_lengkap`, `username`, `password`, `akses`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'Alham Manazil', 'alham', '$2y$10$646oD1R.Xrgc5WsnBDiATeBJFy0BIwLfiTwTVipPkILjFkVgPTXnG', 1, 'master', '2024-07-27 05:35:59', '2024-08-16 12:05:26'),
-(2, 'Fauzul Khakim', 'aim', '$2y$10$VRwanTlPmPxuKAEjN0VQPOf9C9U3uW2nz4g8pZGTVdCtpFqCrdWGG', 1, 'master', '2024-08-16 11:45:56', '2024-08-16 12:05:54');
+INSERT INTO `users` (`id`, `nama_lengkap`, `username`, `password`, `no_hp`, `alamat`, `akses`, `role`, `created_at`, `updated_at`) VALUES
+(7, 'Alham Manazil', 'alham', '$2y$10$646oD1R.Xrgc5WsnBDiATeBJFy0BIwLfiTwTVipPkILjFkVgPTXnG', '08924924789248', 'Pasuruhan Lor, Jati, Kabupaten Kudus, Jawa Tengah, Indonesia', 1, 'master', '2024-07-27 05:35:59', '2024-08-03 04:54:03'),
+(13, 'rein', 'rein', '$2y$10$1qBYS5L8isJ5JWaWRyECBuvC/Ic26JPIWPdFK9/mEU3ZRMNXu4Amm', '08924924789', 'Ploso, Jati, Kabupaten Kudus, Jawa Tengah, Indonesia', 1, 'admin', '2024-07-29 04:14:57', '2024-08-13 15:44:46'),
+(23, 'Albert Einstein', 'albert', '$2y$10$ayfWOxvFmKuQvadAs1BhFenBwxqqY0n5IzwziEEtxEeMlA5xLxPY2', '08988335639', 'Pasuruhan Lor, Jati, Kabupaten Kudus, Jawa Tengah, Indonesia', 0, 'user', '2024-08-15 07:34:54', '2024-08-15 07:34:54'),
+(24, 'MIDAS', 'midas', '$2y$10$KI/UdZnx/6wpyLmxXtdX2eCS60SL.ReGqr.utBYDYnfJgfYUaq6OC', '08988335639', 'Gondangmanis, Bae, Kabupaten Kudus, Jawa Tengah, Indonesia', 0, 'user', '2024-08-15 07:35:40', '2024-08-15 07:35:40'),
+(25, 'test', 'test', '$2y$10$hx0tybdpC.J8xmFIafBXhu3z4Mnfi8lyPo1Rya202.ln94pWR8rD6', '08988335639', 'Ploso, Jati, Kabupaten Kudus, Jawa Tengah, Indonesia', 0, 'user', '2024-08-15 09:27:32', '2024-08-15 09:27:32');
 
 -- --------------------------------------------------------
 
@@ -88690,9 +88692,6 @@ ALTER TABLE `kelas`
 --
 ALTER TABLE `pendaftar`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `otp_2` (`otp`),
-  ADD UNIQUE KEY `nik` (`nik`),
-  ADD UNIQUE KEY `no_peserta` (`no_peserta`),
   ADD KEY `kelas` (`kelas_id`),
   ADD KEY `rt` (`rt_rt_rw_id`),
   ADD KEY `rw` (`rw_rt_rw_id`),
@@ -88702,8 +88701,7 @@ ALTER TABLE `pendaftar`
   ADD KEY `kabupaten_kota` (`domisili_regencies_id`),
   ADD KEY `kecamatan` (`domisili_districts_id`),
   ADD KEY `desa_kelurahan` (`domisili_villages_id`),
-  ADD KEY `tempat_lahir` (`tempat_lahir_regencies_id`),
-  ADD KEY `otp` (`otp`);
+  ADD KEY `tempat_lahir` (`tempat_lahir_regencies_id`);
 
 --
 -- Indeks untuk tabel `provinces`
@@ -88762,7 +88760,7 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT untuk tabel `pendaftar`
 --
 ALTER TABLE `pendaftar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `rt_rw`
@@ -88786,7 +88784,7 @@ ALTER TABLE `ukuran_baju`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
