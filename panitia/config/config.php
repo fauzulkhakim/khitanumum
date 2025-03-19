@@ -6,6 +6,7 @@
 // - panitia/config/update_status.php
 
 date_default_timezone_set('Asia/Jakarta');
+
 // Detail koneksi ke database
 $servername = "localhost";
 $username = "root";
@@ -13,11 +14,11 @@ $password = "";
 $dbname = "khitanumum";
 
 // Membuat koneksi
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Cek koneksi
-if (!$conn) {
-  die(mysqli_connect_error());
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
 }
 
 // Include dates configuration

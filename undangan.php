@@ -141,68 +141,72 @@ include 'layouts/header.php';
                 if (!$pendaftar) {
                     echo "<div class='alert alert-danger text-center'>Data tidak ditemukan. Silakan cek kembali OTP Anda.</div>";
                 } else {
+                    if ($pendaftar['status_pendaftaran_id'] != 2) {
+                        echo "<div class='alert alert-danger text-center'>Pendaftaran belum diterima, Informasi lebih lanjut bisa cek di menu <a href='status.php'>status</a>.</div>";
+                    } else {
             ?>
-                    <div class="row justify-content-center mt-4">
-                        <div class="col-md-8">
-                            <div class="card">
-                                <div class="card-header text-left">
-                                    <div class="d-flex align-items-center">
-                                        <img src="panitia/assets/images/icon_khitan_umum.png" alt="logo" width="50" class="me-3">
-                                        <h4 class="card-title mb-0">Undangan Peserta Khitan Umum 1447H</h4>
+                        <div class="row justify-content-center mt-4">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-header text-left">
+                                        <div class="d-flex align-items-center">
+                                            <img src="panitia/assets/images/icon_khitan_umum.png" alt="logo" width="50" class="me-3">
+                                            <h4 class="card-title mb-0">Undangan Peserta Khitan Umum 1447H</h4>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <table class="table table-borderless">
-                                                <tr>
-                                                    <td>Nama</td>
-                                                    <td>:</td>
-                                                    <td><?php echo htmlspecialchars($pendaftar['nama_lengkap']); ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>NIK</td>
-                                                    <td>:</td>
-                                                    <td><?php echo htmlspecialchars($pendaftar['nik']); ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Orang Tua</td>
-                                                    <td>:</td>
-                                                    <td><?php echo htmlspecialchars($pendaftar['orang_tua_wali']); ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Alamat</td>
-                                                    <td>:</td>
-                                                    <td><?php echo htmlspecialchars($pendaftar['desa_kelurahan']) . ' ' . htmlspecialchars($pendaftar['rt_rw']) . '/' . htmlspecialchars($pendaftar['rw_rw']); ?></td>
-                                                </tr>
-                                                <tr>
-                                                    <?php
-                                                    $kab_kota = $pendaftar['kabupaten_kota'];
-                                                    if (stripos($kab_kota, 'Kabupaten') === 0) {
-                                                        $kab_kota = trim(substr($kab_kota, strlen('Kabupaten')));
-                                                    }
-                                                    ?>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td><?php echo htmlspecialchars($pendaftar['kecamatan']) . ' ' . htmlspecialchars($kab_kota); ?></td>
-                                                </tr>
-                                            </table>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <table class="table table-borderless">
+                                                    <tr>
+                                                        <td>Nama</td>
+                                                        <td>:</td>
+                                                        <td><?php echo htmlspecialchars($pendaftar['nama_lengkap']); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>NIK</td>
+                                                        <td>:</td>
+                                                        <td><?php echo htmlspecialchars($pendaftar['nik']); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Orang Tua</td>
+                                                        <td>:</td>
+                                                        <td><?php echo htmlspecialchars($pendaftar['orang_tua_wali']); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Alamat</td>
+                                                        <td>:</td>
+                                                        <td><?php echo htmlspecialchars($pendaftar['desa_kelurahan']) . ' ' . htmlspecialchars($pendaftar['rt_rw']) . '/' . htmlspecialchars($pendaftar['rw_rw']); ?></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <?php
+                                                        $kab_kota = $pendaftar['kabupaten_kota'];
+                                                        if (stripos($kab_kota, 'Kabupaten') === 0) {
+                                                            $kab_kota = trim(substr($kab_kota, strlen('Kabupaten')));
+                                                        }
+                                                        ?>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td><?php echo htmlspecialchars($pendaftar['kecamatan']) . ' ' . htmlspecialchars($kab_kota); ?></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-12 text-center">
+                                                <a href="undangan.php?otp=<?php echo $otp; ?>&download=true" class="btn btn-success" target="_blank">Preview</a>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row mt-3">
-                                        <div class="col-md-12 text-center">
-                                            <a href="undangan.php?otp=<?php echo $otp; ?>&download=true" class="btn btn-success" target="_blank">Preview</a>
-                                        </div>
+                                    <div class="card-footer text-center">
+                                        <small><?php echo date('d/m/Y H:i:s'); ?></small>
                                     </div>
-                                </div>
-                                <div class="card-footer text-center">
-                                    <small><?php echo date('d/m/Y H:i:s'); ?></small>
                                 </div>
                             </div>
                         </div>
-                    </div>
             <?php
+                    }
                 }
             }
             ?>

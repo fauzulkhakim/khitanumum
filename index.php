@@ -37,7 +37,7 @@ $current_time = date('Y-m-d H:i:s');
             </div>
             <div class="card-body">
               <ul>
-                <li>Anak Berusia 7-15 tahun pada 21 September 2024</li>
+                <li>Anak Berusia 7-15 tahun pada 21 September 2025</li>
                 <li>Berdomisili Kudus</li>
                 <li>Menyiapkan Foto / Gambar KK atau KIA untuk diupload</li>
                 <li>Pendaftaran ditutup ketika kuota terpenuhi</li>
@@ -52,7 +52,7 @@ $current_time = date('Y-m-d H:i:s');
           <form action="panitia/config/pendaftaran-tambah.php" method="POST" enctype="multipart/form-data" id="form-pendaftaran" class="needs-validation" novalidate>
 
             <!-- Awal Card Konten -->
-            <div class="card mb-5">
+            <div class="card card-outline card-primary mb-5">
               <div class="card-body">
 
                 <!-- Awal Card Data -->

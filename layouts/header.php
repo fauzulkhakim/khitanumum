@@ -70,6 +70,20 @@
             background-color: #f0f0f0;
         }
 
+        .card-outline.card-primary {
+            border-color: #2D3C28;
+        }
+
+        .btn-primary {
+            background-color: #2D3C28;
+            border-color: #2D3C28;
+        }
+
+        .btn-primary:hover {
+            background-color: #1e2a1b;
+            border-color: #1e2a1b;
+        }
+
         .select2-container--default .select2-selection--single {
             height: calc(3.5rem + 2px);
             padding: 0.75rem 1rem;
@@ -98,11 +112,16 @@
             transform: translateY(-50%);
             right: 10px;
         }
+
+        .nav-sidebar .nav-link.active {
+            background-color: rgba(98, 111, 71, 0.8) !important;
+            color: #ffffff !important;
+        }
     </style>
 </head>
 
-<body class="hold-transition sidebar-mini">
-    <div class="wrapper">
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper d-flex flex-column">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->

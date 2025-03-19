@@ -1,3 +1,17 @@
+<?php
+session_start();
+require '../config/config.php';
+
+// Cek apakah user sudah login, jika tidak arahkan ke halaman login
+if (!isset($_SESSION['user'])) {
+  header("Location: ../index.php");
+  exit();
+}
+
+// Mendapatkan halaman saat ini
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,88 +26,143 @@
   <!-- DataTables -->
   <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
   <!-- AdminLTE CSS -->
-  <link rel="stylesheet" href="../assets/adminlte3/css/adminlte.min.css">
-  <link rel="icon" href="../assets/icon_khitan_umum.png" type="image/x-icon">
-  <style>
-    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+  <link rel="stylesheet" href="../assets/adminlte/dist/css/adminlte.min.css">
+  <link rel="icon" href="../assets/images/icon_khitan_umum.png" type="image/x-icon">
+  <!-- Font IBM Plex Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400&display=swap" rel="stylesheet">
 
+  <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: "Poppins", sans-serif;
+      font-family: 'IBM Plex Sans', sans-serif;
     }
 
     body {
       min-height: 100vh;
       display: flex;
-      justify-content: center;
       flex-direction: column;
+      background: #f5f6fa;
+      font-size: 14px;
+      font-weight: 400;
     }
 
-    .container-fluid {
+    .form-control {
+      font-size: 14px !important;
+    }
+
+    .content-wrapper {
       flex: 1;
     }
 
-    .navbar-bottom {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background-color: #f8f9fa;
-      border-top: 1px solid #ddd;
-      padding: 10px;
-      margin-top: 100px;
+    .brand-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .navbar-bottom .nav-item .nav-link {
-      color: #000;
+    .navbar {
+      background-color: #ffffff !important;
     }
 
-    .navbar-bottom .nav-item .nav-link:hover {
-      color: #007bff;
+    h3 {
+      color: #2D3C28;
+      font-weight: bolder;
+      font-size: 1.75rem;
     }
 
-    .navbar-bottom .nav-item .nav-link i {
-      display: block;
-      font-size: 18px;
+    h4 {
+      color: #2D3C28;
+      font-size: 1.5rem;
     }
 
-    .navbar-bottom .nav-link.active i {
-      color: #007bff;
+    h5 {
+      color: #2D3C28;
+      font-size: 1.25rem;
     }
 
-    .action-icon {
-      padding: 9px;
-      /* Sesuaikan padding sesuai kebutuhan */
-      margin: 2px;
-      /* Menambahkan jarak antar ikon */
+    h6 {
+      color: #2D3C28;
+      font-size: 1rem;
     }
 
-    .action-icon i {
-      font-size: 13px;
-      /* Mengatur ukuran ikon */
+    #form-pendaftaran {
+      display: none;
+      margin-top: 30px;
     }
 
-    .back-button {
-      background-color: #3C5B6F;
+    .card-header {
+      background-color: #f0f0f0;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .date-range {
+      background-color: black;
       color: white;
-      border: none;
-      padding: 10px 20px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
+      padding: 5px;
       border-radius: 5px;
     }
 
-    .back-button:hover {
-      background-color: #373A40;
-      color: #F8F4E1;
+    .card {
+      width: 100%;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    @media (min-width: 768px) {
+      .row>.col-md-6 {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    .select2-container--default .select2-selection--single {
+      height: calc(3.5rem + 2px);
+      padding: 0.75rem 1rem;
+      font-size: 14px;
+      line-height: 1.5;
+      color: #495057;
+      background-color: #fff;
+      background-clip: padding-box;
+      border: 1px solid #ced4da;
+      border-radius: 0.25rem;
+      box-shadow: inset 0 0.075rem 0.1rem rgba(0, 0, 0, 0.075);
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      padding-top: calc((3.5rem - 1.5rem) / 2);
+      padding-bottom: calc((3.5rem - 1.5rem) / 2);
+      line-height: 1.5rem;
+      color: #495057;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+      height: calc(3.5rem + 2px);
+      top: 50%;
+      transform: translateY(-50%);
+      right: 10px;
+    }
+
+    .nav-sidebar .nav-link.active {
+      background-color: rgba(98, 111, 71, 0.8) !important;
+      color: #ffffff !important;
     }
   </style>
 </head>
 
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -110,7 +179,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="dashboard.php" class="brand-link">
-        <img src="../assets/icon_khitan_umum.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="../assets/images/icon_khitan_umum.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Khitan Umum</span>
       </a>
 
@@ -119,7 +188,7 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
           <div class="image">
-            <img src="../assets/avatar-3.jpg" class="img-circle elevation-2" alt="User Image">
+            <img src="../assets/images/avatar-3.jpg" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
             <a href="#" class="d-block">
@@ -160,7 +229,7 @@
               </li>
             <?php endif; ?>
             <li class="nav-item">
-              <a href="../config/logout.php" class="nav-link" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
+              <a href="../../config/logout.php" class="nav-link" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>Logout</p>
               </a>

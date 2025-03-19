@@ -1,19 +1,6 @@
 <?php
-require '../config/config.php';
-
-if (!check_login()) {
-  header("Location: ../index.php");
-  exit();
-}
-
-// Cek role
-if ($_SESSION['user']['role'] !== 'master') {
-  header("Location: dashboard.php");
-  exit();
-}
-
-// Membaca nilai saat ini untuk dibuka, ditutup, dan pelaksanaan
-include '../config/dates_config.php';
+require_once '../assets/layouts/header.php';
+global $conn;
 
 // Ambil data enum dari kolom role
 $query = "SHOW COLUMNS FROM users LIKE 'role'";
@@ -39,7 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       file_put_contents('../config/dates_config.php', $config_content);
       echo "<script>alert('Tanggal pendaftaran telah diperbarui');</script>";
       // Muat ulang untuk memuat tanggal baru
-      header("Refresh:0");
+      header("Location: " . $_SERVER['PHP_SELF']);
+      exit();
     }
   } elseif (isset($_POST['pelaksanaan'])) {
     if (isset($_POST['pelaksanaan'])) {
@@ -54,7 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       file_put_contents('../config/dates_config.php', $config_content);
       echo "<script>alert('Tanggal pelaksanaan telah diperbarui');</script>";
       // Muat ulang untuk memuat tanggal baru
-      header("Refresh:0");
+      header("Location: " . $_SERVER['PHP_SELF']);
+      exit();
     }
   }
 }
@@ -64,47 +53,18 @@ $sql = "SELECT * FROM users";
 $hasil = $conn->query($sql);
 
 setlocale(LC_TIME, 'id_ID.UTF-8'); // Mengatur locale ke bahasa Indonesia
-
-require_once 'header.php';
 ?>
 
-
-<style>
-  .date-range {
-    background-color: black;
-    color: white;
-    padding: 5px;
-    border-radius: 5px;
-  }
-</style>
-
 <!-- Header -->
-<div class="row justify-content-center bg-dark">
-  <div class="col-ml text-center text-white my-2">
-    <h3>Pengaturan Khitan Umum</h3>
-    <h5>1446 H / 2024 TU</h5>
+<div class="row justify-content-center">
+  <div class="col-ml text-center my-3">
+    <h3>Pengaturan</h3>
+    <h5>Khitan Umum 1447 H / 2025 TU</h5>
   </div>
 </div>
 <!-- Akhir Header -->
 
 <div class="container">
-  <div class="row justify-content-center my-4">
-    <div class="col-12 col-md-4 mb-4 mb-md-0">
-      <div class="card mx-auto" style="width: 75%;">
-        <img src="../assets/avatar-3.jpg" class="card-img-top" alt="gambar pengguna">
-        <div class="card-body text-center">
-          <h5 class="card-title">
-            <?php
-            if (isset($_SESSION['user'])) {
-              echo $_SESSION['user']['nama_lengkap'];
-            }
-            ?>
-          </h5>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Isi Halaman -->
   <div class="container">
     <div class="row justify-content-center">
@@ -112,7 +72,7 @@ require_once 'header.php';
         <!-- Card Tanggal Pendaftaran -->
         <div class="card" style="width: 100%;">
           <div class="card-body">
-            <h5 class="card-title">Tanggal Pendaftaran</h5>
+            <p class="card-title">Tanggal Pendaftaran</p><br><br>
             <p class="date-range"><?= strftime('%d %B %Y', strtotime($dibuka)) . " - " . strftime('%d %B %Y', strtotime($ditutup)); ?></p>
             <form method="POST" id="formPendaftaran">
               <input type="hidden" name="pendaftaran" value="1">
@@ -139,7 +99,7 @@ require_once 'header.php';
         <!-- Card Tanggal Pelaksanaan -->
         <div class="card" style="width: 100%;">
           <div class="card-body">
-            <h5 class="card-title">Tanggal Pelaksanaan</h5>
+            <p class="card-title">Tanggal Pelaksanaan</p><br><br>
             <p class="date-range"><?= strftime('%d %B %Y', strtotime($pelaksanaan)); ?></p>
             <form method="POST" id="formPelaksanaan">
               <input type="hidden" name="pelaksanaan" value="1">
@@ -201,8 +161,6 @@ require_once 'header.php';
     <!-- Akhir Data Admin -->
   </div>
 
-
-
   <?php
-  require_once 'footer.php';
+  require_once '../assets/layouts/footer.php';
   ?>

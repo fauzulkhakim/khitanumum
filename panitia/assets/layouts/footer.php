@@ -1,9 +1,3 @@
-<?php
-// Menentukan halaman aktif
-$current_page = basename($_SERVER['PHP_SELF']);
-$user_role = $_SESSION['user']['role'] ?? null;
-?>
-
 </div><!-- /.container-fluid -->
 </section>
 <!-- /.content -->
@@ -11,41 +5,52 @@ $user_role = $_SESSION['user']['role'] ?? null;
 <!-- /.content-wrapper -->
 
 <!-- Main Footer -->
-<footer class="main-footer">
+<footer class="main-footer mt-auto">
+  <!-- To the right -->
   <div class="float-right d-none d-sm-inline">
-    Anything you want
+    Versi 1.0
   </div>
-  <strong>Copyright &copy; 2025 <a href="#">Your Company</a>.</strong> All rights reserved.
+  <!-- Default to the left -->
+  <strong>Copyright &copy; 2025 Khitan Umum</strong>
 </footer>
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
-
 <!-- jQuery -->
-<script src="../assets/adminlte3/plugins/jquery/jquery.min.js"></script>
+<script src="../assets/adminlte/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="../assets/adminlte/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
 <!-- Bootstrap 4 -->
-<script src="../assets/adminlte3/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
-<script src="../assets/adminlte3/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../assets/adminlte3/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../assets/adminlte3/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../assets/adminlte3/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../assets/adminlte3/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../assets/adminlte3/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../assets/adminlte3/plugins/jszip/jszip.min.js"></script>
-<script src="../assets/adminlte3/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../assets/adminlte3/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../assets/adminlte3/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../assets/adminlte3/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../assets/adminlte3/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<!-- Select2 -->
-<script src="../assets/adminlte3/plugins/select2/js/select2.full.min.js"></script>
-<!-- ChartJS -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script> -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="../assets/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../assets/adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../assets/adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../assets/adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../assets/adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../assets/adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../assets/adminlte/plugins/jszip/jszip.min.js"></script>
+<script src="../assets/adminlte/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../assets/adminlte/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../assets/adminlte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../assets/adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../assets/adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../assets/adminlte3/dist/js/adminlte.min.js"></script>
+<script src="../assets/adminlte/dist/js/adminlte.js"></script>
+<!-- JsBarcode -->
+<script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+<!-- icheck -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/3.0.1/icheck-bootstrap.css" integrity="sha512-J5tsMaZISEmI+Ly68nBDiQyNW6vzBoUlNHGsH8T3DzHTn2h9swZqiMeGm/4WMDxAphi5LMZMNA30LvxaEPiPkg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <!-- Halaman Dashboard -->
 <script>

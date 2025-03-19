@@ -1,22 +1,10 @@
 <?php
-require '../config/config.php';
 
-if (!check_login()) {
-  header("Location: ../index.php");
-  exit();
-}
-
-// Cek role
-if ($_SESSION['user']['role'] !== 'master' && $_SESSION['user']['role'] !== 'admin') {
-  header("Location: dashboard.php"); // atau halaman lain yang sesuai
-  exit();
-}
-
-require_once 'header.php';
+require_once '../assets/layouts/header.php';
 ?>
 
-<div class="row justify-content-center bg-dark">
-  <div class="col-ml text-center text-white my-2">
+<div class="row justify-content-center">
+  <div class="col-ml text-center mt-3">
     <h3>Pendaftar Khitan Umum</h3>
     <h5>1446 H / 2024 TU</h5>
   </div>
@@ -169,5 +157,5 @@ require_once 'header.php';
 </div>
 
 <?php
-require_once 'footer.php';
+require_once '../assets/layouts/footer.php';
 ?>
