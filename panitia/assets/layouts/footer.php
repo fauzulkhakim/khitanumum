@@ -26,20 +26,13 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="../assets/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="../assets/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../assets/adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../assets/adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../assets/adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../assets/adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../assets/adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../assets/adminlte/plugins/jszip/jszip.min.js"></script>
-<script src="../assets/adminlte/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../assets/adminlte/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../assets/adminlte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../assets/adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../assets/adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<!-- Select2 JS -->
+<!-- DataTables JS -->
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>
+<script src="https://cdn.datatables.net/2.1.2/js/dataTables.bootstrap5.js"></script>
+<!-- DataTables Responsive JS -->
+<script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
+<!-- select2 -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
@@ -71,13 +64,12 @@
 <!-- Akhir Halaman Dashboard -->
 
 <!-- Halaman Pendaftar -->
+<!-- Preview Dokumen -->
 <script>
   $(document).ready(function() {
     $('#pendaftar').DataTable({
-      "scrollX": true,
-      "fixedColumns": {
-        "leftColumns": 3 // Jumlah kolom yang ingin Anda bekukan dari sisi kiri
-      },
+      responsive: true,
+      autoWidth: false,
       stateSave: true,
       stateSaveCallback: function(settings, data) {
         console.log('State is being saved:', data);
@@ -89,39 +81,40 @@
         return JSON.parse(state);
       }
     });
+  });
 
-    $('#imageModal').on('show.bs.modal', function(event) {
-      var button = $(event.relatedTarget);
-      var images = button.data('images');
-      var modal = $(this);
-      var modalImages = modal.find('#modalImages');
-      modalImages.empty();
-      if (images.length > 0) {
-        images.forEach(function(image) {
-          if (image.file) {
-            modalImages.append('<div class="col-md-6 mb-3"><label>' + image.label + '</label><a href="../dokumen/' + image.file + '" target="_blank"><img src="../dokumen/' + image.file + '" class="img-fluid rounded" onerror="this.onerror=null;this.src=\'../assets/image-not-found.png\';"></a></div>');
-          }
-        });
-      } else {
-        modalImages.append('<p>Tidak ada gambar tersedia.</p>');
-      }
-    });
-
-    $('#infoModal').on('show.bs.modal', function(event) {
-      var button = $(event.relatedTarget);
-      var info = button.data('info');
-      var modal = $(this);
-      var modalInfoContent = modal.find('#modalInfoContent');
-      modalInfoContent.empty();
-      for (var key in info) {
-        if (info.hasOwnProperty(key)) {
-          modalInfoContent.append('<p><strong>' + key + ':</strong> ' + info[key] + '</p>');
+  $('#imageModal').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget);
+    var images = button.data('images');
+    var modal = $(this);
+    var modalImages = modal.find('#modalImages');
+    modalImages.empty();
+    if (images.length > 0) {
+      images.forEach(function(image) {
+        if (image.file) {
+          modalImages.append('<div class="col-md-6 mb-3"><label>' + image.label + '</label><a href="../dokumen/' + image.file + '" target="_blank"><img src="../dokumen/' + image.file + '" class="img-fluid rounded" onerror="this.onerror=null;this.src=\'../assets/image-not-found.png\';"></a></div>');
         }
+      });
+    } else {
+      modalImages.append('<p>Tidak ada gambar tersedia.</p>');
+    }
+  });
+
+  $('#infoModal').on('show.bs.modal', function(event) {
+    var button = $(event.relatedTarget);
+    var info = button.data('info');
+    var modal = $(this);
+    var modalInfoContent = modal.find('#modalInfoContent');
+    modalInfoContent.empty();
+    for (var key in info) {
+      if (info.hasOwnProperty(key)) {
+        modalInfoContent.append('<p><strong>' + key + ':</strong> ' + info[key] + '</p>');
       }
-    });
+    }
   });
 </script>
 
+<!-- Update Status -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.status-dropdown').forEach(function(dropdown) {
@@ -190,7 +183,6 @@
     });
   });
 </script>
-
 <!-- Akhir Halaman Pendaftar -->
 
 <!-- Halaman Pengaturan -->

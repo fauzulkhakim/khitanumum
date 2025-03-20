@@ -24,7 +24,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+  <!-- DataTables Responsive CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+  <!-- FixedColumns CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.3.0/css/fixedColumns.dataTables.min.css">
   <!-- AdminLTE CSS -->
   <link rel="stylesheet" href="../assets/adminlte/dist/css/adminlte.min.css">
   <link rel="icon" href="../assets/images/icon_khitan_umum.png" type="image/x-icon">
@@ -119,6 +123,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
       overflow-x: auto;
     }
 
+    .card-outline.card-primary {
+      border-color: #2D3C28;
+    }
+
     @media (min-width: 768px) {
       .row>.col-md-6 {
         display: flex;
@@ -175,11 +183,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </nav>
     <!-- /.navbar -->
 
-    <!-- Main Sidebar Container -->
+    <!-- Sidebar Dinamis -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="dashboard.php" class="brand-link">
-        <img src="../assets/images/icon_khitan_umum.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="../assets/images/icon_khitan_umum.png" alt="Admin Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">Khitan Umum</span>
       </a>
 
@@ -229,7 +237,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
               </li>
             <?php endif; ?>
             <li class="nav-item">
-              <a href="../../config/logout.php" class="nav-link" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
+              <a href="../config/logout.php" class="nav-link" onclick="return confirm('Apakah Anda yakin ingin keluar?')">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>Logout</p>
               </a>

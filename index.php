@@ -31,9 +31,9 @@ $current_time = date('Y-m-d H:i:s');
       <!-- Awal Petunjuk Pengisian -->
       <div class="row pt-2 justify-content-center">
         <div class="col-md-8">
-          <div class="card mb-2">
+          <div class="card card-outline card-primary mt-2">
             <div class="card-header fw-bold">
-              Petunjuk Pengisian Formulir
+              <h5>Petunjuk Pengisian Formulir</h5>
             </div>
             <div class="card-body">
               <ul>
@@ -60,7 +60,7 @@ $current_time = date('Y-m-d H:i:s');
                   <div class="col">
 
                     <!-- Awal Card Identitas -->
-                    <div class="card my-2">
+                    <div class="card card-outline card-primary my-2">
                       <div class="card-header fw-bold">
                         Data Identitas Calon Peserta
                       </div>
@@ -235,7 +235,7 @@ $current_time = date('Y-m-d H:i:s');
                     <!-- Akhir Card Identitas -->
 
                     <!-- Awal Card Sekolah -->
-                    <div class="card my-2">
+                    <div class="card card-outline card-primary my-2">
                       <div class="card-header fw-bold">
                         Data Sekolah
                       </div>
@@ -276,7 +276,7 @@ $current_time = date('Y-m-d H:i:s');
                     <!-- Akhir Card Sekolah -->
 
                     <!-- Awal Card Pendaftar -->
-                    <div class="card my-2">
+                    <div class="card card-outline card-primary my-2">
                       <div class="card-header fw-bold">
                         Data Pendaftar
                       </div>
@@ -303,7 +303,7 @@ $current_time = date('Y-m-d H:i:s');
                     <!-- Akhir Card Pendaftar -->
 
                     <!-- Awal Card Dokumen -->
-                    <div class="card my-2">
+                    <div class="card card-outline card-primary my-2">
                       <div class="card-header fw-bold">
                         Upload Dokumen
                       </div>

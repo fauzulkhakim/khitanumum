@@ -5,7 +5,6 @@ require 'config.php';
 // Periksa koneksi
 if ($conn->connect_error) {
   die(json_encode(["status" => "error", "message" => "Connection failed: " . $conn->connect_error]));
-  exit();
 }
 
 $id = $_POST['id'];
@@ -31,7 +30,7 @@ $conn->close();
 
 function sendMessage($no_hp, $link)
 {
-  $api_key = 'wGd+U1ehDoCTphUxwciu';
+  $api_key = 'z1UTH7UwXp2AHo8UNCtT';
   $url = 'https://api.fonnte.com/send';
 
   $message = "🔄 Kirim ulang status pendaftaran

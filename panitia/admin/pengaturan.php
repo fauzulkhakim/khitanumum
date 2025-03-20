@@ -64,13 +64,13 @@ setlocale(LC_TIME, 'id_ID.UTF-8'); // Mengatur locale ke bahasa Indonesia
 </div>
 <!-- Akhir Header -->
 
-<div class="container">
+<div class="content-wrapper">
   <!-- Isi Halaman -->
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-12 col-md-6 mb-3">
         <!-- Card Tanggal Pendaftaran -->
-        <div class="card" style="width: 100%;">
+        <div class="card card-outline card-primary" style="width: 100%;">
           <div class="card-body">
             <p class="card-title">Tanggal Pendaftaran</p><br><br>
             <p class="date-range"><?= strftime('%d %B %Y', strtotime($dibuka)) . " - " . strftime('%d %B %Y', strtotime($ditutup)); ?></p>
@@ -97,7 +97,7 @@ setlocale(LC_TIME, 'id_ID.UTF-8'); // Mengatur locale ke bahasa Indonesia
 
       <div class="col-12 col-md-6 mb-3">
         <!-- Card Tanggal Pelaksanaan -->
-        <div class="card" style="width: 100%;">
+        <div class="card card-outline card-primary" style="width: 100%;">
           <div class="card-body">
             <p class="card-title">Tanggal Pelaksanaan</p><br><br>
             <p class="date-range"><?= strftime('%d %B %Y', strtotime($pelaksanaan)); ?></p>
@@ -120,43 +120,47 @@ setlocale(LC_TIME, 'id_ID.UTF-8'); // Mengatur locale ke bahasa Indonesia
     </div>
 
     <!-- Data Admin -->
-    <div class="table-responsive mt-3 mb-5">
-      <h2 class="text-center">Data Admin</h2>
-      <table id="usersTable" class="table table-bordered table-hover table-striped">
-        <thead class="table-dark">
-          <tr>
-            <th>No</th>
-            <th>Nama Lengkap</th>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Akses</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          $no = 1;
-          while ($user = $hasil->fetch_assoc()) : ?>
-            <tr>
-              <td><?= $no; ?></td>
-              <td><?= $user['nama_lengkap']; ?></td>
-              <td><?= $user['username']; ?></td>
-              <td>
-                <select name="role" class="form-select role-dropdown" data-id="<?= $user['id'] ?>">
-                  <?php foreach ($enum_values as $value) : ?>
-                    <option value="<?= $value ?>" <?= $user['role'] == $value ? 'selected' : '' ?>><?= ucfirst($value) ?></option>
-                  <?php endforeach; ?>
-                </select>
-              </td>
-              <td>
-                <div class="form-check form-switch">
-                  <input class="form-check-input akses-toggle" type="checkbox" role="switch" id="akses-<?= $user['id'] ?>" <?= $user['akses'] ? 'checked' : '' ?> data-id="<?= $user['id'] ?>">
-                </div>
-              </td>
-            </tr>
-          <?php $no++;
-          endwhile; ?>
-        </tbody>
-      </table>
+    <div class="card card-outline card-primary" style="width: 100%;">
+      <div class="card-body">
+        <div class="table-responsive">
+          <h4 class="text-center">Data Admin</h4>
+          <table id="usersTable" class="table table-bordered table-hover table-striped">
+            <thead class="table-dark">
+              <tr>
+                <th>No</th>
+                <th>Nama Lengkap</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Akses</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $no = 1;
+              while ($user = $hasil->fetch_assoc()) : ?>
+                <tr>
+                  <td><?= $no; ?></td>
+                  <td><?= $user['nama_lengkap']; ?></td>
+                  <td><?= $user['username']; ?></td>
+                  <td class="text-center">
+                    <select name="role" class="form-select role-dropdown" data-id="<?= $user['id'] ?>">
+                      <?php foreach ($enum_values as $value) : ?>
+                        <option value="<?= $value ?>" <?= $user['role'] == $value ? 'selected' : '' ?>><?= ucfirst($value) ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </td>
+                  <td class="text-center">
+                    <div class="form-check form-switch d-inline-block" style="transform: scale(1.2);">
+                      <input class="form-check-input akses-toggle" type="checkbox" role="switch" id="akses-<?= $user['id'] ?>" <?= $user['akses'] ? 'checked' : '' ?> data-id="<?= $user['id'] ?>">
+                    </div>
+                  </td>
+                </tr>
+              <?php $no++;
+              endwhile; ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
     <!-- Akhir Data Admin -->
   </div>

@@ -1,17 +1,5 @@
 <?php
-require '../config/config.php';
-
-if (!check_login()) {
-    header("Location: ../index.php");
-    exit();
-}
-
-// Pastikan name_created diambil dari sesi
-if (isset($_SESSION['user']['nama_lengkap'])) {
-    $logged_in_user = $_SESSION['user']['nama_lengkap'];
-} else {
-    $logged_in_user = 'Unknown';
-}
+require_once '../assets/layouts/header.php';
 
 $id = $_GET['id'];
 $sql = "SELECT
@@ -132,80 +120,7 @@ function uploadImage($file, $nik, $dir)
         return null; // Handle error appropriately
     }
 }
-
-require_once 'header.php';
 ?>
-
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
-<style>
-    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Poppins", sans-serif;
-    }
-
-    body {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: #929A94;
-    }
-
-    h3 {
-        color: white;
-        font-weight: bolder;
-    }
-
-    h6 {
-        color: #F8F4E1;
-    }
-
-    /* Pastikan select2 memiliki tampilan yang konsisten dengan elemen Bootstrap lainnya */
-    .select2-container--default .select2-selection--single {
-        height: calc(3.5rem + 2px);
-        /* Samakan dengan tinggi form-control */
-        padding: 0.75rem 1rem;
-        /* Samakan padding dengan form-control */
-        font-size: 1rem;
-        line-height: 1.5;
-        color: #495057;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #ced4da;
-        border-radius: 0.25rem;
-        box-shadow: inset 0 0.075rem 0.1rem rgba(0, 0, 0, 0.075);
-    }
-
-    /* Untuk mengatur padding dalam elemen select2 agar teks berada di tengah */
-    .select2-container--default .select2-selection--single .select2-selection__rendered {
-        padding-left: 0.75rem;
-        /* Padding kiri */
-        padding-right: 0.75rem;
-        /* Padding kanan */
-        padding-top: calc((3.5rem - 1.5rem) / 2);
-        /* Padding atas, sesuaikan sesuai tinggi elemen */
-        padding-bottom: calc((3.5rem - 1.5rem) / 2);
-        /* Padding bawah, sesuaikan sesuai tinggi elemen */
-        line-height: 1.5rem;
-        /* Sesuaikan line-height agar seimbang */
-        color: #495057;
-        /* Warna teks */
-    }
-
-
-    .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: calc(3.5rem + 2px);
-        /* Samakan dengan tinggi select2 */
-        top: 50%;
-        transform: translateY(-50%);
-        right: 10px;
-    }
-</style>
 
 <div class="row justify-content-center">
     <div class="col-ml text-center text-white mt-4">
@@ -986,6 +901,6 @@ require_once 'header.php';
     })()
 </script>
 
-</body>
-
-</html>
+<?php
+require_once '../assets/layouts/footer.php';
+?>

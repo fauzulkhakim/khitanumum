@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 function sendMessageDiterima($no_hp, $link)
 {
-    $api_key = 'wGd+U1ehDoCTphUxwciu';
+    $api_key = 'z1UTH7UwXp2AHo8UNCtT';
     $url = 'https://api.fonnte.com/send';
 
     $message = "✅ Pendaftaran Diterima
@@ -122,7 +122,7 @@ wa.me/6281910287931 (Vian)
 
 function sendMessagePending($no_hp, $link)
 {
-    $api_key = 'wGd+U1ehDoCTphUxwciu';
+    $api_key = 'z1UTH7UwXp2AHo8UNCtT';
     $url = 'https://api.fonnte.com/send';
 
     $message = "⌛︎ Pendaftaran dalam antrian
@@ -170,7 +170,7 @@ wa.me/6281910287931 (Vian)
 
 function sendMessageDitolak($no_hp, $link)
 {
-    $api_key = 'wGd+U1ehDoCTphUxwciu';
+    $api_key = 'z1UTH7UwXp2AHo8UNCtT';
     $url = 'https://api.fonnte.com/send';
 
     $message = "❌ Pendaftaran Ditolak

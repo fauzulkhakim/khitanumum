@@ -86,20 +86,29 @@ include 'layouts/header.php';
 
     <div class="content">
         <div class="container-fluid">
+
+            <!-- Card Input OTP -->
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <div class="card">
+                    <div class="card card-outline card-primary mt-4" id="otpCard">
                         <div class="card-header">
                             <h3 class="card-title">Input OTP</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-toggle="collapse" data-target="#otpCollapse" aria-expanded="false">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <form action="undangan.php" method="GET">
-                                <div class="form-group">
-                                    <label for="otp">OTP:</label>
-                                    <input type="text" class="form-control" id="otp" name="otp" required>
-                                </div>
-                                <button type="submit" class="btn btn-primary mt-3">Cek Undangan</button>
-                            </form>
+                        <div id="otpCollapse" class="collapse show">
+                            <div class="card-body">
+                                <form action="undangan.php" method="GET">
+                                    <div class="form-group">
+                                        <label for="otp">OTP:</label>
+                                        <input type="text" class="form-control" id="otp" name="otp" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mt-3">Cek Undangan</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -147,7 +156,7 @@ include 'layouts/header.php';
             ?>
                         <div class="row justify-content-center mt-4">
                             <div class="col-md-8">
-                                <div class="card">
+                                <div class="card card-outline card-primary">
                                     <div class="card-header text-left">
                                         <div class="d-flex align-items-center">
                                             <img src="panitia/assets/images/icon_khitan_umum.png" alt="logo" width="50" class="me-3">
@@ -213,5 +222,14 @@ include 'layouts/header.php';
         </div>
     </div>
 </div>
+
+<?php if (isset($_GET['otp']) && $pendaftar) { ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var otpCollapse = document.getElementById('otpCollapse');
+            otpCollapse.classList.remove('show');
+        });
+    </script>
+<?php } ?>
 
 <?php include 'layouts/footer.php'; ?>
