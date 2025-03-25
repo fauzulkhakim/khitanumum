@@ -1,101 +1,121 @@
 <?php
 require_once '../assets/layouts/header.php';
 
-$id = $_GET['id'];
+// Validasi ID
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    die("ID tidak valid.");
+}
+
+$id = intval($_GET['id']);
+
+// Query untuk mendapatkan data pendaftar
 $sql = "SELECT
         p.*,
-        tl.name_regencies,
-        pr.name_provinces,
-        r.name_regencies,
-        d.name_districts,
-        v.name_villages,
+        tl.name_regencies AS tempat_lahir,
+        pr.name_provinces AS provinsi,
+        r.name_regencies AS kabupaten_kota,
+        d.name_districts AS kecamatan,
+        v.name_villages AS desa_kelurahan,
         sp.nama_status_pendaftaran,
         ub.nama_ukuran_baju
-        FROM
-        pendaftar p
-        JOIN regencies tl ON p.domisili_regencies_id = tl.id_regencies
+        FROM pendaftar p
+        JOIN regencies tl ON p.tempat_lahir_regencies_id = tl.id_regencies
         JOIN provinces pr ON p.domisili_provinces_id = pr.id_provinces
         JOIN regencies r ON p.domisili_regencies_id = r.id_regencies
         JOIN districts d ON p.domisili_districts_id = d.id_districts
         JOIN villages v ON p.domisili_villages_id = v.id_villages
         JOIN status_pendaftaran sp ON p.status_pendaftaran_id = sp.id_status_pendaftaran
         JOIN ukuran_baju ub ON p.ukuran_baju_id = ub.id_ukuran_baju
-        WHERE p.id = $id";
-$result = $conn->query($sql);
+        WHERE p.id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
 $pendaftaran = $result->fetch_assoc();
 
+if (!$pendaftaran) {
+    die("Data tidak ditemukan.");
+}
+
+// Proses update data
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    // Ambil data dari form
-    $updated = $logged_in_user;
-    $id = $_POST['id'];
-    $nama_lengkap = strtoupper($_POST['nama_lengkap']);
-    $nik = $_POST['nik'];
-    $no_kk = $_POST['no_kk'];
-    $tempat_lahir = $_POST['tempat_lahir'];
+    // Validasi dan sanitasi input
+    $nama_lengkap = strtoupper(trim($_POST['nama_lengkap']));
+    $nik = trim($_POST['nik']);
+    $no_kk = trim($_POST['no_kk']);
+    $tempat_lahir = intval($_POST['tempat_lahir']);
     $tanggal_lahir = $_POST['tanggal_lahir'];
-    $provinsi = $_POST['provinsi'];
-    $kabupaten_kota = $_POST['kabupaten_kota'];
-    $kecamatan = $_POST['kecamatan'];
-    $desa_kelurahan = $_POST['desa_kelurahan'];
-    $rt = $_POST['rt'];
-    $rw = $_POST['rw'];
-    $alamat_lengkap = strtoupper($_POST['alamat_lengkap']);
-    $domisili = $_POST['domisili'];
-    $berat_badan = $_POST['berat_badan'];
-    $tinggi_badan = $_POST['tinggi_badan'];
-    $ukuran_baju = $_POST['ukuran_baju'];
-    $nama_sekolah = strtoupper($_POST['nama_sekolah']);
-    $kelas = $_POST['kelas'];
-    $alamat_sekolah = strtoupper($_POST['alamat_sekolah']);
-    $orang_tua_wali = strtoupper($_POST['orang_tua_wali']);
-    $no_hp = $_POST['no_hp'];
-    $mustahiq = $_POST['mustahiq'];
-    $relasi = strtoupper($_POST['relasi']);
-    $status_pendaftaran_id = $_POST['status_pendaftaran_id'];
+    $provinsi = intval($_POST['provinsi']);
+    $kabupaten_kota = intval($_POST['kabupaten_kota']);
+    $kecamatan = intval($_POST['kecamatan']);
+    $desa_kelurahan = intval($_POST['desa_kelurahan']);
+    $rt = intval($_POST['rt']);
+    $rw = intval($_POST['rw']);
+    $alamat_lengkap = strtoupper(trim($_POST['alamat_lengkap']));
+    $domisili = intval($_POST['domisili']);
+    $berat_badan = intval($_POST['berat_badan']);
+    $tinggi_badan = intval($_POST['tinggi_badan']);
+    $ukuran_baju = intval($_POST['ukuran_baju']);
+    $nama_sekolah = strtoupper(trim($_POST['nama_sekolah']));
+    $kelas = intval($_POST['kelas']);
+    $alamat_sekolah = strtoupper(trim($_POST['alamat_sekolah']));
+    $orang_tua_wali = strtoupper(trim($_POST['orang_tua_wali']));
+    $no_hp = trim($_POST['no_hp']);
+    $mustahiq = intval($_POST['mustahiq']);
+    $relasi = strtoupper(trim($_POST['relasi']));
+    $status_pendaftaran_id = intval($_POST['status_pendaftaran_id']);
+    $updated = $logged_in_user;
 
-    // Dokumen KIA/KK
+    // Upload dokumen
     $dokumen_kia_kk = isset($_FILES['dokumen_kia_kk']) && $_FILES['dokumen_kia_kk']['error'] == 0 ? uploadImage($_FILES['dokumen_kia_kk'], $nik, 'kia_kk') : $pendaftaran['dokumen_kia_kk'];
-    // Dokumen Sekolah
     $dokumen_sekolah = isset($_FILES['dokumen_sekolah']) && $_FILES['dokumen_sekolah']['error'] == 0 ? uploadImage($_FILES['dokumen_sekolah'], $nik, 'sekolah') : $pendaftaran['dokumen_sekolah'];
-    // Dokumen Domisili
     $dokumen_domisili = isset($_FILES['dokumen_domisili']) && $_FILES['dokumen_domisili']['error'] == 0 ? uploadImage($_FILES['dokumen_domisili'], $nik, 'domisili') : $pendaftaran['dokumen_domisili'];
-    // Dokumen Pendukung
     $dokumen_pendukung = isset($_FILES['dokumen_pendukung']) && $_FILES['dokumen_pendukung']['error'] == 0 ? uploadImage($_FILES['dokumen_pendukung'], $nik, 'pendukung') : $pendaftaran['dokumen_pendukung'];
 
+    // Query update
     $sql = "UPDATE pendaftar SET
-        nama_lengkap = '$nama_lengkap',
-        updated = '$updated',
-        nik = '$nik',
-        no_kk = '$no_kk',
-        tempat_lahir_regencies_id = '$tempat_lahir',
-        tanggal_lahir = '$tanggal_lahir',
-        domisili_provinces_id = '$provinsi',
-        domisili_regencies_id = '$kabupaten_kota',
-        domisili_districts_id = '$kecamatan',
-        domisili_villages_id = '$desa_kelurahan',
-        rt_rt_rw_id = '$rt',
-        rw_rt_rw_id = '$rw',
-        alamat_lengkap = '$alamat_lengkap',
-        domisili = '$domisili',
-        berat_badan = '$berat_badan',
-        tinggi_badan = '$tinggi_badan',
-        ukuran_baju_id = '$ukuran_baju',
-        nama_sekolah = '$nama_sekolah',
-        kelas_id = '$kelas',
-        alamat_sekolah = '$alamat_sekolah',
-        orang_tua_wali = '$orang_tua_wali',
-        no_hp = '$no_hp',
-        mustahiq = '$mustahiq',
-        relasi = '$relasi',
-        status_pendaftaran_id = '$status_pendaftaran_id',
-        dokumen_kia_kk = '$dokumen_kia_kk',
-        dokumen_sekolah = '$dokumen_sekolah',
-        dokumen_domisili = '$dokumen_domisili',
-        dokumen_pendukung = '$dokumen_pendukung'
-        WHERE id = $id";
+        nama_lengkap = ?, updated = ?, nik = ?, no_kk = ?, tempat_lahir_regencies_id = ?, tanggal_lahir = ?, 
+        domisili_provinces_id = ?, domisili_regencies_id = ?, domisili_districts_id = ?, domisili_villages_id = ?, 
+        rt_rt_rw_id = ?, rw_rt_rw_id = ?, alamat_lengkap = ?, domisili = ?, berat_badan = ?, tinggi_badan = ?, 
+        ukuran_baju_id = ?, nama_sekolah = ?, kelas_id = ?, alamat_sekolah = ?, orang_tua_wali = ?, no_hp = ?, 
+        mustahiq = ?, relasi = ?, status_pendaftaran_id = ?, dokumen_kia_kk = ?, dokumen_sekolah = ?, 
+        dokumen_domisili = ?, dokumen_pendukung = ? WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param(
+        "ssssissiiiiisiiissississsssi",
+        $nama_lengkap,
+        $updated,
+        $nik,
+        $no_kk,
+        $tempat_lahir,
+        $tanggal_lahir,
+        $provinsi,
+        $kabupaten_kota,
+        $kecamatan,
+        $desa_kelurahan,
+        $rt,
+        $rw,
+        $alamat_lengkap,
+        $domisili,
+        $berat_badan,
+        $tinggi_badan,
+        $ukuran_baju,
+        $nama_sekolah,
+        $kelas,
+        $alamat_sekolah,
+        $orang_tua_wali,
+        $no_hp,
+        $mustahiq,
+        $relasi,
+        $status_pendaftaran_id,
+        $dokumen_kia_kk,
+        $dokumen_sekolah,
+        $dokumen_domisili,
+        $dokumen_pendukung,
+        $id
+    );
 
-    if ($conn->query($sql) === TRUE) {
+    if ($stmt->execute()) {
         header("Location: pendaftar.php");
         exit();
     } else {
@@ -103,6 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+// Fungsi uploadImage tetap sama
 function uploadImage($file, $nik, $dir)
 {
     $file_name = $file['name'];
@@ -117,7 +138,7 @@ function uploadImage($file, $nik, $dir)
     if (move_uploaded_file($file_tmp, $targetFile)) {
         return $new_file_name;
     } else {
-        return null; // Handle error appropriately
+        return null;
     }
 }
 ?>
@@ -549,9 +570,19 @@ function uploadImage($file, $nik, $dir)
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<?php
+require_once '../assets/layouts/footer.php';
+?>
+
+<script>
+    $(document).ready(function() {
+        $('#tempat_lahir').select2();
+        $('#provinsi').select2();
+        $('#kabupaten_kota').select2();
+        $('#kecamatan').select2();
+        $('#desa_kelurahan').select2();
+    });
+</script>
 
 <!-- implementasi select2js -->
 <script>
@@ -900,7 +931,3 @@ function uploadImage($file, $nik, $dir)
         })
     })()
 </script>
-
-<?php
-require_once '../assets/layouts/footer.php';
-?>

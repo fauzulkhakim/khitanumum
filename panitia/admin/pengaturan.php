@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require_once '../assets/layouts/header.php';
 global $conn;
 
@@ -25,9 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       file_put_contents('../config/dates_config.php', $config_content);
       echo "<script>alert('Tanggal pendaftaran telah diperbarui');</script>";
+
       // Muat ulang untuk memuat tanggal baru
       header("Location: " . $_SERVER['PHP_SELF']);
-      exit();
+      exit(); // Tambahkan exit() di sini
     }
   } elseif (isset($_POST['pelaksanaan'])) {
     if (isset($_POST['pelaksanaan'])) {
@@ -41,9 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
       file_put_contents('../config/dates_config.php', $config_content);
       echo "<script>alert('Tanggal pelaksanaan telah diperbarui');</script>";
+
       // Muat ulang untuk memuat tanggal baru
       header("Location: " . $_SERVER['PHP_SELF']);
-      exit();
+      exit(); // Tambahkan exit() di sini
     }
   }
 }
@@ -167,4 +170,5 @@ setlocale(LC_TIME, 'id_ID.UTF-8'); // Mengatur locale ke bahasa Indonesia
 
   <?php
   require_once '../assets/layouts/footer.php';
+  ob_end_flush();
   ?>

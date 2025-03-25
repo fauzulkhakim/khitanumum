@@ -19,6 +19,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Khitan Umum YM3SK</title>
+  <!-- Favicon -->
+  <link rel="icon" href="../assets/images/icon_khitan_umum.png" type="image/x-icon">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -31,7 +33,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
   <link rel="stylesheet" href="https://cdn.datatables.net/fixedcolumns/3.3.0/css/fixedColumns.dataTables.min.css">
   <!-- AdminLTE CSS -->
   <link rel="stylesheet" href="../assets/adminlte/dist/css/adminlte.min.css">
-  <link rel="icon" href="../assets/images/icon_khitan_umum.png" type="image/x-icon">
+  <!-- Select2JS -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <!-- Font IBM Plex Sans -->
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400&display=swap" rel="stylesheet">
 
