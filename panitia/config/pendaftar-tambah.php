@@ -5,7 +5,6 @@ session_start(); // Pastikan sesi sudah dimulai
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // Ambil data dari form
   $nama_lengkap = mysqli_escape_string($conn, strtoupper($_POST['nama_lengkap']));
-  $name_created = mysqli_real_escape_string($conn, $_POST['name_created']);
   $nik = mysqli_escape_string($conn, $_POST['nik']);
   $no_kk = mysqli_real_escape_string($conn, $_POST['no_kk']);
   $tempat_lahir = mysqli_escape_string($conn, $_POST['tempat_lahir']);
@@ -28,6 +27,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $no_hp = mysqli_escape_string($conn, $_POST['no_hp']);
   $relasi = mysqli_escape_string($conn, strtoupper($_POST['relasi']));
   $mustahiq = mysqli_escape_string($conn, $_POST['mustahiq']);
+
+  // Ambil nama admin yang sedang login
+  $created_by = $_SESSION['user']['nama_lengkap'];
 
   // cek apakah NIK sudah ada
   $cekNikQuery = "SELECT * FROM pendaftar WHERE nik = ?";
@@ -56,16 +58,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   // Query untuk menyimpan data
   $sql = "INSERT INTO `pendaftar` (
-        `id`, `is_admin`, `nama_lengkap`, `nik`, `no_kk`, `no_peserta`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `name_created`, `date_created`, `updated`, `name_updated`, `date_updated`
+        `id`, `is_admin`, `nama_lengkap`, `nik`, `no_kk`, `no_peserta`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`
     ) VALUES (
-        NULL, '1', '$nama_lengkap', '$nik', '$no_kk', NULL, '$otp', '1', '$mustahiq', '$relasi', '$orang_tua_wali', '$no_hp', '$tempat_lahir', '$tanggal_lahir', '$alamat_lengkap', '$provinsi', '$kabupaten_kota', '$kecamatan', '$desa_kelurahan', '$rt', '$rw', '$domisili', '$berat_badan', '$tinggi_badan', '$ukuran_baju', '$nama_sekolah', '$kelas', '$alamat_sekolah', '$dokumen_kia_kk', '$dokumen_sekolah', '$dokumen_domisili', '$dokumen_pendukung', '$name_created', NOW(), NULL, NULL, NULL
+        NULL, '1', '$nama_lengkap', '$nik', '$no_kk', NULL, '$otp', '1', '$mustahiq', '$relasi', '$orang_tua_wali', '$no_hp', '$tempat_lahir', '$tanggal_lahir', '$alamat_lengkap', '$provinsi', '$kabupaten_kota', '$kecamatan', '$desa_kelurahan', '$rt', '$rw', '$domisili', '$berat_badan', '$tinggi_badan', '$ukuran_baju', '$nama_sekolah', '$kelas', '$alamat_sekolah', '$dokumen_kia_kk', '$dokumen_sekolah', '$dokumen_domisili', '$dokumen_pendukung', '$created_by', NOW(), NULL, NULL, NULL, NULL
     )";
 
   if (mysqli_query($conn, $sql)) {
-    echo "<script>
-            alert('Data berhasil ditambahkan');
-            window.location.href = '../admin/pendaftar.php';
-            </script>";
+    // Ambil ID terakhir yang di-generate
+    $last_id = mysqli_insert_id($conn);
+
+    // Generate nomor peserta berdasarkan ID
+    $no_peserta = '47' . str_pad($last_id, 5, '0', STR_PAD_LEFT);
+
+    // Update nomor peserta
+    $updateQuery = "UPDATE pendaftar SET no_peserta = '$no_peserta' WHERE id = $last_id";
+    mysqli_query($conn, $updateQuery);
+
+    // Kirim pesan sukses pendaftaran ke WhatsApp
+    $link = "https://khitanumum.menarakudus.id/status.php?otp=$otp"; // Sesuaikan link dengan URL yang benar
+    sendSuccessMessage($no_hp, $link, $no_peserta);
+
+    // Tampilkan alert menggunakan JavaScript dan redirect ke halaman pendaftar
+    echo "<script>alert('Pendaftaran berhasil!'); window.location.href = '../admin/pendaftar.php';</script>";
+    exit();
   } else {
     echo "Error: " . $sql . "<br>" . mysqli_error($conn);
   }
@@ -86,5 +101,56 @@ function uploadImage($file, $nik, $dir)
 
   if (move_uploaded_file($file_tmp, $targetFile)) {
     return $new_file_name;
+  }
+}
+
+function sendSuccessMessage($no_hp, $link, $no_peserta)
+{
+  $api_key = 'z1UTH7UwXp2AHo8UNCtT';
+  $url = 'https://api.fonnte.com/send';
+
+  $message = "✅ Pendaftaran Berhasil
+------------------------------------------------------------
+
+Nomor Peserta: $no_peserta
+
+Silahkan tunggu proses verifikasi maksimal 2x24 jam. Jika lolos verifikasi akan dikirim undangan via WA.
+
+Cek status calon peserta khitan secara berkala pada link dibawah ini:
+
+$link
+
+Jika ada kesalahan data anak dan membutuhkan informasi lebih lanjut silahkan hubungi WhatsApp dibawah ini:
+
+wa.me/6285878537250 (Haidar)
+wa.me/6281910287931 (Vian)
+
+------------------------------------------------------------
+
+-= Khitan Umum 1446 H =-";
+
+  $data = [
+    'target' => $no_hp, // Nomor tujuan dengan format internasional
+    'message' => $message
+  ];
+
+  $curl = curl_init();
+
+  curl_setopt($curl, CURLOPT_URL, $url);
+  curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+  curl_setopt($curl, CURLOPT_HTTPHEADER, [
+    "Authorization: $api_key", // Header otorisasi dengan API key
+  ]);
+  curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+  $response = curl_exec($curl);
+  curl_close($curl);
+
+  $result = json_decode($response, true);
+  if ($result['status'] != "success") {
+    echo "Gagal mengirim pesan sukses: " . $result['message'];
   }
 }

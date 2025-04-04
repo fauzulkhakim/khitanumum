@@ -45,7 +45,8 @@ require_once '../assets/layouts/header.php';
                       $sql = "SELECT p.*, r.name_regencies, s.nama_status_pendaftaran
         FROM pendaftar p
         LEFT JOIN regencies r ON p.domisili_regencies_id = r.id_regencies
-        LEFT JOIN status_pendaftaran s ON p.status_pendaftaran_id = s.id_status_pendaftaran";
+        LEFT JOIN status_pendaftaran s ON p.status_pendaftaran_id = s.id_status_pendaftaran
+        WHERE p.deleted_at IS NULL";
 
                       $result = $conn->query($sql);
                       $no = 1;
@@ -81,7 +82,7 @@ require_once '../assets/layouts/header.php';
                           <td class="text-center align-middle <?= $highlight_hp; ?>"><?= $pendaftaran['no_hp']; ?></td>
                           <td class="align-middle"><?= trim(str_ireplace('Kabupaten', '', $pendaftaran['name_regencies'])); ?></td>
                           <td class="align-middle"><?= $pendaftaran['relasi']; ?></td>
-                          <td class="align-middle"><?= $pendaftaran['updated']; ?></td>
+                          <td class="align-middle"><?= $pendaftaran['updated_by']; ?></td>
                           <td class="text-center align-middle <?= $statusClass; ?>">
                             <select class="form-select status-dropdown" data-id="<?= $pendaftaran['id']; ?>" style="width: 180px;" <?= ($pendaftaran['status_pendaftaran_id'] == 2) ? 'disabled' : ''; ?>>
                               <?php
@@ -117,7 +118,7 @@ require_once '../assets/layouts/header.php';
                             </button>
                             <?php if ($pendaftaran['status_pendaftaran_id'] == 2) : ?>
                               <button data-id="<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-secondary m-1 buttonUndangan" title="Kirim ulang undangan" onclick="return confirm('Apakah Anda yakin ingin mengirim ulang undangan?')">
-                              <i class="fa-solid fa-file-arrow-down"></i>
+                                <i class="fa-solid fa-file-arrow-down"></i>
                               </button>
                             <?php endif; ?>
                           </td>
@@ -128,9 +129,9 @@ require_once '../assets/layouts/header.php';
                             <a href="pendaftar-edit.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-warning m-1" title="Edit data">
                               <i class="fas fa-edit"></i>
                             </a>
-                            <!-- <a href="../config/pendaftar-delete.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-danger m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                    <i class="fas fa-trash"></i>
-                  </a> -->
+                            <a href="../config/pendaftar-delete.php?id=<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-danger m-1" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                              <i class="fas fa-trash"></i>
+                            </a>
                           </td>
                         </tr>
                       <?php

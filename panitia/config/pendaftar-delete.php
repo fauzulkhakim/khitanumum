@@ -7,9 +7,14 @@ if (!isset($_SESSION['user'])) {
 require '../config/config.php';
 
 $id = mysqli_real_escape_string($conn, $_GET['id']);
-$sql = "DELETE FROM pendaftar WHERE id='$id'";
+$deleted_by = $_SESSION['user']['nama_lengkap']; // Nama admin yang menghapus
+$timestamp = date('Y-m-d H:i:s'); // Waktu saat ini
+
+// Soft delete: update kolom deleted_by dan deleted_at
+$sql = "UPDATE pendaftar SET deleted_by='$deleted_by', deleted_at='$timestamp' WHERE id='$id'";
+
 if (mysqli_query($conn, $sql)) {
-    $_SESSION['message'] = "Data telah terhapus";
+    $_SESSION['message'] = "Data telah dihapus (soft delete)";
     header("Location: ../admin/pendaftar.php");
     exit();
 } else {

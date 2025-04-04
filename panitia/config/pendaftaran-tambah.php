@@ -1,28 +1,35 @@
 <?php
 require 'config.php';
+session_start(); // Pastikan sesi sudah dimulai
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Escape data input dari form
+  // Ambil data dari form
   $nama_lengkap = mysqli_escape_string($conn, strtoupper($_POST['nama_lengkap']));
-  $nik = mysqli_real_escape_string($conn, $_POST['nik']);
+  $nik = mysqli_escape_string($conn, $_POST['nik']);
   $no_kk = mysqli_real_escape_string($conn, $_POST['no_kk']);
-  $tempat_lahir = mysqli_real_escape_string($conn, $_POST['tempat_lahir']);
-  $tanggal_lahir = mysqli_real_escape_string($conn, $_POST['tanggal_lahir']);
-  $provinsi = mysqli_real_escape_string($conn, $_POST['provinsi']);
-  $kabupaten_kota = mysqli_real_escape_string($conn, $_POST['kabupaten_kota']);
-  $kecamatan = mysqli_real_escape_string($conn, $_POST['kecamatan']);
-  $desa_kelurahan = mysqli_real_escape_string($conn, $_POST['desa_kelurahan']);
-  $rt = mysqli_real_escape_string($conn, $_POST['rt']);
-  $rw = mysqli_real_escape_string($conn, $_POST['rw']);
-  $alamat_lengkap = mysqli_real_escape_string($conn, strtoupper($_POST['alamat_lengkap']));
-  $domisili = mysqli_real_escape_string($conn, $_POST['domisili']);
-  $berat_badan = mysqli_real_escape_string($conn, $_POST['berat_badan']);
-  $tinggi_badan = mysqli_real_escape_string($conn, $_POST['tinggi_badan']);
-  $ukuran_baju = mysqli_real_escape_string($conn, $_POST['ukuran_baju']);
-  $nama_sekolah = mysqli_real_escape_string($conn, strtoupper($_POST['nama_sekolah']));
-  $kelas = mysqli_real_escape_string($conn, $_POST['kelas']);
-  $alamat_sekolah = mysqli_real_escape_string($conn, strtoupper($_POST['alamat_sekolah']));
-  $orang_tua_wali = mysqli_real_escape_string($conn, strtoupper($_POST['orang_tua_wali']));
-  $no_hp = mysqli_real_escape_string($conn, $_POST['no_hp']);
+  $tempat_lahir = mysqli_escape_string($conn, $_POST['tempat_lahir']);
+  $tanggal_lahir = mysqli_escape_string($conn, $_POST['tanggal_lahir']);
+  $provinsi = mysqli_escape_string($conn, $_POST['provinsi']);
+  $kabupaten_kota = mysqli_escape_string($conn, $_POST['kabupaten_kota']);
+  $kecamatan = mysqli_escape_string($conn, $_POST['kecamatan']);
+  $desa_kelurahan = mysqli_escape_string($conn, $_POST['desa_kelurahan']);
+  $rt = mysqli_escape_string($conn, $_POST['rt']);
+  $rw = mysqli_escape_string($conn, $_POST['rw']);
+  $alamat_lengkap = mysqli_escape_string($conn, strtoupper($_POST['alamat_lengkap']));
+  $domisili = mysqli_escape_string($conn, $_POST['domisili']);
+  $berat_badan = mysqli_escape_string($conn, $_POST['berat_badan']);
+  $tinggi_badan = mysqli_escape_string($conn, $_POST['tinggi_badan']);
+  $ukuran_baju = mysqli_escape_string($conn, $_POST['ukuran_baju']);
+  $nama_sekolah = mysqli_escape_string($conn, strtoupper($_POST['nama_sekolah']));
+  $kelas = mysqli_escape_string($conn, $_POST['kelas']);
+  $alamat_sekolah = mysqli_escape_string($conn, strtoupper($_POST['alamat_sekolah']));
+  $orang_tua_wali = mysqli_escape_string($conn, strtoupper($_POST['orang_tua_wali']));
+  $no_hp = mysqli_escape_string($conn, $_POST['no_hp']);
+  $relasi = mysqli_escape_string($conn, strtoupper($_POST['relasi']));
+  $mustahiq = mysqli_escape_string($conn, $_POST['mustahiq']);
+
+  // Ambil nama admin yang sedang login
+  $created_by = $_SESSION['user']['nama_lengkap'];
 
   // cek apakah NIK sudah ada
   $cekNikQuery = "SELECT * FROM pendaftar WHERE nik = ?";
@@ -47,19 +54,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $dokumen_domisili = uploadImage($_FILES['dokumen_domisili'], $nik, 'domisili');
   $dokumen_pendukung = uploadImage($_FILES['dokumen_pendukung'], $nik, 'pendukung');
 
-  // Generate OTP
-  $otp = rand(100000, 999999);
-  $waktu = time(); // Menyimpan waktu pembuatan OTP
+  $otp = mt_rand(100000, 999999);
 
-  // Simpan data pendaftar bersama OTP
-
+  // Query untuk menyimpan data
   $sql = "INSERT INTO `pendaftar` (
-        `id`, `is_admin`, `nama_lengkap`, `nik`, `no_kk`, `no_peserta`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `name_created`, `date_created`, `updated`, `name_updated`, `date_updated`
+        `id`, `is_admin`, `nama_lengkap`, `nik`, `no_kk`, `no_peserta`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`
     ) VALUES (
-        NULL, '0', '$nama_lengkap', '$nik', '$no_kk', NULL, '$otp', '1', '0', '$relasi', '$orang_tua_wali', '$no_hp', '$tempat_lahir', '$tanggal_lahir', '$alamat_lengkap', '$provinsi', '$kabupaten_kota', '$kecamatan', '$desa_kelurahan', '$rt', '$rw', '$domisili', '$berat_badan', '$tinggi_badan', '$ukuran_baju', '$nama_sekolah', '$kelas', '$alamat_sekolah', '$dokumen_kia_kk', '$dokumen_sekolah', '$dokumen_domisili', '$dokumen_pendukung','Umum', NOW(), NULL, NULL, NULL
+        NULL, '1', '$nama_lengkap', '$nik', '$no_kk', NULL, '$otp', '1', '$mustahiq', '$relasi', '$orang_tua_wali', '$no_hp', '$tempat_lahir', '$tanggal_lahir', '$alamat_lengkap', '$provinsi', '$kabupaten_kota', '$kecamatan', '$desa_kelurahan', '$rt', '$rw', '$domisili', '$berat_badan', '$tinggi_badan', '$ukuran_baju', '$nama_sekolah', '$kelas', '$alamat_sekolah', '$dokumen_kia_kk', '$dokumen_sekolah', '$dokumen_domisili', '$dokumen_pendukung', '$created_by', NOW(), NULL, NULL, NULL, NULL
     )";
 
   if (mysqli_query($conn, $sql)) {
+    // Ambil ID terakhir yang di-generate
+    $last_id = mysqli_insert_id($conn);
+
+    // Generate nomor peserta berdasarkan ID
+    $no_peserta = '47' . str_pad($last_id, 5, '0', STR_PAD_LEFT);
+
+    // Update nomor peserta
+    $updateQuery = "UPDATE pendaftar SET no_peserta = '$no_peserta' WHERE id = $last_id";
+    mysqli_query($conn, $updateQuery);
+
     // Kirim pesan sukses pendaftaran ke WhatsApp
     $link = "https://khitanumum.menarakudus.id/status.php?otp=$otp"; // Sesuaikan link dengan URL yang benar
     sendSuccessMessage($no_hp, $link);
@@ -92,7 +106,7 @@ function uploadImage($file, $nik, $dir)
 
 function sendSuccessMessage($no_hp, $link)
 {
-  $api_key = 'wGd+U1ehDoCTphUxwciu';
+  $api_key = 'z1UTH7UwXp2AHo8UNCtT';
   $url = 'https://api.fonnte.com/send';
 
   $message = "✅ Pendaftaran Berhasil

@@ -371,7 +371,7 @@ $current_time = date('Y-m-d H:i:s');
                         </div>
                       </div>
                       <div class="col-md-2 text-center pt-2 pe-2">
-                        <input type="submit" class="btn btn-success" value="Daftar" id="btnSubmit">
+                        <input type="submit" class="btn btn-success" value="Daftar" id="btnSubmit" onclick="return confirm('Pastikan semua data sudah benar. Apakah Anda yakin ingin mendaftar?')">
                       </div>
                     </div>
                     <!-- Akhir Card Dokumen -->

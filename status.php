@@ -154,7 +154,7 @@
                                                 <tr>
                                                     <td>Waktu</td>
                                                     <td>:</td>
-                                                    <td><?php echo date('d/m/Y H:i:s', strtotime($pendaftar['date_created'])); ?></td>
+                                                    <td><?php echo date('d/m/Y H:i:s', strtotime($pendaftar['updated_at'])); ?></td>
                                                 </tr>
                                                 <tr>
                                                     <?php if ($pendaftar['status_pendaftaran_id'] == 2) { ?>

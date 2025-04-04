@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 17 Mar 2025 pada 04.53
+-- Waktu pembuatan: 04 Apr 2025 pada 11.24
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -7325,38 +7325,36 @@ CREATE TABLE `pendaftar` (
   `dokumen_sekolah` varchar(128) DEFAULT NULL,
   `dokumen_domisili` varchar(128) DEFAULT NULL,
   `dokumen_pendukung` varchar(128) DEFAULT NULL,
-  `name_created` varchar(255) DEFAULT NULL,
-  `created` varchar(255) NOT NULL,
-  `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated` varchar(255) DEFAULT NULL,
-  `name_updated` varchar(255) DEFAULT NULL,
-  `date_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `created_by` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_by` varchar(255) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `deleted_by` varchar(255) DEFAULT NULL,
+  `deleted_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `pendaftar`
 --
 
-INSERT INTO `pendaftar` (`id`, `is_admin`, `nama_lengkap`, `nik`, `no_kk`, `no_peserta`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `name_created`, `created`, `date_created`, `updated`, `name_updated`, `date_updated`) VALUES
-(1, 0, 'MUHAMMAD ALFIN HIDAYATULLAH FIRMANSYAH', '3319030382103822', '3319030382103822', '460003', 117195, 2, 0, NULL, 'test', '08988335639', 3319, '2012-12-09', 'test', 33, 3319, 3319030, 3319030006, 1, 3, 1, '50', '165', 2, 'test', 11, 'test', '303_3319030382103822.jpg', '', '', '', NULL, '', '2024-08-13 16:45:24', 'Alham Manazil', NULL, '2024-08-26 09:06:34'),
-(3, 1, 'AHMAD NURUL KAMAL', '3319030382103820', '3319030382103820', '460002', 124103, 2, 0, 'alham manazil', 'test', '08988335639', 1107, '2012-12-09', 'test', 11, 1107, 1107062, 1107062026, 1, 3, 1, '50', '165', 3, 'test', 10, 'test', '715_3319030382103820.jpg', '', '', '', NULL, '', '2024-08-14 03:42:42', 'Alham Manazil', NULL, '2024-08-26 07:31:25'),
-(4, 0, 'MUHAMMAD MUHYIDIN ZULFIKAR ABDUL RAZAQ SETIAWAN SUSANTO', '3319030382103827', '3319030382103827', '460001', 474773, 2, 0, NULL, 'test', '08988335639', 1107, '2012-12-09', 'test', 11, 1107, 1107062, 1107062026, 1, 3, 1, '50', '165', 3, 'test', 10, 'test', '926_3319030382103827.jfif', '', '', '', NULL, 'Umum', '2024-08-14 08:54:24', 'Alham Manazil', NULL, '2024-08-26 08:17:49');
+INSERT INTO `pendaftar` (`id`, `is_admin`, `nama_lengkap`, `nik`, `no_kk`, `no_peserta`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
+(1, 0, 'TEST', '3319030382103820', '3319030382103820', '4700001', 332384, 4, 0, '', 'TEST', '08988335639', 3319, '2010-12-09', 'TEST', 33, 3319, 3319030, 3319030006, 1, 3, 1, '50', '160', 3, 'TEST', 8, 'TEST', '503_3319030382103820.jpg', '866_3319030382103820.jpg', '', '335_3319030382103820.jpg', NULL, '2025-04-04 03:35:04', NULL, '2025-04-04 08:57:27', NULL, NULL);
 
 --
 -- Trigger `pendaftar`
 --
 DELIMITER $$
 CREATE TRIGGER `before_insert_pendaftar` BEFORE INSERT ON `pendaftar` FOR EACH ROW BEGIN
-    -- Asumsikan Anda memiliki variabel session yang menyimpan ID pengguna yang sedang login
-    SET NEW.name_created = (SELECT nama_lengkap FROM users WHERE id = NEW.is_admin);
-    SET NEW.name_updated = (SELECT nama_lengkap FROM users WHERE id = NEW.is_admin);
+    -- Isi kolom created_by dan updated_by dengan nama admin yang sedang login
+    SET NEW.created_by = (SELECT nama_lengkap FROM users WHERE id = NEW.is_admin);
+    SET NEW.updated_by = (SELECT nama_lengkap FROM users WHERE id = NEW.is_admin);
 END
 $$
 DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `before_update_pendaftar` BEFORE UPDATE ON `pendaftar` FOR EACH ROW BEGIN
-    -- Asumsikan Anda memiliki variabel session yang menyimpan ID pengguna yang sedang login
-    SET NEW.name_updated = (SELECT nama_lengkap FROM users WHERE id = NEW.is_admin);
+    -- Isi kolom updated_by dengan nama admin yang sedang login
+    SET NEW.updated_by = (SELECT nama_lengkap FROM users WHERE id = NEW.is_admin);
 END
 $$
 DELIMITER ;
@@ -8057,11 +8055,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `nama_lengkap`, `username`, `password`, `no_hp`, `alamat`, `akses`, `role`, `created_at`, `updated_at`) VALUES
-(7, 'Alham Manazil', 'alham', '$2y$10$646oD1R.Xrgc5WsnBDiATeBJFy0BIwLfiTwTVipPkILjFkVgPTXnG', '08924924789248', 'Pasuruhan Lor, Jati, Kabupaten Kudus, Jawa Tengah, Indonesia', 1, 'master', '2024-07-27 05:35:59', '2024-08-03 04:54:03'),
-(13, 'rein', 'rein', '$2y$10$1qBYS5L8isJ5JWaWRyECBuvC/Ic26JPIWPdFK9/mEU3ZRMNXu4Amm', '08924924789', 'Ploso, Jati, Kabupaten Kudus, Jawa Tengah, Indonesia', 1, 'admin', '2024-07-29 04:14:57', '2024-08-13 15:44:46'),
-(23, 'Albert Einstein', 'albert', '$2y$10$ayfWOxvFmKuQvadAs1BhFenBwxqqY0n5IzwziEEtxEeMlA5xLxPY2', '08988335639', 'Pasuruhan Lor, Jati, Kabupaten Kudus, Jawa Tengah, Indonesia', 0, 'user', '2024-08-15 07:34:54', '2024-08-15 07:34:54'),
-(24, 'MIDAS', 'midas', '$2y$10$KI/UdZnx/6wpyLmxXtdX2eCS60SL.ReGqr.utBYDYnfJgfYUaq6OC', '08988335639', 'Gondangmanis, Bae, Kabupaten Kudus, Jawa Tengah, Indonesia', 0, 'user', '2024-08-15 07:35:40', '2024-08-15 07:35:40'),
-(25, 'test', 'test', '$2y$10$hx0tybdpC.J8xmFIafBXhu3z4Mnfi8lyPo1Rya202.ln94pWR8rD6', '08988335639', 'Ploso, Jati, Kabupaten Kudus, Jawa Tengah, Indonesia', 0, 'user', '2024-08-15 09:27:32', '2024-08-15 09:27:32');
+(1, 'Alham Manazil', 'alham', '$2y$10$b9pdWY3YNt3yn1MPV/8OuOo/tDQ41FOKj6TI6rjppwCm1aOjZz4am', NULL, NULL, 1, 'master', '2025-03-17 04:05:29', '2025-03-20 08:56:52');
 
 -- --------------------------------------------------------
 
@@ -88760,7 +88754,7 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT untuk tabel `pendaftar`
 --
 ALTER TABLE `pendaftar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `rt_rw`
@@ -88784,7 +88778,7 @@ ALTER TABLE `ukuran_baju`
 -- AUTO_INCREMENT untuk tabel `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
