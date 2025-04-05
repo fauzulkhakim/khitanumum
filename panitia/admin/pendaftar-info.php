@@ -47,6 +47,30 @@ $pendaftaran = $result->fetch_assoc();
                                     <!-- Kolom Kiri -->
                                     <div class="col-md-4">
 
+                                        <!-- Status Pendaftar -->
+                                        <div class="card my-2">
+                                            <div class="card-header fw-bold">Status Pendaftaran</div>
+                                            <div class="card-body">
+                                                <form action="../config/update_status.php" method="POST">
+                                                    <input type="hidden" name="id" value="<?= $pendaftaran['id']; ?>">
+                                                    <div class="form-group">
+                                                        <label for="status_pendaftaran">Update Status</label>
+                                                        <select class="form-select" name="status" id="status_pendaftaran">
+                                                            <?php
+                                                            $statusQuery = "SELECT * FROM status_pendaftaran";
+                                                            $statusResult = $conn->query($statusQuery);
+                                                            while ($status = $statusResult->fetch_assoc()) {
+                                                                $selected = $status['id_status_pendaftaran'] == $pendaftaran['status_pendaftaran_id'] ? 'selected' : '';
+                                                                echo "<option value='{$status['id_status_pendaftaran']}' {$selected}>{$status['nama_status_pendaftaran']}</option>";
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-secondary mt-2">Simpan</button>
+                                                </form>
+                                            </div>
+                                        </div>
+
                                         <!-- Data Identitas Calon Peserta -->
                                         <div class="card my-2">
                                             <div class="card-header fw-bold">
@@ -90,12 +114,21 @@ $pendaftaran = $result->fetch_assoc();
                                                         <label for="tanggal_lahir" class="form-label fw-bold">Tanggal Lahir</label>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="date" class="form-control" id="tanggal_lahir" value="<?= htmlspecialchars($pendaftaran['tanggal_lahir']); ?>" readonly>
+                                                        <input type="text" class="form-control" id="tanggal_lahir" value="<?= htmlspecialchars(date('d F Y', strtotime($pendaftaran['tanggal_lahir']))); ?>" readonly>
+                                                    </div>
+                                                </div>
+                                                <!-- Alamat -->
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label for="alamat_lengkap" class="form-label fw-bold">Alamat</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <textarea class="form-control" id="alamat_lengkap" rows="2" readonly><?= htmlspecialchars($pendaftaran['name_regencies'] . ', ' . $pendaftaran['name_districts'] . ', ' . $pendaftaran['name_villages'] . ', RT ' . $pendaftaran['rt_rt_rw_id'] . '/RW ' . $pendaftaran['rw_rt_rw_id']); ?></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-3">
                                                     <div class="col-md-6">
-                                                        <label for="alamat_lengkap" class="form-label fw-bold">Alamat Lengkap</label>
+                                                        <label for="alamat_lengkap" class="form-label fw-bold">Detail Alamat</label>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <textarea class="form-control" id="alamat_lengkap" rows="2" readonly><?= htmlspecialchars($pendaftaran['alamat_lengkap']); ?></textarea>
@@ -115,6 +148,77 @@ $pendaftaran = $result->fetch_assoc();
 
                                     <!-- Kolom Tengah -->
                                     <div class="col-md-4">
+
+                                        <!-- WhatsApp -->
+                                        <div class="card my-2">
+                                            <div class="card-header fw-bold">WhatsApp</div>
+                                            <div class="card-body">
+                                                <?php
+                                                $no_hp = $pendaftaran['no_hp'];
+                                                if (substr($no_hp, 0, 1) === '0') {
+                                                    $no_hp = '+62' . substr($no_hp, 1);
+                                                }
+                                                ?>
+                                                <a href="https://wa.me/<?= $no_hp; ?>" class="btn btn-sm btn-success m-1" target="_blank" title="Kirim Pesan WhatsApp" onclick="return confirm('Apakah Anda yakin ingin mengirim pesan WhatsApp ke nomor ini?')">
+                                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                                </a>
+                                                <button data-id="<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-secondary m-1 buttonStatus" title="Kirim ulang status pendaftaran" onclick="return">
+                                                    <i class="fa-solid fa-square-poll-horizontal"></i> Kirim Ulang Status
+                                                </button>
+                                                <?php if ($pendaftaran['status_pendaftaran_id'] == 2) : ?>
+                                                    <button data-id="<?= $pendaftaran['id']; ?>" class="btn btn-sm btn-secondary m-1 buttonUndangan" title="Kirim ulang undangan" onclick="return">
+                                                        <i class="fa-solid fa-file-arrow-down"></i> Kirim Ulang Undangan
+                                                    </button>
+                                                <?php endif; ?>
+                                                <button class="btn btn-sm btn-secondary m-1" data-bs-toggle="modal" data-bs-target="#logModal" title="Lihat Log">
+                                                    <i class="fa-solid fa-clock-rotate-left"></i> Log Pesan
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Modal for Log -->
+                                        <div class="modal fade" id="logModal" tabindex="-1" aria-labelledby="logModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="logModalLabel">Log WhatsApp</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <table id="modal" class="table table-hover table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="align-middle">No</th>
+                                                                    <th class="align-middle">Tanggal</th>
+                                                                    <th class="align-middle">Waktu</th>
+                                                                    <th class="align-middle">Status Terkirim ✅</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <?php
+                                                                $logQuery = "SELECT * FROM log_wa WHERE pendaftar_id = {$pendaftaran['id']} ORDER BY created_at DESC";
+                                                                $logResult = $conn->query($logQuery);
+                                                                $no = 1;
+                                                                while ($log = $logResult->fetch_assoc()) {
+                                                                    echo "<tr>
+                                    <td>{$no}</td>
+                                    <td>" . date('d-m-Y', strtotime($log['created_at'])) . "</td>
+                                    <td>" . date('H:i:s', strtotime($log['created_at'])) . "</td>
+                                    <td>{$log['status']}</td>
+                                  </tr>";
+                                                                    $no++;
+                                                                }
+                                                                ?>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <!-- Data Sekolah -->
                                         <div class="card my-2">
                                             <div class="card-header fw-bold">
@@ -196,7 +300,7 @@ $pendaftaran = $result->fetch_assoc();
                                                         <label for="relasi" class="form-label fw-bold">Relasi</label>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input type="text" class="form-control" id="relasi" value="<?= htmlspecialchars($pendaftaran['relasi']); ?>" readonly>
+                                                        <input type="text" class="form-control" id="relasi" value="<?= !empty($pendaftaran['relasi']) ? htmlspecialchars($pendaftaran['relasi']) : '-'; ?>" readonly>
                                                     </div>
                                                 </div>
 
@@ -219,7 +323,10 @@ $pendaftaran = $result->fetch_assoc();
                                             </div>
                                         </div>
                                     </div>
+
+                                    <!-- Kolom Kanan -->
                                     <div class="col-md-4">
+                                        <!-- Data Dokumen -->
                                         <div class="card my-2">
                                             <div class="card-header fw-bold">Dokumen</div>
                                             <div class="card-body">
@@ -298,8 +405,8 @@ $pendaftaran = $result->fetch_assoc();
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
 <?php
 require_once '../assets/layouts/footer.php';
 ?>
+
+<!-- script untuk menampilkan modal -->

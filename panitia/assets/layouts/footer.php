@@ -26,9 +26,17 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="../assets/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables JS -->
 <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>
+
+<!-- DataTables Buttons -->
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 
 <!-- DataTables Responsive JS -->
 <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
@@ -79,7 +87,29 @@
         var state = localStorage.getItem('dataTableState');
         console.log('State is being loaded:', JSON.parse(state));
         return JSON.parse(state);
-      }
+      },
+      dom: 'Bfrtip',
+      buttons: [
+        "copy",
+        "csv",
+        {
+          extend: 'excel',
+          title: 'Data Pendaftar'
+        },
+        {
+          extend: 'pdf',
+          title: 'Data Pendaftar'
+        },
+        {
+          extend: 'print',
+          title: 'Data Pendaftar',
+          customize: function(win) {
+            $(win.document.body).find('h1').remove();
+            $(win.document.body).find('table').addClass('table table-bordered table-striped');
+            $(win.document.body).css('font-size', '12pt');
+          }
+        }
+      ],
     });
   });
 
@@ -144,42 +174,46 @@
   });
 </script>
 
-<!-- Resend Status-->
 <script>
   $(document).ready(function() {
-    $('.buttonStatus').click(function() {
-      var id = $(this).data('id');
+    // Resend Status
+    $('.buttonStatus').click(function(e) {
+      e.preventDefault(); // Mencegah aksi default tombol
+      const id = $(this).data('id');
+      const confirmAction = confirm('Apakah Anda yakin ingin mengirim ulang status pendaftaran?');
+      if (!confirmAction) {
+        return; // Jika konfirmasi dibatalkan, hentikan eksekusi
+      }
 
-      $.ajax({
-        url: '../config/resend_status.php',
-        type: 'POST',
-        data: {
-          id: id
-        },
-        success: function(response) {
+      $.post('../config/resend_status.php', {
+        id: id
+      }, function(response) {
+        if (response.status === 'success') {
+          alert(response.message);
+        } else {
           alert(response.message);
         }
-      });
+      }, 'json');
     });
-  });
-</script>
 
-<!-- Resend Undangan-->
-<script>
-  $(document).ready(function() {
-    $('.buttonUndangan').click(function() {
-      var id = $(this).data('id');
+    // Resend Undangan
+    $('.buttonUndangan').click(function(e) {
+      e.preventDefault(); // Mencegah aksi default tombol
+      const id = $(this).data('id');
+      const confirmAction = confirm('Apakah Anda yakin ingin mengirim ulang undangan?');
+      if (!confirmAction) {
+        return; // Jika konfirmasi dibatalkan, hentikan eksekusi
+      }
 
-      $.ajax({
-        url: '../config/resend_undangan.php',
-        type: 'POST',
-        data: {
-          id: id
-        },
-        success: function(response) {
+      $.post('../config/resend_undangan.php', {
+        id: id
+      }, function(response) {
+        if (response.status === 'success') {
+          alert(response.message);
+        } else {
           alert(response.message);
         }
-      });
+      }, 'json');
     });
   });
 </script>
@@ -234,14 +268,14 @@
 <script>
   //---------------------------------------------------------------------------------------------------------------------------------
   // Menyiapkan data ketika halaman dibuka
-  document.addEventListener('DOMContentLoaded', () => {
-    // Data kabupaten untuk tempat lahir
-    fetchTempatLahir();
-    // Tampilkan tanggal sesuai
-    tanggalLahir();
-    // Data provinsi untuk alamat
-    fetchProvinces();
-  });
+  // document.addEventListener('DOMContentLoaded', () => {
+  //   // Data kabupaten untuk tempat lahir
+  //   fetchTempatLahir();
+  //   // Tampilkan tanggal sesuai
+  //   tanggalLahir();
+  //   // Data provinsi untuk alamat
+  //   fetchProvinces();
+  // });
 
   //---------------------------------------------------------------------------------------------------------------------------------
   // Menghubungkan nama depan dan nama belakang
@@ -538,8 +572,6 @@
     })
   })()
 </script>
-<!-- SCRIPT HALAMAN PENDAFTARAN SELESAI -->
-
 <!-- Akhir Halaman Pendaftar Tambah -->
 
 <!-- Halaman Pengaturan -->

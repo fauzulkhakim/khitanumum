@@ -55,3 +55,12 @@ function check_login()
 
   return false;
 }
+
+// Fungsi mencatat log pesan wa
+function logWa($conn, $pendaftar_id, $jenis_pesan, $status, $pesan)
+{
+  $sql = "INSERT INTO log_wa (pendaftar_id, jenis_pesan, status, pesan, created_at) VALUES (?, ?, ?, ?, NOW())";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param('isss', $pendaftar_id, $jenis_pesan, $status, $pesan);
+  $stmt->execute();
+}

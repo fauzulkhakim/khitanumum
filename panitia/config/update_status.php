@@ -2,19 +2,19 @@
 require 'config.php';
 session_start();
 
-var_dump($_SESSION['user']['nama_lengkap']);
-exit();
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Ambil data dari form
     $pendaftarId = intval($_POST['id']);
     $statusId = intval($_POST['status']);
-    $updated_by = isset($_SESSION['user']['nama_lengkap']) ? $_SESSION['user']['nama_lengkap'] : null; // Nama admin yang login
+    $updated = isset($_SESSION['user']['nama_lengkap']) ? $_SESSION['user']['nama_lengkap'] : null;
     $timestamp = date('Y-m-d H:i:s'); // Waktu saat ini
 
     // Validasi apakah admin sudah login
-    if (!$updated_by) {
-        echo json_encode(['success' => false, 'error' => 'Admin tidak terdeteksi. Pastikan Anda sudah login.']);
+    if (!$updated) {
+        echo "<script>
+            alert('Admin tidak terdeteksi. Pastikan Anda sudah login.');
+            window.location.href = '../admin/pendaftar-info.php?id=$pendaftarId';
+        </script>";
         exit();
     }
 
@@ -27,7 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $data_wa = $result->fetch_assoc();
 
     if (!$data_wa) {
-        echo json_encode(['success' => false, 'error' => 'Data pendaftar tidak ditemukan.']);
+        echo "<script>
+            alert('Data pendaftar tidak ditemukan.');
+            window.location.href = '../admin/pendaftar-info.php?id=$pendaftarId';
+        </script>";
         exit();
     }
 
@@ -38,10 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $conn->begin_transaction();
 
     try {
-        // Update status pendaftaran, updated_by, dan updated_at
-        $sql = "UPDATE pendaftar SET status_pendaftaran_id = ?, updated_by = ?, updated_at = ? WHERE id = ?";
+        // Update status pendaftaran, updated, dan updated_at
+        $sql = "UPDATE pendaftar SET status_pendaftaran_id = ?, updated = ?, updated_at = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param('issi', $statusId, $updated_by, $timestamp, $pendaftarId);
+        $stmt->bind_param('issi', $statusId, $updated, $timestamp, $pendaftarId);
 
         if (!$stmt->execute()) {
             throw new Exception($stmt->error);
@@ -51,20 +54,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $link = "https://khitanumum.menarakudus.id/status.php?otp=$otp"; // Link default
         if ($statusId == 2) { // Diterima
             $link = "https://khitanumum.menarakudus.id/undangan.php?otp=$otp";
-            sendMessage($no_hp, "✅ Pendaftaran Diterima\n\nDownload bukti daftar dan undangan melalui link berikut:\n\n$link\n\nJika ada kesalahan data atau membutuhkan informasi lebih lanjut, silakan hubungi:\n\nwa.me/6285878537250 (Haidar)\nwa.me/6281910287931 (Vian)\n\n-= Khitan Umum 1446 H =-");
+            $pesan = "✅ *Pendaftaran Diterima*\n\nSelamat! Pendaftaran Anda telah diterima.\n\nSilakan download bukti daftar dan undangan melalui link berikut:\n$link\n\nJika ada kesalahan data atau membutuhkan informasi lebih lanjut, silakan hubungi:\n\n📞 wa.me/6285878537250 (Haidar)\n📞 wa.me/6281910287931 (Vian)\n\n*-= Khitan Umum 1447 H =-*";
+            sendMessage($no_hp, $pesan);
+            logWa($conn, $pendaftarId, 'status', "diterima", $pesan);
         } elseif ($statusId == 3) { // Ditolak
-            sendMessage($no_hp, "❌ Pendaftaran Ditolak\n\nMohon maaf calon peserta tidak dapat diterima.\n\nCek status melalui link berikut:\n\n$link\n\nInformasi lebih lanjut silakan hubungi:\n\nwa.me/6285878537250 (Haidar)\nwa.me/6281910287931 (Vian)\n\n-= Khitan Umum 1446 H =-");
+            $pesan = "❌ *Pendaftaran Ditolak*\n\nMohon maaf, calon peserta tidak dapat diterima.\n\nCek status pendaftaran Anda melalui link berikut:\n$link\n\nUntuk informasi lebih lanjut, silakan hubungi:\n\n📞 wa.me/6285878537250 (Haidar)\n📞 wa.me/6281910287931 (Vian)\n\n*-= Khitan Umum 1447 H =-*";
+            sendMessage($no_hp, $pesan);
+            logWa($conn, $pendaftarId, 'status', "ditolak", $pesan);
         } elseif ($statusId == 4) { // Pending
-            sendMessage($no_hp, "⌛︎ Pendaftaran dalam antrian\n\nMohon tunggu sampai waktu pendaftaran selesai.\n\nCek status melalui link berikut:\n\n$link\n\nJika ada kesalahan data atau membutuhkan informasi lebih lanjut, silakan hubungi:\n\nwa.me/6285878537250 (Haidar)\nwa.me/6281910287931 (Vian)\n\n-= Khitan Umum 1446 H =-");
+            $pesan = "⌛︎ *Pendaftaran Dalam Antrian*\n\nPendaftaran Anda sedang dalam antrian. Mohon tunggu sampai waktu pendaftaran selesai.\n\nCek status pendaftaran Anda melalui link berikut:\n$link\n\nJika ada kesalahan data atau membutuhkan informasi lebih lanjut, silakan hubungi:\n\n📞 wa.me/6285878537250 (Haidar)\n📞 wa.me/6281910287931 (Vian)\n\n*-= Khitan Umum 1447 H =-*";
+            sendMessage($no_hp, $pesan);
+            logWa($conn, $pendaftarId, 'status', "pending", $pesan);
         }
 
         // Commit transaksi
         $conn->commit();
-        echo json_encode(['success' => true]);
+        echo "<script>
+            alert('Status pendaftaran berhasil diperbarui.');
+            window.location.href = '../admin/pendaftar-info.php?id=$pendaftarId';
+        </script>";
+        exit();
     } catch (Exception $e) {
         // Rollback transaksi jika terjadi error
         $conn->rollback();
-        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        echo "<script>
+            alert('Terjadi kesalahan: {$e->getMessage()}');
+            window.location.href = '../admin/pendaftar-info.php?id=$pendaftarId';
+        </script>";
+        exit();
     }
 }
 

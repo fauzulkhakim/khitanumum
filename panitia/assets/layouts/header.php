@@ -220,7 +220,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <li class="nav-item">
               <a href="dashboard.php" class="nav-link <?= ($current_page == 'dashboard.php') ? 'active' : ''; ?>">
                 <i class="nav-icon fas fa-home"></i>
-                <p>Home</p>
+                <p>Dashboard</p>
               </a>
             </li>
             <?php if (in_array($_SESSION['user']['role'], ['master', 'admin'])) : ?>
