@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 04 Apr 2025 pada 11.24
+-- Waktu pembuatan: 05 Apr 2025 pada 11.32
 -- Versi server: 10.4.28-MariaDB
 -- Versi PHP: 8.2.4
 
@@ -7289,6 +7289,34 @@ INSERT INTO `kelas` (`id_kelas`, `nama_kelas`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `log_wa`
+--
+
+CREATE TABLE `log_wa` (
+  `id` int(11) NOT NULL,
+  `pendaftar_id` int(11) NOT NULL,
+  `jenis_pesan` enum('pendaftaran','status','undangan') NOT NULL,
+  `status` varchar(255) NOT NULL,
+  `pesan` text NOT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `log_wa`
+--
+
+INSERT INTO `log_wa` (`id`, `pendaftar_id`, `jenis_pesan`, `status`, `pesan`, `created_at`) VALUES
+(1, 1, 'status', 'pending', '⌛︎ *Pendaftaran Dalam Antrian*\n\nPendaftaran Anda sedang dalam antrian. Mohon tunggu sampai waktu pendaftaran selesai.\n\nCek status pendaftaran Anda melalui link berikut:\nhttps://khitanumum.menarakudus.id/status.php?otp=332384\n\nJika ada kesalahan data atau membutuhkan informasi lebih lanjut, silakan hubungi:\n\n📞 wa.me/6285878537250 (Haidar)\n📞 wa.me/6281910287931 (Vian)\n\n*-= Khitan Umum 1446 H =-*', '2025-04-05 14:51:43'),
+(2, 1, 'status', 'diterima', '✅ *Pendaftaran Diterima*\n\nSelamat! Pendaftaran Anda telah diterima.\n\nSilakan download bukti daftar dan undangan melalui link berikut:\nhttps://khitanumum.menarakudus.id/undangan.php?otp=332384\n\nJika ada kesalahan data atau membutuhkan informasi lebih lanjut, silakan hubungi:\n\n📞 wa.me/6285878537250 (Haidar)\n📞 wa.me/6281910287931 (Vian)\n\n*-= Khitan Umum 1446 H =-*', '2025-04-05 15:05:50'),
+(3, 1, 'status', 'kirim ulang', '🔄 *Kirim Ulang Status Pendaftaran*\n\nCek status calon peserta khitan secara berkala pada link berikut:\n\nhttps://khitanumum.menarakudus.id/status.php?otp=332384\n\nJika ada kesalahan data atau membutuhkan informasi lebih lanjut, silakan hubungi:\n\n📞 wa.me/6285878537250 (Haidar)\n📞 wa.me/6281910287931 (Vian)\n\n*-= Khitan Umum 1446 H =-*', '2025-04-05 15:19:01'),
+(4, 1, 'status', 'diterima', '✅ *Pendaftaran Diterima*\n\nSelamat! Pendaftaran Anda telah diterima.\n\nSilakan download bukti daftar dan undangan melalui link berikut:\nhttps://khitanumum.menarakudus.id/undangan.php?otp=332384\n\nJika ada kesalahan data atau membutuhkan informasi lebih lanjut, silakan hubungi:\n\n📞 wa.me/6285878537250 (Haidar)\n📞 wa.me/6281910287931 (Vian)\n\n*-= Khitan Umum 1446 H =-*', '2025-04-05 15:20:29'),
+(5, 1, 'status', 'diterima', '✅ *Pendaftaran Diterima*\n\nSelamat! Pendaftaran Anda telah diterima.\n\nSilakan download bukti daftar dan undangan melalui link berikut:\nhttps://khitanumum.menarakudus.id/undangan.php?otp=332384\n\nJika ada kesalahan data atau membutuhkan informasi lebih lanjut, silakan hubungi:\n\n📞 wa.me/6285878537250 (Haidar)\n📞 wa.me/6281910287931 (Vian)\n\n*-= Khitan Umum 1446 H =-*', '2025-04-05 16:04:19'),
+(6, 1, 'status', 'ditolak', '❌ *Pendaftaran Ditolak*\n\nMohon maaf, calon peserta tidak dapat diterima.\n\nCek status pendaftaran Anda melalui link berikut:\nhttps://khitanumum.menarakudus.id/status.php?otp=332384\n\nUntuk informasi lebih lanjut, silakan hubungi:\n\n📞 wa.me/6285878537250 (Haidar)\n📞 wa.me/6281910287931 (Vian)\n\n*-= Khitan Umum 1446 H =-*', '2025-04-05 16:04:54'),
+(7, 1, 'status', 'diterima', '✅ *Pendaftaran Diterima*\n\nSelamat! Pendaftaran Anda telah diterima.\n\nSilakan download bukti daftar dan undangan melalui link berikut:\nhttps://khitanumum.menarakudus.id/undangan.php?otp=332384\n\nJika ada kesalahan data atau membutuhkan informasi lebih lanjut, silakan hubungi:\n\n📞 wa.me/6285878537250 (Haidar)\n📞 wa.me/6281910287931 (Vian)\n\n*-= Khitan Umum 1446 H =-*', '2025-04-05 16:07:08');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `pendaftar`
 --
 
@@ -7328,6 +7356,7 @@ CREATE TABLE `pendaftar` (
   `created_by` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_by` varchar(255) DEFAULT NULL,
+  `updated` varchar(255) NOT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `deleted_by` varchar(255) DEFAULT NULL,
   `deleted_at` datetime DEFAULT NULL
@@ -7337,8 +7366,8 @@ CREATE TABLE `pendaftar` (
 -- Dumping data untuk tabel `pendaftar`
 --
 
-INSERT INTO `pendaftar` (`id`, `is_admin`, `nama_lengkap`, `nik`, `no_kk`, `no_peserta`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `created_by`, `created_at`, `updated_by`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
-(1, 0, 'TEST', '3319030382103820', '3319030382103820', '4700001', 332384, 4, 0, '', 'TEST', '08988335639', 3319, '2010-12-09', 'TEST', 33, 3319, 3319030, 3319030006, 1, 3, 1, '50', '160', 3, 'TEST', 8, 'TEST', '503_3319030382103820.jpg', '866_3319030382103820.jpg', '', '335_3319030382103820.jpg', NULL, '2025-04-04 03:35:04', NULL, '2025-04-04 08:57:27', NULL, NULL);
+INSERT INTO `pendaftar` (`id`, `is_admin`, `nama_lengkap`, `nik`, `no_kk`, `no_peserta`, `otp`, `status_pendaftaran_id`, `mustahiq`, `relasi`, `orang_tua_wali`, `no_hp`, `tempat_lahir_regencies_id`, `tanggal_lahir`, `alamat_lengkap`, `domisili_provinces_id`, `domisili_regencies_id`, `domisili_districts_id`, `domisili_villages_id`, `rt_rt_rw_id`, `rw_rt_rw_id`, `domisili`, `berat_badan`, `tinggi_badan`, `ukuran_baju_id`, `nama_sekolah`, `kelas_id`, `alamat_sekolah`, `dokumen_kia_kk`, `dokumen_sekolah`, `dokumen_domisili`, `dokumen_pendukung`, `created_by`, `created_at`, `updated_by`, `updated`, `updated_at`, `deleted_by`, `deleted_at`) VALUES
+(1, 0, 'ALHAM MANAZIL', '3319030382103820', '3319030382103820', '4700001', 332384, 2, 0, 'TEST', 'TEST', '08988335639', 3319, '2010-12-09', 'TEST', 33, 3319, 3319030, 3319030006, 1, 3, 1, '50', '160', 2, 'TEST', 8, 'TEST', '930_3319030382103820.jpg', '866_3319030382103820.jpg', '320_3319030382103829.jpg', '335_3319030382103820.jpg', NULL, '2025-04-04 03:35:04', NULL, 'Alham Manazil', '2025-04-05 09:07:43', NULL, NULL);
 
 --
 -- Trigger `pendaftar`
@@ -88682,6 +88711,13 @@ ALTER TABLE `kelas`
   ADD PRIMARY KEY (`id_kelas`);
 
 --
+-- Indeks untuk tabel `log_wa`
+--
+ALTER TABLE `log_wa`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `pendaftar_id` (`pendaftar_id`);
+
+--
 -- Indeks untuk tabel `pendaftar`
 --
 ALTER TABLE `pendaftar`
@@ -88751,6 +88787,12 @@ ALTER TABLE `kelas`
   MODIFY `id_kelas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
+-- AUTO_INCREMENT untuk tabel `log_wa`
+--
+ALTER TABLE `log_wa`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT untuk tabel `pendaftar`
 --
 ALTER TABLE `pendaftar`
@@ -88783,6 +88825,12 @@ ALTER TABLE `users`
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
+
+--
+-- Ketidakleluasaan untuk tabel `log_wa`
+--
+ALTER TABLE `log_wa`
+  ADD CONSTRAINT `log_wa_ibfk_1` FOREIGN KEY (`pendaftar_id`) REFERENCES `pendaftar` (`id`) ON DELETE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `pendaftar`
