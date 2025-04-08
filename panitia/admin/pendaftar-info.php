@@ -185,32 +185,34 @@ $pendaftaran = $result->fetch_assoc();
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <table id="modal" class="table table-hover table-bordered">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th class="align-middle">No</th>
-                                                                    <th class="align-middle">Tanggal</th>
-                                                                    <th class="align-middle">Waktu</th>
-                                                                    <th class="align-middle">Status Terkirim ✅</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <?php
-                                                                $logQuery = "SELECT * FROM log_wa WHERE pendaftar_id = {$pendaftaran['id']} ORDER BY created_at DESC";
-                                                                $logResult = $conn->query($logQuery);
-                                                                $no = 1;
-                                                                while ($log = $logResult->fetch_assoc()) {
-                                                                    echo "<tr>
-                                    <td>{$no}</td>
-                                    <td>" . date('d-m-Y', strtotime($log['created_at'])) . "</td>
-                                    <td>" . date('H:i:s', strtotime($log['created_at'])) . "</td>
-                                    <td>{$log['status']}</td>
-                                  </tr>";
-                                                                    $no++;
-                                                                }
-                                                                ?>
-                                                            </tbody>
-                                                        </table>
+                                                        <div class="table-responsive">
+                                                            <table id="modal" class="table table-hover table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th class="align-middle">No</th>
+                                                                        <th class="align-middle">Tanggal</th>
+                                                                        <th class="align-middle">Waktu</th>
+                                                                        <th class="align-middle">Pesan Terkirim ✅</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <?php
+                                                                    $logQuery = "SELECT * FROM log_wa WHERE pendaftar_id = {$pendaftaran['id']} ORDER BY created_at DESC";
+                                                                    $logResult = $conn->query($logQuery);
+                                                                    $no = 1;
+                                                                    while ($log = $logResult->fetch_assoc()) {
+                                                                        echo "<tr>
+                                        <td>{$no}</td>
+                                        <td>" . date('d-m-Y', strtotime($log['created_at'])) . "</td>
+                                        <td>" . date('H:i:s', strtotime($log['created_at'])) . "</td>
+                                        <td>{$log['pesan']}</td>
+                                      </tr>";
+                                                                        $no++;
+                                                                    }
+                                                                    ?>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
