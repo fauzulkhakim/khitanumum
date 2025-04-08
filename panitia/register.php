@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,152 +7,180 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/icon_khitan_umum.png" type="image/x-icon">
 
-    <!-- Icon -->
-    <link rel="icon" href="assets/icon_khitan_umum.png" type="image/x-icon">
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
-    <!-- boxicon -->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="assets/adminlte/plugins/fontawesome-free/css/all.min.css">
+
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="assets/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="assets/adminlte/dist/css/adminlte.min.css?v=3.2.0">
+
+    <!-- Font IBM Plex Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400&display=swap" rel="stylesheet">
 
     <style>
-        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Poppins", sans-serif;
+            font-family: 'IBM Plex Sans', sans-serif;
         }
 
         body {
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #929A94;
+            flex-direction: column;
+            background: #f5f6fa;
+            font-size: 14px;
+            font-weight: 400;
         }
 
-        .container {
-            max-width: 370px;
-            width: 100%;
+        .form-control {
+            font-size: 14px !important;
         }
 
-        .card {
-            border-radius: 12px;
-            background-color: #fff;
+        .content-wrapper {
+            flex: 1;
         }
 
-        header {
-            font-size: 22px;
-            font-weight: 600;
-            color: #333;
+        h3 {
+            color: #2D3C28;
+            font-weight: bolder;
+            font-size: 1.75rem;
         }
 
-        .form-label {
-            font-weight: 500;
+        h4 {
+            color: #2D3C28;
+            font-size: 1.5rem;
         }
 
-        .input-group-text {
-            cursor: pointer;
+        h5 {
+            color: #2D3C28;
+            font-size: 1.25rem;
         }
 
-        .invalid-feedback {
-            display: none;
+        h6 {
+            color: #2D3C28;
+            font-size: 1rem;
         }
 
-        .is-invalid+.invalid-feedback {
-            display: block;
+        .card-outline.card-primary {
+            border-color: #2D3C28;
         }
 
-        .input-group .form-control {
-            border-right: none;
+        .btn-primary {
+            background-color: #2D3C28;
+            border-color: #2D3C28;
         }
 
-        .input-group .input-group-text {
-            background-color: transparent;
-            border-left: none;
+        .btn-primary:hover {
+            background-color: #1e2a1b;
+            border-color: #1e2a1b;
         }
     </style>
 </head>
 
-<body>
-    <div class="container mt-5 mb-5">
-        <div class="card p-4">
-            <header class="mb-4 text-center">Daftar</header>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="#" class="h2"><b>Register</b></a>
+            </div>
+            <div class="card-body">
+                <h6 class="login-box-msg">Daftar akun baru</h6>
 
-            <!-- Tampilkan pesan sukses atau error -->
-            <?php if (isset($_SESSION['message'])) : ?>
-                <div class="alert alert-success"><?= $_SESSION['message']; ?></div>
-                <?php unset($_SESSION['message']); ?>
-            <?php endif; ?>
+                <!-- Alert untuk pesan sukses/error -->
+                <?php
+                if (isset($_GET['message'])) {
+                    echo "<div class='alert alert-success'>" . htmlspecialchars($_GET['message']) . "</div>";
+                }
 
-            <?php if (isset($_SESSION['error'])) : ?>
-                <div class="alert alert-danger"><?= $_SESSION['error']; ?></div>
-                <?php unset($_SESSION['error']); ?>
-            <?php endif; ?>
+                if (isset($_GET['error'])) {
+                    echo "<div class='alert alert-danger'>" . htmlspecialchars($_GET['error']) . "</div>";
+                }
+                ?>
 
-            <form action="config/register.php" method="POST" class="needs-validation" novalidate>
-                <!-- Nama Lengkap -->
-                <div class="mb-3">
-                    <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
-                    <input type="text" id="nama_lengkap" name="nama_lengkap" class="form-control" placeholder="" required>
-                    <div class="invalid-feedback">Nama lengkap harus diisi.</div>
-                </div>
-                <!-- Username -->
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" id="username" name="username" class="form-control" placeholder="" required>
-                    <div class="invalid-feedback">Username harus diisi minimal 4 karakter.</div>
-                </div>
-                <!-- Password -->
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="input-group">
-                        <input type="password" id="password" name="password" class="form-control password" placeholder="" required>
-                        <span class="input-group-text" onclick="togglePasswordVisibility('password', this)">
-                            <i class="bx bx-hide"></i>
-                        </span>
+                <form action="config/register.php" method="POST" class="needs-validation" novalidate>
+                    <!-- Nama Lengkap -->
+                    <div class="input-group mb-3">
+                        <input type="text" id="nama_lengkap" name="nama_lengkap" class="form-control" placeholder="Nama Lengkap" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">Nama lengkap harus diisi.</div>
+                    </div>
+
+                    <!-- Username -->
+                    <div class="input-group mb-3">
+                        <input type="text" id="username" name="username" class="form-control" placeholder="Username" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <div class="invalid-feedback">Username harus diisi minimal 4 karakter.</div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="input-group mb-3">
+                        <input type="password" id="password" name="password" class="form-control password" placeholder="Password" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text" onclick="togglePasswordVisibility('password', this)">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
                         <div class="invalid-feedback">Password harus diisi minimal 8 karakter.</div>
                     </div>
-                </div>
-                <!-- Konfirmasi Password -->
-                <div class="mb-3">
-                    <label for="cPassword" class="form-label">Konfirmasi Password</label>
-                    <div class="input-group">
-                        <input type="password" id="cPassword" class="form-control cPassword" placeholder="" required>
-                        <span class="input-group-text" onclick="togglePasswordVisibility('cPassword', this)">
-                            <i class="bx bx-hide"></i>
-                        </span>
+
+                    <!-- Konfirmasi Password -->
+                    <div class="input-group mb-3">
+                        <input type="password" id="cPassword" name="cPassword" class="form-control cPassword" placeholder="Konfirmasi Password" required>
+                        <div class="input-group-append">
+                            <div class="input-group-text" onclick="togglePasswordVisibility('cPassword', this)">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
                         <div class="invalid-feedback">Password tidak cocok.</div>
                     </div>
-                </div>
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary">Daftar</button>
-                    <!-- Sudah punya akun? Login -->
-                    <p class="text-center mt-3">Sudah punya akun? <a href="index.php">Login</a></p>
-                </div>
-            </form>
+
+                    <!-- Button -->
+                    <div class="row">
+                        <div class="col-8">
+                            <a href="index.php" class="btn btn-link">Sudah punya akun? Login</a>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Daftar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+
+    <script src="assets/adminlte/plugins/jquery/jquery.min.js"></script>
+    <script src="assets/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/adminlte/dist/js/adminlte.min.js?v=3.2.0"></script>
 
     <script>
         // Validasi form
         (() => {
             'use strict'
-
-            // Ambil semua form yang ingin diterapkan validasi Bootstrap
             const forms = document.querySelectorAll('.needs-validation')
-
-            // Loop melalui mereka dan mencegah pengiriman
             Array.from(forms).forEach(form => {
                 form.addEventListener('submit', event => {
                     if (!form.checkValidity()) {
                         event.preventDefault()
                         event.stopPropagation()
                     }
-
                     form.classList.add('was-validated')
                 }, false)
             })
@@ -167,25 +191,12 @@ session_start();
             const input = document.getElementById(id);
             if (input.type === "password") {
                 input.type = "text";
-                icon.querySelector('i').classList.replace('bx-hide', 'bx-show');
+                icon.querySelector('span').classList.replace('fa-lock', 'fa-unlock');
             } else {
                 input.type = "password";
-                icon.querySelector('i').classList.replace('bx-show', 'bx-hide');
+                icon.querySelector('span').classList.replace('fa-unlock', 'fa-lock');
             }
         }
-
-        // Validasi Konfirmasi Password
-        document.querySelector("form").addEventListener("submit", function(e) {
-            const password = document.getElementById("password").value;
-            const cPassword = document.getElementById("cPassword").value;
-
-            if (password !== cPassword) {
-                e.preventDefault();
-                document.getElementById("cPassword").classList.add("is-invalid");
-            } else {
-                document.getElementById("cPassword").classList.remove("is-invalid");
-            }
-        });
     </script>
 </body>
 
