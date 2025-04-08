@@ -76,7 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Kirim pesan sukses pendaftaran ke WhatsApp
     $link = "https://khitanumum.menarakudus.id/status.php?otp=$otp"; // Sesuaikan link dengan URL yang benar
-    sendSuccessMessage($no_hp, $link, $no_peserta);
+    sendSuccessMessage($conn, $last_id, $no_hp, $link, $no_peserta);
 
     // Tampilkan alert menggunakan JavaScript dan redirect ke halaman pendaftar
     echo "<script>alert('Pendaftaran berhasil!'); window.location.href = '../admin/pendaftar.php';</script>";
@@ -104,33 +104,22 @@ function uploadImage($file, $nik, $dir)
   }
 }
 
-function sendSuccessMessage($no_hp, $link, $no_peserta)
+function sendSuccessMessage($conn, $pendaftarId, $no_hp, $link, $no_peserta)
 {
   $api_key = 'z1UTH7UwXp2AHo8UNCtT';
   $url = 'https://api.fonnte.com/send';
 
-  $message = "✅ Pendaftaran Berhasil
-------------------------------------------------------------
-
-Nomor Peserta: $no_peserta
-
-Silahkan tunggu proses verifikasi maksimal 2x24 jam. Jika lolos verifikasi akan dikirim undangan via WA.
-
-Cek status calon peserta khitan secara berkala pada link dibawah ini:
-
-$link
-
-Jika ada kesalahan data anak dan membutuhkan informasi lebih lanjut silahkan hubungi WhatsApp dibawah ini:
-
-wa.me/6285878537250 (Haidar)
-wa.me/6281910287931 (Vian)
-
-------------------------------------------------------------
-
--= Khitan Umum 1446 H =-";
+  $message = "✅ *Pendaftaran Berhasil*\n\n" .
+    "Nomor Peserta: *$no_peserta*\n\n" .
+    "Silahkan tunggu proses verifikasi maksimal 2x24 jam. Jika lolos verifikasi akan dikirim undangan via WA.\n\n" .
+    "Cek status calon peserta khitan secara berkala pada link berikut:\n$link\n\n" .
+    "Jika ada kesalahan data atau membutuhkan informasi lebih lanjut, silakan hubungi:\n\n" .
+    "📞 wa.me/6285878537250 (Haidar)\n" .
+    "📞 wa.me/6281910287931 (Vian)\n\n" .
+    "*-= Khitan Umum 1447 H =-*";
 
   $data = [
-    'target' => $no_hp, // Nomor tujuan dengan format internasional
+    'target' => $no_hp,
     'message' => $message
   ];
 
@@ -141,7 +130,7 @@ wa.me/6281910287931 (Vian)
   curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
   curl_setopt($curl, CURLOPT_HTTPHEADER, [
-    "Authorization: $api_key", // Header otorisasi dengan API key
+    "Authorization: $api_key",
   ]);
   curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
   curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
@@ -152,5 +141,8 @@ wa.me/6281910287931 (Vian)
   $result = json_decode($response, true);
   if ($result['status'] != "success") {
     echo "Gagal mengirim pesan sukses: " . $result['message'];
+  } else {
+    // Catat pesan ke log WhatsApp
+    logWa($conn, $pendaftarId, 'pendaftaran', 'berhasil', $message);
   }
 }
